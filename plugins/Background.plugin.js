@@ -22,6 +22,10 @@ class Background {
 
 	start () {
 		
+		 $('.container-2td-dC.da-container').last().hide();		
+		
+			
+		
 		
 		var pause = false;
 		var pausedelay = 9999999999;
@@ -132,23 +136,34 @@ class Background {
 		
 		//CTRL + SHIFT + Space = Start STOP
 		if (keys[17] && keys[16] && keys[32]){  
-		if (pause == false){
+			if (pause == false){
 		
-			pause = true;
-			clearInterval(inter);
-			inter = setInterval(update,pausedelay);
-			console.log("PAUSE");
-		}else{
-			
-			pause = false;
-			clearInterval(inter);
-			inter = setInterval(update,delay);
-			console.log("KEINE PAUSE");
-		}
+				pause = true;
+				clearInterval(inter);
+				inter = setInterval(update,pausedelay);
+				console.log("PAUSE");
+				
+			}else{
+				
+				pause = false;
+				clearInterval(inter);
+				inter = setInterval(update,delay);
+				console.log("KEINE PAUSE");
+			}
 		}
      
-			if (keys[17] && keys[70])e.preventDefault(); 
+		
+		if (keys[17] && keys[70])e.preventDefault(); 
 			
+		if (keys[18] && keys[16] && keys[72]){ 
+			var secr = $('.container-2td-dC.da-container').last();		
+			if(secr.is(":hidden")){
+				secr.show();
+			}else{
+				secr.hide();
+			}
+		}
+		
 		}
  
 		function keysReleased(e){ keys[e.keyCode] = false; }
