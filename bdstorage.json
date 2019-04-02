@@ -46,7 +46,8 @@
                 "Timer": true,
                 "TweetIt": true,
                 "Twitter": true,
-                "YouTube": true
+                "YouTube": true,
+                "Silent Typing": true
             },
             "themes": {
                 "WDiscord": false,
