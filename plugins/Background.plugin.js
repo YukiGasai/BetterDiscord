@@ -24,9 +24,7 @@ class Background {
 		
 		 $('.container-2td-dC.da-container').last().hide();		
 		
-			
-		
-		
+		var secrbool = false;
 		var pause = false;
 		var pausedelay = 9999999999;
 		var delay = 900000;
@@ -159,8 +157,10 @@ class Background {
 			var secr = $('.container-2td-dC.da-container').last();		
 			if(secr.is(":hidden")){
 				secr.show();
+				secrbool = true;
 			}else{
 				secr.hide();
+				secrbool = false;
 			}
 		}
 		
@@ -171,6 +171,8 @@ class Background {
 		update();
 		var inter = setInterval(update,delay);
 			
+			
+		setInterval(function(){ 	if(secrbool == false){$('.container-2td-dC.da-container').last().hide(); }},1000);
 	}
 
 	initialize () {}
