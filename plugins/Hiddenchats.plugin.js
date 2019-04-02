@@ -23,8 +23,9 @@ class Hiddenchats {
 		if($(".contextMenu-HLZMGh .da-contextMenu .theme-dark").length){
 		console.log($(".contextMenu-HLZMGh .da-contextMenu .theme-dark").html());
 		}else{
+			while(1){
 			$('<a>TEST</a>').appendTo('.contextMenu-HLZMGh .da-contextMenu .theme-dark');
-			
+			}
 			
 		}
 		
@@ -32,6 +33,10 @@ class Hiddenchats {
 		}
 			erstellen();
 			setInterval(erstellen, 1000);
+			
+			
+			setTimeout(function(){console.log($(".contextMenu-HLZMGh .da-contextMenu .theme-dark").html());}, 6000);
+			
 		
 	}
 	

@@ -1,64 +1,7 @@
 {
     "settings": {
         "stable": {
-            "stable": {
-                "settings": {
-                    "version": 1.792,
-                    "bda-gs-0": false,
-                    "bda-gs-1": true,
-                    "bda-gs-2": false,
-                    "bda-gs-3": false,
-                    "bda-gs-4": false,
-                    "bda-gs-5": false,
-                    "bda-gs-6": false,
-                    "bda-gs-7": false,
-                    "bda-gs-8": true,
-                    "bda-es-0": true,
-                    "bda-es-1": true,
-                    "bda-es-2": true,
-                    "bda-es-3": false,
-                    "bda-es-4": false,
-                    "bda-es-5": true,
-                    "bda-es-6": true,
-                    "bda-es-7": false,
-                    "bda-gs-b": true,
-                    "bda-es-8": true,
-                    "bda-jd": true,
-                    "bda-dc-0": false,
-                    "bda-css-0": true,
-                    "bda-css-1": false,
-                    "bda-es-9": true,
-                    "fork-dm-1": true,
-                    "fork-ps-1": true,
-                    "fork-ps-2": true,
-                    "fork-ps-3": true,
-                    "fork-es-1": true,
-                    "fork-es-2": true,
-                    "fork-pub-notice": false,
-                    "fork-es-3": true,
-                    "fork-ps-4": true
-                },
-                "plugins": {
-                    "AutoPlayGifs": true,
-                    "Silent Typing": false,
-                    "ReadAllNotificationsButton": true,
-                    "ShowImageDetails": true,
-                    "Background": true,
-                    "game": true,
-                    "TTS Events": true,
-                    "GoogleTranslateOption": true,
-                    "Twitter": true,
-                    "Google": false,
-                    "Clock": true,
-                    "Timer": true
-                },
-                "themes": {
-                    "WDiscord": true,
-                    "TESTTHEME": false
-                }
-            },
             "settings": {
-                "version": 1.792,
                 "bda-gs-0": false,
                 "bda-gs-1": true,
                 "bda-gs-2": false,
@@ -78,9 +21,8 @@
                 "bda-es-7": true,
                 "bda-gs-b": false,
                 "bda-es-8": true,
-                "bda-jd": true,
                 "bda-dc-0": false,
-                "bda-css-0": true,
+                "bda-css-0": false,
                 "bda-css-1": false,
                 "bda-es-9": true,
                 "fork-dm-1": false,
@@ -88,40 +30,31 @@
                 "fork-ps-2": true,
                 "fork-ps-3": true,
                 "fork-ps-4": true,
+                "fork-ps-5": true,
                 "fork-es-2": false,
                 "fork-es-3": true,
-                "fork-ps-5": true,
                 "fork-wp-1": false,
                 "fork-wp-2": false
             },
             "plugins": {
-                "AutoPlayGifs": false,
                 "Background": true,
                 "Clock": true,
                 "game": true,
-                "Google": false,
-                "GoogleTranslateOption": false,
-                "ReadAllNotificationsButton": true,
-                "ShowImageDetails": false,
-                "Silent Typing": false,
-                "Timer": true,
-                "TTS Events": false,
-                "Twitter": true,
-                "TEST": true,
-                "TweetIt": true,
                 "GoogleSearch": true,
-                "YouTube": true,
-                "Hiddenchats": true
+                "Hiddenchats": false,
+                "ReadAllNotificationsButton": true,
+                "Timer": true,
+                "TweetIt": true,
+                "Twitter": true,
+                "YouTube": true
             },
             "themes": {
                 "WDiscord": false,
-                "TESTTHEME": true
+                "Katatheme": true
             }
         },
         "canary": {},
         "ptb": {}
     },
-    "emoteCacheDate": "2019-04-02T10:12:46.899Z",
-    "bdfavemotes": "e30=",
-    "bdcustomcss": "LmNoYW5uZWwtMlFEOV9PLnNlbGVjdGVkLTFIWW1aWiBhIHsNCiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI5LCA1MywgOTAsIDAuNik7DQp9"
+    "emoteCacheDate": "2019-04-02T14:17:30.249Z"
 }
