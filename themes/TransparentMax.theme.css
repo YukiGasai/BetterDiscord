@@ -1,0 +1,274 @@
+//META{"name":"TESTTHEME","description":"A simple theme","author":"Richard Linde","version":"1.0"}*//
+
+
+body{
+	opacity:1 !important ;
+	#background: url("https://i.imgur.com/ViX36Mu.jpg") !important ;
+}
+
+div[class^="typeWindows"] {
+  background-color: rgb(0,0,0,0);
+}
+
+#app-mount{
+	background-color: rgba(0, 0, 0, 0);
+	
+}
+
+.theme-dark, .theme-light {
+    background: rgba(0, 0, 0, 0)!important;
+}
+
+.theme-dark .layer-3QrUeG, .theme-dark .layers-3iHuyZ {
+    background: rgba(0, 0, 0, 0);
+}
+
+.container-2lgZY8 {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .wrapper-1Rf91z {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+
+
+
+
+.channels-Ie2l6A {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.container-PNkimc {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.container-1UB9sr {
+    background: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .container-2Thooq, .theme-light .container-2Thooq {
+    background: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .chat-3bRxxu, .theme-dark .chat-3bRxxu form, .theme-dark .content-yTz4x3 {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .headerBar-UHpsPw {
+    background: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .chat-3bRxxu, .theme-dark .chat-3bRxxu form, .theme-dark .content-yTz4x3 {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .messagesWrapper-3lZDfY {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.scroller-2FKFPG{
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .members-1998pB {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.theme-dark .circleIconButton-jET_ig {
+    background: rgba(0, 0, 0, 0);
+    border-color: #2a56ab#2745c5;
+    color: #2e5bb3;
+}
+
+.theme-dark .unread-2OHH1w:before {
+    background: #1680b2;
+}
+
+.theme-dark .selected-nT-gM3:before {
+    background: #1680b2;
+}
+
+.wrapper-2lTRaf .homeButton-2Cw51C .da-wrapper .da-homeButton {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .wrapper-2lTRaf {
+    background: #1a4d61;
+}
+
+.contentSelectedText-3wUhMi, .contentSelectedVoice-1WDIBM {
+    background-color: rgba(71, 171, 247, 0.19);
+}
+
+.button-2b6hmh:hover {
+    color: #009fff;
+}
+
+.button-2b6hmh {
+	opacity: 1;
+}
+
+.theme-dark .memberOnline-1CIh-0 {
+    color: #b9bbbe;
+}
+
+.theme-dark .memberOnline-1CIh-0:hover {
+    color: #521b1b;
+}
+
+.theme-dark .memberOffline-2lN7gt {
+    color: rgb(255, 255, 255);
+}
+
+.theme-dark .member-3W1lQa:hover .content-OzHfo4 {
+    background-color: rgb(23, 135, 175);
+    color: #fff;
+}
+
+.theme-dark .membersGroup-v9BXpm {
+    color: hsl(0, 0%, 100%);
+}
+
+.theme-dark .container-3gCOGc {
+    background-color: rgba(54, 57, 63, 0);
+}
+
+
+
+.theme-dark .textArea-2Spzkt {
+    color: hsla(0,0%,100%,1);
+}
+
+.theme-dark .inner-zqa7da {
+    background-color: rgba(8, 10, 10, 0.36);
+    border: 1px solid rgb(14, 103, 230);
+}
+
+.theme-dark .friendsOnline-2JkivW, .theme-light .friendsOnline-2JkivW {
+	color: #3a71c1;
+}
+
+.theme-dark .markup-2BOw-j {
+    color: #ffffff;
+}
+
+.theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI {
+    color: rgb(255, 255, 255);
+}
+
+.theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI:after, .theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI:before {
+    border-color: #ffffff;
+}
+
+
+.theme-dark .headerBar-UHpsPw {
+    box-shadow: 0 1px 0 rgba(32,34,37,0), 0 0px 0 rgba(0,0,0,0);
+
+}
+
+#Box{
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .scrollerThemed-2oenus.themedWithTrack-q8E3vB .scroller-2FKFPG::-webkit-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+    border: 3px solid rgba(179, 179, 179, 0);
+    border-radius: 0px;
+}
+
+.homeIcon-tEMBK1 {
+    color: #3166b9;
+}
+
+.wrapper-2lTRaf .da-wrapper .homeButton-2Cw51C .da-homeButton {
+    border-radius: 25px;
+    background-color: rgba(0,0,0,0);
+}
+
+.theme-dark .sidebarRegion-VFTUkN {
+    background: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .contentRegion-3nDuYy {
+    background: rgba(0, 0, 0, 0);
+}
+
+.sidebar-CFHs9e {
+    background: rgba(0, 0, 0, 0.15);
+}
+	
+.theme-dark .standardSidebarView-3F1I7i {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.theme-dark #bd-settings-sidebar .ui-tab-bar-item {
+    color: #ffffff;
+}
+
+.theme-dark .itemDefault-3Jdr52, .theme-dark .itemHover-EnbcjT {
+    color: #ffffff;
+}
+
+.contentColumnDefault-1VQkGM {
+    background: rgba(0,0,0,0.15);
+}
+
+.theme-dark .description-3_Ncsb, .theme-dark .labelDescriptor-1PqHgD {
+    color: #ffffff;
+}
+
+.theme-dark .activityFeed-1C0EmJ {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .gameLibrary-TTDw4Y {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .applicationStore-1pNvnv {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.name-2WpE7M {
+    color: #ffffff;
+}
+
+
+.theme-dark .friendsTable-133bsv .friendsRow-2yicud .friendsColumnName-1zBOKm {
+    color: hsl(0, 0%, 100%);
+}
+
+
+.video-1FfuMD {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.theme-dark .wrapper-29NfPK {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+
+.theme-dark .wrapper-2lTRaf {
+    background: #1a4d61;
+    background-color: rgba(114, 137, 218, 0);
+}
