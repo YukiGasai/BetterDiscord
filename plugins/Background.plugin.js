@@ -54,7 +54,7 @@ class Background {
 			case 3: document.body.style.background = 'url("https://i.imgur.com/6HT547h.jpg")'; break;
 			case 4: document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")'; break;
 			case 5: document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")'; break;
-			case 6: document.body.style.background = 'url("")'; break;
+			case 6: document.body.style.background = 'url("https://images.alphacoders.com/934/thumb-1920-934769.jpg")'; break;
 			case 7: document.body.style.background = 'url("")'; break;
 			case 8: document.body.style.background = 'url("")'; break;
 			case 9: document.body.style.background = 'url("")'; break;
@@ -122,7 +122,7 @@ class Background {
 		if (keys[17] && keys[16] && keys[51])document.body.style.background = 'url("https://i.imgur.com/6HT547h.jpg")';
 		if (keys[17] && keys[16] && keys[52])document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")';
 		if (keys[17] && keys[16] && keys[53])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
-		if (keys[17] && keys[16] && keys[54])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
+		if (keys[17] && keys[16] && keys[54])document.body.style.background = 'url("https://images.alphacoders.com/934/thumb-1920-934769.jpg")';
 		if (keys[17] && keys[16] && keys[55])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
 		if (keys[17] && keys[16] && keys[56])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
 		if (keys[17] && keys[16] && keys[57])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
