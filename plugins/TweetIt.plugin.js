@@ -23,8 +23,7 @@ class TweetIt {
 		
 		
 	$(".textArea-2Spzkt, .da-textArea, .textArea-2Spzkt, .da-textArea, .scrollbarGhostHairline-1mSOM1, .scrollbar-3dvm_9, .da-scrollbarGhostHairline, .da-scrollbar").keydown(function(e){
-      //CTRL + V keydown combo
-      if(e.ctrlKey && e.keyCode == 18){
+      if(e.ctrlKey && e.key == 'd'){
         var b = $(".textArea-2Spzkt, .da-textArea, .textArea-2Spzkt, .da-textArea, .scrollbarGhostHairline-1mSOM1, .scrollbar-3dvm_9, .da-scrollbarGhostHairline, .da-scrollbar").text();
 		console.log(b);
 		
