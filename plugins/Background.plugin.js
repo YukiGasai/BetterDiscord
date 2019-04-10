@@ -177,6 +177,6 @@ class Background {
 
 	initialize () {}
 
-	stop () {alert('BEyBEy');}
+	stop () {alert('STOPING...');}
 	
 }
