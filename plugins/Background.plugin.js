@@ -175,7 +175,7 @@ class Background {
 		setInterval(function(){ 	if(secrbool == false){$('.container-2td-dC.da-container').last().hide(); }},1000);
 	}
 
-	initialize () {}
+	initialize () {console.log('Starting...');}
 
 	stop () {alert('STOPING...');}
 	
