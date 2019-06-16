@@ -24,7 +24,7 @@ class Clock {
 			var keys = [];
 			var wakeuptime = 7;
 			var rgb = false;
-			var box  = document.getElementsByClassName("username");
+			var box  = document.getElementsByClassName("username-u0EL4I");
 			var clock = 0; //STANDARTZEIT BERLIN
 	
 			if(box.length){
