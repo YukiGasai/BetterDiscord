@@ -11,20 +11,20 @@
                 "bda-gs-6": false,
                 "bda-gs-7": false,
                 "bda-gs-8": false,
-                "bda-es-0": true,
-                "bda-es-1": true,
-                "bda-es-2": true,
+                "bda-es-0": false,
+                "bda-es-1": false,
+                "bda-es-2": false,
                 "bda-es-3": false,
                 "bda-es-4": false,
                 "bda-es-5": true,
-                "bda-es-6": true,
-                "bda-es-7": true,
+                "bda-es-6": false,
+                "bda-es-7": false,
                 "bda-gs-b": false,
-                "bda-es-8": true,
+                "bda-es-8": false,
                 "bda-dc-0": false,
-                "bda-css-0": false,
+                "bda-css-0": true,
                 "bda-css-1": false,
-                "bda-es-9": true,
+                "bda-es-9": false,
                 "fork-dm-1": false,
                 "fork-ps-1": true,
                 "fork-ps-2": true,
@@ -42,20 +42,24 @@
                 "game": true,
                 "GoogleSearch": true,
                 "Hiddenchats": false,
+                "OfflineDel": false,
                 "ReadAllNotificationsButton": true,
+                "Silent Typing": true,
                 "Timer": true,
                 "TweetIt": true,
-                "Twitter": true,
-                "YouTube": true,
-                "Silent Typing": true
+                "Twitter": false,
+                "YouTube": true
             },
             "themes": {
                 "WDiscord": false,
-                "Katatheme": true
+                "Akalitheme": true
             }
         },
         "canary": {},
         "ptb": {}
     },
-    "emoteCacheDate": "2019-04-10T09:49:50.739Z"
+    "emoteCacheDate": "2019-06-15T11:15:54.850Z",
+    "bdcustomcss": "Lm1lc3NhZ2VHcm91cEJsb2NrZWRCdG4tMVBCQmgtewogICAgZGlzcGxheTpub25lOwp9Ci5tZXNzYWdlR3JvdXBCbG9ja2VkLTN3clFRWCwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWQsIC5tZXNzYWdlR3JvdXBCbG9ja2VkLUpxZmVFMiwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWR7CiAgZGlzcGxheTogbm9uZTsgICAKfQ==",
+    "0.2.15": true,
+    "emoteCacheDays": 7
 }

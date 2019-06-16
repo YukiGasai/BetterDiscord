@@ -3,7 +3,7 @@
 class ReadAllNotificationsButton {
 	getName () {return "ReadAllNotificationsButton";}
 
-	getVersion () {return "1.4.3";}
+	getVersion () {return "1.4.9";}
 
 	getAuthor () {return "DevilBro";}
 
@@ -11,11 +11,11 @@ class ReadAllNotificationsButton {
 
 	initConstructor () {
 		this.changelog = {
-			"fixed":[["Changes","Fixed for the new server classes"]]
+			"added":[["Muted Servers","Added an extra contextmenu option to only read muted servers and also relabeled the other options"]]
 		};
 		
 		this.patchModules = {
-			"Guilds":"componentDidMount",
+			"Guilds":["componentDidMount","componentDidUpdate"],
 			"RecentMentions":"componentDidMount",
 			"DirectMessage":"componentDidMount"
 		};
@@ -23,34 +23,47 @@ class ReadAllNotificationsButton {
 		this.RANcontextMenuMarkup = 
 			`<div class="${BDFDB.disCN.contextmenu} RANbutton-contextmenu">
 				<div class="${BDFDB.disCN.contextmenuitemgroup}">
-					<div class="${BDFDB.disCN.contextmenuitem} readguilds-item">
-						<span class="DevilBro-textscrollwrapper" speed=3><div class="DevilBro-textscroll">REPLACE_context_guilds_text</div></span>
+					<div class="${BDFDB.disCN.contextmenuitem} readunreadguilds-item">
+						<span class="BDFDB-textscrollwrapper" speed=3><div class="BDFDB-textscroll">REPLACE_context_unreadguilds_text</div></span>
 						<div class="${BDFDB.disCN.contextmenuhint}"></div>
 					</div>
 					<div class="${BDFDB.disCN.contextmenuitem} readmutedguilds-item">
-						<span class="DevilBro-textscrollwrapper" speed=3><div class="DevilBro-textscroll">REPLACE_context_mutedguilds_text</div></span>
+						<span class="BDFDB-textscrollwrapper" speed=3><div class="BDFDB-textscroll">REPLACE_context_mutedguilds_text</div></span>
+						<div class="${BDFDB.disCN.contextmenuhint}"></div>
+					</div>
+					<div class="${BDFDB.disCN.contextmenuitem} readguilds-item">
+						<span class="BDFDB-textscrollwrapper" speed=3><div class="BDFDB-textscroll">REPLACE_context_guilds_text</div></span>
 						<div class="${BDFDB.disCN.contextmenuhint}"></div>
 					</div>
 					<div class="${BDFDB.disCN.contextmenuitem} readdms-item">
-						<span class="DevilBro-textscrollwrapper" speed=3><div class="DevilBro-textscroll">REPLACE_context_dms_text</div></span>
+						<span class="BDFDB-textscrollwrapper" speed=3><div class="BDFDB-textscroll">REPLACE_context_dms_text</div></span>
 						<div class="${BDFDB.disCN.contextmenuhint}"></div>
 					</div>
 				</div>
 			</div>`;
 
 		this.RANbuttonMarkup = 
-			`<div class="${BDFDB.disCN.guild} RANbutton-frame" id="bd-pub-li" style="height: 20px; margin-bottom: 10px;">
-				<div class="${BDFDB.disCN.guildinner}" style="height: 20px; border-radius: 4px;">
-					<a>
-						<div class="RANbutton" id="bd-pub-button" style="line-height: 20px; font-size: 12px;">read all</div>
-					</a>
-				</div>
+			`<div class="${BDFDB.disCN.guildouter} RANbutton-frame" style="height: 20px;">
+				<div class="${BDFDB.disCN.guildiconacronym} RANbutton" style="height: 20px;">read all</div>
 			</div>`;
 
 		this.RAMbuttonMarkup = 
 			`<button type="button" class="${BDFDB.disCNS.flexchild + BDFDB.disCNS.button + BDFDB.disCNS.buttonlookfilled + BDFDB.disCNS.buttoncolorbrand + BDFDB.disCNS.buttonsizemin + BDFDB.disCN.buttongrow} RAMbutton" style="flex: 0 0 auto; margin-left: 25px; height: 25px;">
 				<div class="${BDFDB.disCN.buttoncontents}">Clear Mentions</div>
 			</button>`;
+			
+		this.css = `
+			.RANbutton-frame {
+				margin-bottom: 10px;
+			}
+			.RANbutton {
+				cursor: pointer;
+				border-radius: 4px;
+				font-size: 12px;
+				font-weight: 500;
+				line-height: 1.3;
+			}
+		`;
 
 		this.defaults = {
 			settings: {
@@ -65,11 +78,11 @@ class ReadAllNotificationsButton {
 	getSettingsPanel () {
 		if (!global.BDFDB || typeof BDFDB != "object" || !BDFDB.loaded || !this.started) return;
 		var settings = BDFDB.getAllData(this, "settings"); 
-		var settingshtml = `<div class="${this.name}-settings DevilBro-settings"><div class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.size18 + BDFDB.disCNS.height24 + BDFDB.disCNS.weightnormal + BDFDB.disCN.marginbottom8}">${this.name}</div><div class="DevilBro-settings-inner">`;
+		var settingshtml = `<div class="${this.name}-settings BDFDB-settings"><div class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.size18 + BDFDB.disCNS.height24 + BDFDB.disCNS.weightnormal + BDFDB.disCN.marginbottom8}">${this.name}</div><div class="BDFDB-settings-inner">`;
 		for (let key in settings) {
 			if (!this.defaults.settings[key].inner) settingshtml += `<div class="${BDFDB.disCNS.flex + BDFDB.disCNS.flex2 + BDFDB.disCNS.horizontal + BDFDB.disCNS.horizontal2 + BDFDB.disCNS.directionrow + BDFDB.disCNS.justifystart + BDFDB.disCNS.aligncenter + BDFDB.disCNS.nowrap + BDFDB.disCN.marginbottom8}" style="flex: 1 1 auto;"><h3 class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.marginreset + BDFDB.disCNS.weightmedium + BDFDB.disCNS.size16 + BDFDB.disCNS.height24 + BDFDB.disCN.flexchild}" style="flex: 1 1 auto;">${this.defaults.settings[key].description}</h3><div class="${BDFDB.disCNS.flexchild + BDFDB.disCNS.switchenabled + BDFDB.disCNS.switch + BDFDB.disCNS.switchvalue + BDFDB.disCNS.switchsizedefault + BDFDB.disCNS.switchsize + BDFDB.disCN.switchthemedefault}" style="flex: 0 0 auto;"><input type="checkbox" value="settings ${key}" class="${BDFDB.disCNS.switchinnerenabled + BDFDB.disCN.switchinner} settings-switch"${settings[key] ? " checked" : ""}></div></div>`;
 		}
-		settingshtml += `<div class="${BDFDB.disCNS.flex + BDFDB.disCNS.flex2 + BDFDB.disCNS.horizontal + BDFDB.disCNS.horizontal2 + BDFDB.disCNS.directionrow + BDFDB.disCNS.justifystart + BDFDB.disCNS.aligncenter + BDFDB.disCNS.nowrap + BDFDB.disCN.marginbottom8}" style="flex: 1 1 auto;"><h3 class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.marginreset + BDFDB.disCNS.weightmedium + BDFDB.disCNS.size16 + BDFDB.disCNS.height24 + BDFDB.disCN.flexchild}" style="flex: 0 0 auto;">When left clicking the button mark following elements as unread:</h3></div><div class="DevilBro-settings-inner-list">`;
+		settingshtml += `<div class="${BDFDB.disCNS.flex + BDFDB.disCNS.flex2 + BDFDB.disCNS.horizontal + BDFDB.disCNS.horizontal2 + BDFDB.disCNS.directionrow + BDFDB.disCNS.justifystart + BDFDB.disCNS.aligncenter + BDFDB.disCNS.nowrap + BDFDB.disCN.marginbottom8}" style="flex: 1 1 auto;"><h3 class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.marginreset + BDFDB.disCNS.weightmedium + BDFDB.disCNS.size16 + BDFDB.disCNS.height24 + BDFDB.disCN.flexchild}" style="flex: 0 0 auto;">When left clicking the button mark following elements as unread:</h3></div><div class="BDFDB-settings-inner-list">`;
 		for (let key in settings) {
 			if (this.defaults.settings[key].inner) settingshtml += `<div class="${BDFDB.disCNS.flex + BDFDB.disCNS.flex2 + BDFDB.disCNS.horizontal + BDFDB.disCNS.horizontal2 + BDFDB.disCNS.directionrow + BDFDB.disCNS.justifystart + BDFDB.disCNS.aligncenter + BDFDB.disCNS.nowrap + BDFDB.disCN.marginbottom8}" style="flex: 1 1 auto;"><h3 class="${BDFDB.disCNS.titledefault + BDFDB.disCNS.title + BDFDB.disCNS.marginreset + BDFDB.disCNS.weightmedium + BDFDB.disCNS.size16 + BDFDB.disCNS.height24 + BDFDB.disCN.flexchild}" style="flex: 1 1 auto;">${this.defaults.settings[key].description}</h3><div class="${BDFDB.disCNS.flexchild + BDFDB.disCNS.switchenabled + BDFDB.disCNS.switch + BDFDB.disCNS.switchvalue + BDFDB.disCNS.switchsizedefault + BDFDB.disCNS.switchsize + BDFDB.disCN.switchthemedefault}" style="flex: 0 0 auto;"><input type="checkbox" value="settings ${key}" class="${BDFDB.disCNS.switchinnerenabled + BDFDB.disCN.switchinner} settings-switch"${settings[key] ? " checked" : ""}></div></div>`;
 		}
@@ -95,15 +108,30 @@ class ReadAllNotificationsButton {
 	start () {
 		if (!global.BDFDB) global.BDFDB = {myPlugins:{}};
 		if (global.BDFDB && global.BDFDB.myPlugins && typeof global.BDFDB.myPlugins == "object") global.BDFDB.myPlugins[this.getName()] = this;
-		var libraryScript = document.querySelector('head script[src="https://mwittrien.github.io/BetterDiscordAddons/Plugins/BDFDB.js"]');
-		if (!libraryScript || performance.now() - libraryScript.getAttribute("date") > 600000) {
+		var libraryScript = document.querySelector('head script#BDFDBLibraryScript');
+		if (!libraryScript || (performance.now() - libraryScript.getAttribute("date")) > 600000) {
 			if (libraryScript) libraryScript.remove();
 			libraryScript = document.createElement("script");
+			libraryScript.setAttribute("id", "BDFDBLibraryScript");
 			libraryScript.setAttribute("type", "text/javascript");
 			libraryScript.setAttribute("src", "https://mwittrien.github.io/BetterDiscordAddons/Plugins/BDFDB.js");
 			libraryScript.setAttribute("date", performance.now());
-			libraryScript.addEventListener("load", () => {if (global.BDFDB && typeof BDFDB === "object" && BDFDB.loaded) this.initialize();});
+			libraryScript.addEventListener("load", () => {this.initialize();});
 			document.head.appendChild(libraryScript);
+			this.libLoadTimeout = setTimeout(() => {
+				libraryScript.remove();
+				require("request")("https://mwittrien.github.io/BetterDiscordAddons/Plugins/BDFDB.js", (error, response, body) => {
+					if (body) {
+						libraryScript = document.createElement("script");
+						libraryScript.setAttribute("id", "BDFDBLibraryScript");
+						libraryScript.setAttribute("type", "text/javascript");
+						libraryScript.setAttribute("date", performance.now());
+						libraryScript.innerText = body;
+						document.head.appendChild(libraryScript);
+					}
+					this.initialize();
+				});
+			}, 15000);
 		}
 		else if (global.BDFDB && typeof BDFDB === "object" && BDFDB.loaded) this.initialize();
 		this.startTimeout = setTimeout(() => {this.initialize();}, 30000);
@@ -133,17 +161,18 @@ class ReadAllNotificationsButton {
 	// begin of own functions
 
 	changeLanguageStrings () {
-		this.RANcontextMenuMarkup = 	this.RANcontextMenuMarkup.replace("REPLACE_context_guilds_text", this.labels.context_guilds_text);
+		this.RANcontextMenuMarkup = 	this.RANcontextMenuMarkup.replace("REPLACE_context_unreadguilds_text", this.labels.context_unreadguilds_text);
 		this.RANcontextMenuMarkup = 	this.RANcontextMenuMarkup.replace("REPLACE_context_mutedguilds_text", this.labels.context_mutedguilds_text);
+		this.RANcontextMenuMarkup = 	this.RANcontextMenuMarkup.replace("REPLACE_context_guilds_text", this.labels.context_guilds_text);
 		this.RANcontextMenuMarkup = 	this.RANcontextMenuMarkup.replace("REPLACE_context_dms_text", this.labels.context_dms_text);
 	}
 
 	processGuilds (instance, wrapper) {
 		BDFDB.removeEles(".RANbutton-frame");
-		let guildseparator = wrapper.querySelector(BDFDB.dotCN.guildseparator);
-		if (guildseparator) {
+		let insertnode = this.getInsertNode();
+		if (insertnode) {
 			let ranbutton = BDFDB.htmlToElement(this.RANbuttonMarkup);
-			guildseparator.parentElement.insertBefore(ranbutton, guildseparator);
+			insertnode.parentElement.insertBefore(ranbutton, insertnode);
 			ranbutton.addEventListener("click", () => {
 				let settings = BDFDB.getAllData(this, "settings");
 				if (settings.includeGuilds) BDFDB.markGuildAsRead(settings.includeMuted ? BDFDB.readServerList() : BDFDB.readUnreadServerList());
@@ -151,11 +180,15 @@ class ReadAllNotificationsButton {
 			});
 			ranbutton.addEventListener("contextmenu", e => {
 				let RANcontextMenu = BDFDB.htmlToElement(this.RANcontextMenuMarkup);
-				RANcontextMenu.querySelector(".readguilds-item").addEventListener("click", () => {
+				RANcontextMenu.querySelector(".readunreadguilds-item").addEventListener("click", () => {
 					BDFDB.removeEles(RANcontextMenu);
 					BDFDB.markGuildAsRead(BDFDB.readUnreadServerList());
 				});
 				RANcontextMenu.querySelector(".readmutedguilds-item").addEventListener("click", () => {
+					BDFDB.removeEles(RANcontextMenu);
+					BDFDB.markGuildAsRead(BDFDB.readMutedServerList());
+				});
+				RANcontextMenu.querySelector(".readguilds-item").addEventListener("click", () => {
 					BDFDB.removeEles(RANcontextMenu);
 					BDFDB.markGuildAsRead(BDFDB.readServerList());
 				});
@@ -171,8 +204,8 @@ class ReadAllNotificationsButton {
 
 	processDirectMessage (instance, wrapper, methodnames) {
 		let ranbutton = document.querySelector(".RANbutton-frame");
-		let guildseparator = wrapper.parentElement.parentElement.querySelector(BDFDB.dotCN.guildseparator);
-		if (ranbutton && guildseparator) guildseparator.parentElement.insertBefore(ranbutton, guildseparator);
+		let insertnode = this.getInsertNode();
+		if (ranbutton && insertnode) insertnode.parentElement.insertBefore(ranbutton, insertnode);
 	}
 
 	processRecentMentions (instance, wrapper) {
@@ -197,132 +230,164 @@ class ReadAllNotificationsButton {
 		}
 	}
 	
+	getInsertNode () {
+		let homebutton = BDFDB.getParentEle(BDFDB.dotCN.guildouter, document.querySelector(BDFDB.dotCN.homebuttonicon));
+		if (!homebutton) return null;
+		let nextsibling = homebutton.nextElementSibling, insertnode = null;
+		while (nextsibling && insertnode == null) {
+			if (nextsibling.querySelector(`${BDFDB.dotCN.guildseparator}:not(.folderseparator)`)) insertnode = nextsibling;
+			nextsibling = nextsibling.nextElementSibling
+		}
+		return insertnode;
+	}
+	
 	setLabelsByLanguage () {
 		switch (BDFDB.getDiscordLanguage().id) {
 			case "hr":		//croatian
 				return {
-					context_guilds_text:		"Poslužitelji",
-					context_mutedguilds_text:	"Prigušeni Poslužitelji",
-					context_dms_text:			"Prikvacene Izravne"
+					context_unreadguilds_text:	"Nepročitani poslužitelji",
+					context_mutedguilds_text:	"Prigušeni poslužitelje",
+					context_guilds_text:		"Sve poslužitelje",
+					context_dms_text:			"Prikvacene izravne"
 				};
 			case "da":		//danish
 				return {
-					context_guilds_text:		"Servere",
-					context_mutedguilds_text:	"Dæmpede Servere",
-					context_dms_text:			"Private Beskeder"
+					context_unreadguilds_text:	"Ulæste servere",
+					context_mutedguilds_text:	"Dæmpede servere",
+					context_guilds_text:		"Alle servere",
+					context_dms_text:			"Private beskeder"
 				};
 			case "de":		//german
 				return {
-					context_guilds_text:		"Server",
+					context_unreadguilds_text:	"Ungelesene Server",
 					context_mutedguilds_text:	"Stummgeschaltene Server",
+					context_guilds_text:		"Alle Server",
 					context_dms_text:			"Direktnachrichten"
 				};
 			case "es":		//spanish
 				return {
-					context_guilds_text:		"Servidores",
+					context_unreadguilds_text:	"Servidores no leídos",
 					context_mutedguilds_text:	"Servidores silenciados",
+					context_guilds_text:		"Todos los servidores",
 					context_dms_text:			"Mensajes directos"
 				};
 			case "fr":		//french
 				return {
-					context_guilds_text:		"Serveurs",
+					context_unreadguilds_text:	"Serveurs non lus",
 					context_mutedguilds_text:	"Serveurs en sourdine",
+					context_guilds_text:		"Tous les serveurs",
 					context_dms_text:			"Messages privés"
 				};
 			case "it":		//italian
 				return {
-					context_guilds_text:		"Server",
-					context_mutedguilds_text:	"Server disattivati",
+					context_unreadguilds_text:	"Server non letti",
+					context_mutedguilds_text:	"Server mutate",
+					context_guilds_text:		"Tutti i server",
 					context_dms_text:			"Messaggi diretti"
 				};
 			case "nl":		//dutch
 				return {
-					context_guilds_text:		"Servers",
-					context_mutedguilds_text:	"Gedempte Servers",
-					context_dms_text:			"Prive Berichten"
+					context_unreadguilds_text:	"Ongelezen servers",
+					context_mutedguilds_text:	"Gedempte servers",
+					context_guilds_text:		"Alle servers",
+					context_dms_text:			"Prive berichten"
 				};
 			case "no":		//norwegian
 				return {
-					context_guilds_text:		"Servere",
-					context_mutedguilds_text:	"Dempet Servere",
+					context_unreadguilds_text:	"Uleste servere",
+					context_mutedguilds_text:	"Dempet servere",
+					context_guilds_text:		"Alle servere",
 					context_dms_text:			"Direktemeldinger"
 				};
 			case "pl":		//polish
 				return {
-					context_guilds_text:		"Serwery",
-					context_mutedguilds_text:	"Wyciszone Serwery",
-					context_dms_text:			"Prywatne Wiadomości"
+					context_unreadguilds_text:	"Nieprzeczytane serwery",
+					context_mutedguilds_text:	"Wyciszone serwery",
+					context_guilds_text:		"Wszystkie serwery",
+					context_dms_text:			"Prywatne wiadomości"
 				};
 			case "pt-BR":	//portuguese (brazil)
 				return {
-					context_guilds_text:		"Servidores",
-					context_mutedguilds_text:	"Servidores Silenciosos",
-					context_dms_text:			"Mensagens Diretas"
+					context_unreadguilds_text:	"Servidores não lidos",
+					context_mutedguilds_text:	"Servidores silenciosos",
+					context_guilds_text:		"Todos os servidores",
+					context_dms_text:			"Mensagens diretas"
 				};
 			case "fi":		//finnish
 				return {
-					context_guilds_text:		"Palvelimet",
-					context_mutedguilds_text:	"Mykistetyt Palvelimet",
+					context_unreadguilds_text:	"Lukemattomia palvelimet",
+					context_mutedguilds_text:	"Mykistetyt palvelimet",
+					context_guilds_text:		"Kaikki palvelimet",
 					context_dms_text:			"Yksityisviestit"
 				};
 			case "sv":		//swedish
 				return {
-					context_guilds_text:		"Servrar",
-					context_mutedguilds_text:	"Dämpade Servrar",
+					context_unreadguilds_text:	"Olästa servrar",
+					context_mutedguilds_text:	"Dämpade servrar",
+					context_guilds_text:		"Alla servrar",
 					context_dms_text:			"Direktmeddelanden"
 				};
 			case "tr":		//turkish
 				return {
-					context_guilds_text:		"Sunucular",
-					context_mutedguilds_text:	"Sessiz Sunucular",
-					context_dms_text:			"Özel Mesajlar"
+					context_unreadguilds_text:	"Okunmamış sunucular",
+					context_mutedguilds_text:	"Sessiz sunucular",
+					context_guilds_text:		"Tüm sunucular",
+					context_dms_text:			"Özel mesajlar"
 				};
 			case "cs":		//czech
 				return {
-					context_guilds_text:		"Servery",
-					context_mutedguilds_text:	"Tlumené Servery",
-					context_dms_text:			"Přímé Zpráva"
+					context_unreadguilds_text:	"Nepřečtené servery",
+					context_mutedguilds_text:	"Tlumené servery",
+					context_guilds_text:		"Všechny servery",
+					context_dms_text:			"Přímé zpráva"
 				};
 			case "bg":		//bulgarian
 				return {
-					context_guilds_text:		"Сървъри",
-					context_mutedguilds_text:	"приглушени Сървъри",
-					context_dms_text:			"директно Съобщение"
+					context_unreadguilds_text:	"Непрочетени сървъри",
+					context_mutedguilds_text:	"Приглушени сървъри",
+					context_guilds_text:		"Всички сървъри",
+					context_dms_text:			"Директно съобщение"
 				};
 			case "ru":		//russian
 				return {
-					context_guilds_text:		"Серверы",
-					context_mutedguilds_text:	"Отключенные Серверы",
-					context_dms_text:			"Прямые Сообщения"
+					context_unreadguilds_text:	"Непрочитанные серверы",
+					context_mutedguilds_text:	"Отключенные серверы",
+					context_guilds_text:		"Все серверы",
+					context_dms_text:			"Прямые сообщения"
 				};
 			case "uk":		//ukrainian
 				return {
-					context_guilds_text:		"Сервери",
-					context_mutedguilds_text:	"Приглушені Сервери",
+					context_unreadguilds_text:	"Непрочитаних серверів",
+					context_mutedguilds_text:	"Приглушені сервери",
+					context_guilds_text:		"Всі сервери",
 					context_dms_text:			"Прямі Повідомлення"
 				};
 			case "ja":		//japanese
 				return {
-					context_guilds_text:		"サーバー",
+					context_unreadguilds_text:	"未読サーバー",
 					context_mutedguilds_text:	"ミュートサーバー",
+					context_guilds_text:		"すべてのサーバー",
 					context_dms_text:			"ダイレクトメッセージ"
 				};
 			case "zh-TW":	//chinese (traditional)
 				return {
-					context_guilds_text:		"服務器",
+					context_unreadguilds_text:	"未讀服務器",
 					context_mutedguilds_text:	"靜音服務器",
+					context_guilds_text:		"所有服務器",
 					context_dms_text:			"直接消息",
 				};
 			case "ko":		//korean
 				return {
-					context_guilds_text:		"서버",
+					context_unreadguilds_text:	"읽지 않은 서버",
 					context_mutedguilds_text:	"음소거 된 서버",
+					context_guilds_text:		"모든 서버",
 					context_dms_text:			"직접 메시지"
 				};
 			default:		//default: english
 				return {
-					context_guilds_text:		"Servers",
+					context_unreadguilds_text:	"Unread Servers",
 					context_mutedguilds_text:	"Muted Servers",
+					context_guilds_text:		"All Servers",
 					context_dms_text:			"Direct Messages"
 				};
 		}

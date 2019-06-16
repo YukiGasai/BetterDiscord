@@ -1,5 +1,13 @@
 //META{"name":"Background"}*//
 
+
+/*
+To Delete Blocked Message
+.messageGroupBlockedBtn-1PBBh-{
+    display:none;
+}
+*/
+
 class Background {
 	constructor () {
 
@@ -33,6 +41,7 @@ class Background {
 		var s = '';
 		var i ;
 		var keys = [];
+		var opa = 0.0;
 
 		
 			var  box = document.getElementsByClassName("name-3YKhmS");
@@ -52,10 +61,10 @@ class Background {
 			case 1: document.body.style.background = 'url("https://i.imgur.com/PblkDJk.jpg")'; break;
 			case 2: document.body.style.background = 'url("https://images6.alphacoders.com/751/thumb-1920-751215.png")'; break;
 			case 3: document.body.style.background = 'url("https://i.imgur.com/6HT547h.jpg")'; break;
-			case 4: document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")'; break;
+			case 4: document.body.style.background = 'url("https://i.imgur.com/Wqtx1pJ.jpg")'; break;
 			case 5: document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")'; break;
 			case 6: document.body.style.background = 'url("https://images.alphacoders.com/934/thumb-1920-934769.jpg")'; break;
-			case 7: document.body.style.background = 'url("")'; break;
+			case 7: document.body.style.background = 'url("https://i.imgur.com/656WElf.jpg")'; break;
 			case 8: document.body.style.background = 'url("")'; break;
 			case 9: document.body.style.background = 'url("")'; break;
 			
@@ -72,7 +81,7 @@ class Background {
 			
 			
 		function MouseWheelHandler(e) {
-			if (keys[17] && keys[18]){
+			/*if (keys[17] && keys[18]){
 		
 				var e = window.event || e;
 				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))* 1000;
@@ -84,6 +93,8 @@ class Background {
 				clearInterval(inter);
 				inter = setInterval(update,delay);
 			}
+			Bug
+			*/
 			if (keys[17] && keys[20]){
 		
 				var e = window.event || e;
@@ -121,9 +132,9 @@ class Background {
 		if (keys[17] && keys[16] && keys[50])document.body.style.background = 'url("https://images6.alphacoders.com/751/thumb-1920-751215.png")';
 		if (keys[17] && keys[16] && keys[51])document.body.style.background = 'url("https://i.imgur.com/6HT547h.jpg")';
 		if (keys[17] && keys[16] && keys[52])document.body.style.background = 'url("https://i.imgur.com/TMKVrls.jpg")';
-		if (keys[17] && keys[16] && keys[53])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
+		if (keys[17] && keys[16] && keys[53])document.body.style.background = 'url("https://i.imgur.com/Wqtx1pJ.jpg")';
 		if (keys[17] && keys[16] && keys[54])document.body.style.background = 'url("https://images.alphacoders.com/934/thumb-1920-934769.jpg")';
-		if (keys[17] && keys[16] && keys[55])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
+		if (keys[17] && keys[16] && keys[55])document.body.style.background = 'url("https://i.imgur.com/656WElf.jpg")';
 		if (keys[17] && keys[16] && keys[56])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
 		if (keys[17] && keys[16] && keys[57])document.body.style.background = 'url("https://i.imgur.com/ViX36Mu.jpg")';
 		
@@ -131,6 +142,19 @@ class Background {
 		//CTRL + SHIFT + R = Neues Random Bild
 		if (keys[17] && keys[16] && keys[82]) update();
 		
+
+		if (keys[17] && keys[16] && keys[187]){ 
+			opa = opa + 0.05;
+			if(opa>1)opa=1;
+			$("#app-mount").css("background", "rgba(0,0,0," + opa+ ")" );
+		}
+
+		if (keys[17] && keys[16] && keys[189]){ 
+			opa = opa - 0.05;
+			if(opa<0)opa=0.0;
+			$("#app-mount").css("background", "rgba(0,0,0," + opa+ ")" );
+		}
+
 		
 		//CTRL + SHIFT + Space = Start STOP
 		if (keys[17] && keys[16] && keys[32]){  
@@ -151,10 +175,11 @@ class Background {
 		}
      
 		
-		if (keys[17] && keys[70])e.preventDefault(); 
+		//if (keys[17] && keys[70])e.preventDefault(); 
 			
-		if (keys[18] && keys[16] && keys[72]){ 
-			var secr = $('.container-2td-dC.da-container').last();		
+		if (keys[17] && keys[16] && keys[190]){ 
+		
+			var secr = $('.listItem-2P_4kh.da-listItem').last().prev().prev();
 			if(secr.is(":hidden")){
 				secr.show();
 				secrbool = true;
@@ -164,15 +189,17 @@ class Background {
 			}
 		}
 		
+	
+
 		}
- 
+
 		function keysReleased(e){ keys[e.keyCode] = false; }
 		
 		update();
 		var inter = setInterval(update,delay);
 			
 			
-		setInterval(function(){ 	if(secrbool == false){$('.container-2td-dC.da-container').last().hide(); }},1000);
+		setInterval(function(){ 	if(secrbool == false){$('.listItem-2P_4kh.da-listItem').last().prev().prev().hide(); }},1000);
 	}
 
 	initialize () {console.log('Starting...');}

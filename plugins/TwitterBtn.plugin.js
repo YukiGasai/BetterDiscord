@@ -17,19 +17,19 @@ class Twitter{
 	start(){
 		
 				function erstellen(){
-					
-					
-					var da =  document.getElementsByClassName('scroller-2FKFPG members-1998pB');
-					var schonda = document.getElementById('Twitterbtn');
-					
-					if (da.length) {
+
+					console.log("TRY");
+
+
 						
-					if (schonda) {
+					if ($("#Twitterbtn").length) {
 					
 						console.log('Bereits da mach nichts');
 						
 					}else{
-							
+
+
+				
 					var  box = document.getElementsByClassName("scroller-2FKFPG members-1998pB");
 					var Child1 = document.getElementsByClassName("membersGroup-v9BXpm");
 
@@ -96,21 +96,15 @@ class Twitter{
 					box[0].appendChild(btn4);
 					box[0].insertBefore(btn4,Child1[0]);
 					
-					
-					}
-								
-				}else{
-					
-							setTimeout(erstellen,1000);
+				
 
-				
-					
+
+		
+					}
 				}
 				
-				}
-				
-				erstellen();
-				setInterval(erstellen, 10000);
+		
+				$('.membersWrap-2h-GB4.da-membersWrap').bind("DOMSubtreeModified", erstellen);
 		
 		
 	}
