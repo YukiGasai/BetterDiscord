@@ -38,7 +38,7 @@
             },
             "plugins": {
                 "Background": true,
-                "Clock": false,
+                "Clock": true,
                 "game": true,
                 "GoogleSearch": true,
                 "Hiddenchats": false,
@@ -48,7 +48,8 @@
                 "Timer": true,
                 "TweetIt": true,
                 "Twitter": false,
-                "YouTube": true
+                "YouTube": true,
+                "Offline": true
             },
             "themes": {
                 "WDiscord": false,
@@ -58,7 +59,7 @@
         "canary": {},
         "ptb": {}
     },
-    "emoteCacheDate": "2019-08-04T11:22:53.332Z",
+    "emoteCacheDate": "2019-08-31T13:05:04.297Z",
     "bdcustomcss": "Lm1lc3NhZ2VHcm91cEJsb2NrZWRCdG4tMVBCQmgtewogICAgZGlzcGxheTpub25lOwp9Ci5tZXNzYWdlR3JvdXBCbG9ja2VkLTN3clFRWCwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWQsIC5tZXNzYWdlR3JvdXBCbG9ja2VkLUpxZmVFMiwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWR7CiAgZGlzcGxheTogbm9uZTsgICAKfQ==",
     "0.2.15": true,
     "emoteCacheDays": 7
