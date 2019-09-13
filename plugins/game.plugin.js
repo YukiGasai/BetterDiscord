@@ -38,8 +38,8 @@ class game{
 			var  box = document.getElementsByClassName("name-3YKhmS");
 	
 		// SNAKE
-		var Overallspeed = 200;
-		var Speed = 200;
+		var Overallspeed = 500;
+		var Speed = 500;
 		var Game = false;
 		var Pause = false;
 		var grid = 32;
@@ -65,6 +65,7 @@ class game{
 		function restart(){
 			snake.x = 160;
 			snake.y = 160;
+			snake.Speed = 500;
 			snake.cells = [];
 			snake.maxCells = 1;
 			snake.dx = grid;
@@ -189,7 +190,7 @@ class game{
 				clearInterval(inter);
 				inter = setInterval(update,Overallspeed);
 				console.log(Overallspeed );
-				box[0].innerHTML = '' +	Overallspeed + '';
+				box[0].innerHTML = 'Counter: ' +	snake.maxCells + '';
 			}
 			// check collision with all cells after this one (modified bubble sort)
 			for (var i = index + 1; i < snake.cells.length; i++) {

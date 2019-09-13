@@ -15,23 +15,21 @@ class Twitter{
 	load(){}
 	
 	start(){
-		
+		var  box = document.getElementsByClassName("scroller-2FKFPG members-1998pB");
+		var Child1 = document.getElementsByClassName("membersGroup-v9BXpm");
+
 				function erstellen(){
 
-					console.log("TRY");
 
-
-						
-					if ($("#Twitterbtn").length) {
+					if ($("#Twitterbtn").length ) {
 					
 						console.log('Bereits da mach nichts');
 						
-					}else{
-
-
+					}else if($(".scroller-2FKFPG.members-1998pB").length && $(".membersGroup-v9BXpm").length ){
+						
+						console.log('Erstellen');
 				
-					var  box = document.getElementsByClassName("scroller-2FKFPG members-1998pB");
-					var Child1 = document.getElementsByClassName("membersGroup-v9BXpm");
+
 
 			
 				var	btn = document.createElement("button");
@@ -104,7 +102,7 @@ class Twitter{
 				}
 				
 		
-				$('.membersWrap-2h-GB4.da-membersWrap').bind("DOMSubtreeModified", erstellen);
+				setInterval(erstellen,1000);
 		
 		
 	}

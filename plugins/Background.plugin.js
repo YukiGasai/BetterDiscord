@@ -64,10 +64,13 @@ class Background {
 		var i ;
 		var keys = [];
 		var x;
+		var inter;
 		var opa = images.dim/100;
 		var inde;
-			var  box = document.getElementsByClassName("name-3YKhmS");
-						
+		var  box = document.getElementsByClassName("name-3YKhmS");
+		var rotationstatus = images.rotate;
+		var Rotationtring = "";
+
 			document.body.style.backgroundposition = 'center';
 			document.body.style.backgroundrepeat = 'no-repeat';
 			document.body.style.backgroundsize = 'cover';
@@ -76,19 +79,34 @@ class Background {
 			$("#app-mount").css("background", "rgba(0,0,0," + opa+ ")" );
 
 			function update(){
-
 				x = Math.floor(Math.random() * (11 - 1));
-				console.log(x);
-				console.log(delay);
 				inde = x;
 				document.body.style.background = `url("${images.img[x].link}")`;			
 			}	
 		
+			update();
+
+			function Pause(){
+
+				if (rotationstatus == false){
+			
+					rotationstatus = true;
+					Rotationtring = "ON";
+					inter = setInterval(update,delay);
+					
+				}else{
+					rotationstatus = false;
+					Rotationtring = "OFF";
+					clearInterval(inter);				
+				}
+	
+			}
+
 			document.body.addEventListener("keydown", keysPressed, false);
 			document.body.addEventListener("keyup", keysReleased, false);
 			window.addEventListener("wheel", MouseWheelHandler, false);
 			
-		function MouseWheelHandler(e) {
+	function MouseWheelHandler(e) {
 
 			if (keys[17] && keys[20]){
 		
@@ -117,11 +135,11 @@ class Background {
 			
 				
 			return false;
-		}
+	}
 			
 			
 			
-		
+	function keysReleased(e){ keys[e.keyCode] = false; }	
 	function keysPressed(e) {
 		keys[e.keyCode] = true;
 		
@@ -157,20 +175,8 @@ class Background {
 		
 		//CTRL + SHIFT + Space = Start STOP
 		if (keys[17] && keys[16] && keys[32]){  
-			if (pause == false){
-		
-				pause = true;
-				clearInterval(inter);
-				inter = setInterval(update,pausedelay);
-				console.log("PAUSE");
-				
-			}else{
-				
-				pause = false;
-				clearInterval(inter);
-				inter = setInterval(update,delay);
-				console.log("KEINE PAUSE");
-			}
+
+			Pause();
 		}
      
 		
@@ -190,7 +196,7 @@ class Background {
 		
 		}
 		
-
+	function WallpaperIO(){
 		var b = $("<button>", {
 			'class': "childWrapper-anI2G9 da-childWrapper acronym-2mOFsV da-acronym RANbutton",
 			css: {
@@ -220,7 +226,8 @@ class Background {
 					"padding-top":"20px"
 				}
 			}).insertAfter("body");
-			BackgroundSettings.focus();
+	
+	
 			BackgroundSettings.keypress(function(event){
 				if ( event.which == 27 ) {
 				
@@ -258,14 +265,17 @@ class Background {
 					
 				}
 			}).val(inde).appendTo($( ".BackgroundSettings" ));
-
+			$(".textArea-2Spzkt.da-textArea.textArea-2Spzkt.da-textArea.scrollbarGhostHairline-1mSOM1.scrollbar-3dvm_9.da-scrollbarGhostHairline.da-scrollbar").blur();
+	
+			$(".BackgroundSettings").focus();
+			
 			BackgroundIndexInput.change(function(){
 				 inde = $(".BackgroundIndexInput").val();
 				 $(".BackgroundNameInput").val(images.img[inde].name);
 				 $(".BackgroundUrlInput").val(images.img[inde].link);
 				 x = inde;
 				 document.body.style.background = `url("${images.img[x].link}")`;	
-	
+				console.log("CHANGE");
 			})
 
 			var BackgroundNameP = $("<p>", {
@@ -350,6 +360,33 @@ class Background {
 				}
 			}).val(delay/1000).appendTo($( ".BackgroundSettings" ));
 
+			var BackgroundRotateButton = $("<button>", {
+				'class': "BackgroundRotateButton",
+				css: {
+					"position": "relative",
+					"width":"80%",
+					"height":"30px",
+					"font-size":"20px",
+					"margin":"10px 10%",
+					"text-align":"center"
+					
+				}
+			}).html("Wallpaper Rotation " +Rotationtring).appendTo($( ".BackgroundSettings" ));
+
+
+			BackgroundRotateButton.click(function(){
+				if(rotationstatus){
+					
+					Rotationtring = "OFF";
+					Pause();
+				}else{
+		
+					Rotationtring = "ON";
+					Pause();
+				}
+				BackgroundRotateButton.html("Wallpaper Rotation " +Rotationtring);
+			});
+
 			var BackgroundDimP = $("<p>", {
 				'class': "BackgroundDimP",
 				css: {
@@ -428,29 +465,29 @@ class Background {
 				images.img[inde].link = $(".BackgroundUrlInput").val();
 				images.time = $(".BackgroundDelayInput").val();
 				images.dim = opa*100;
+				images.rotate = rotationstatus;
 				delay = images.time * 1000;
 				var jsonContent  = JSON.stringify(images);
 				$(".BackgroundOkButton").css("background","green");
+				if(rotationstatus){
 				clearInterval(inter);
 				inter = setInterval(update,delay);
-
+				}
 				saveTextFile(jsonContent,"Background.config.json");
-			})
+			});
 
 			}
 		});
 
-
-
-
-		function keysReleased(e){ keys[e.keyCode] = false; }
-		
-		update();
-		var inter = setInterval(update,delay);
+	}
+		WallpaperIO();
+		if(rotationstatus){
+		inter = setInterval(update,delay);
+		}
 			
 			
 		setInterval(function(){ 	if(secrbool == false){$('.listItem-2P_4kh.da-listItem').last().prev().prev().hide(); }},1000);
-
+		
 	}
 
 	initialize () {}

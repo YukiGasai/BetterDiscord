@@ -27,11 +27,10 @@ class YouTube {
 		
 		
 		
-	$(".textArea-2Spzkt, .da-textArea, .textArea-2Spzkt, .da-textArea, .scrollbarGhostHairline-1mSOM1, .scrollbar-3dvm_9, .da-scrollbarGhostHairline, .da-scrollbar").keydown(function(e){
+	$("body").keydown(function(e){
 		if(e.ctrlKey && e.keyCode == 81){
-			var z = $('.contextMenu-HLZMGh .da-contextMenu .theme-dark').html();
-			console.log(z);
-			var b = $(".textArea-2Spzkt, .da-textArea, .textArea-2Spzkt, .da-textArea, .scrollbarGhostHairline-1mSOM1, .scrollbar-3dvm_9, .da-scrollbarGhostHairline, .da-scrollbar").text();
+
+			var b = $(".textArea-2Spzkt.da-textArea.textArea-2Spzkt.da-textArea.scrollbarGhostHairline-1mSOM1.scrollbar-3dvm_9.da-scrollbarGhostHairline.da-scrollbar").text();
 			console.log(b);
 			
 			$.getScript( "https://yvoschaap.com/ytpage/ytembed.js", function() {
@@ -43,9 +42,11 @@ class YouTube {
 		}
 		
 		if(e.ctrlKey && e.keyCode == 68){
-		
+			$("#ytThumbs").empty();
 			$("#ytThumbs").remove();
 		console.log("remove");
+	
+		focus("body");
 		}
 		
 	});

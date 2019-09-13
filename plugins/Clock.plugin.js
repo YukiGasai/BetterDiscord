@@ -95,7 +95,6 @@ class Clock {
 				var sek = d.getSeconds();
 				var min = d.getMinutes();
 				var stu = d.getHours();
-				console.log(clock);
 
 				if(clock == 0){
 					box2[0].innerHTML = "Berliner Zeit";

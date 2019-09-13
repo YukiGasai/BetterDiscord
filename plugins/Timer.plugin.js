@@ -9,7 +9,7 @@ class Timer {
 
 	getDescription () {return "A little Timer";}
 
-	getVersion () {return "1.1.0";}
+	getVersion () {return "1.2.0";}
 
 	getAuthor () {return "L7Yuki Gasai";}
 
