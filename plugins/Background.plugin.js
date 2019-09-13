@@ -403,7 +403,7 @@ class Background {
 			BackgroundChnageButton.click(function(){
 
 				x = inde;
-				document.body.style.background = `url("${images.img[x].link}")`;	
+				document.body.style.background = `url("${BackgroundUrlInput.val()}")`;	
 				delay = $(".BackgroundDelayInput").val() *1000;
 				opa = BackgroundDimInput.val()/100;
 				$("#app-mount").css("background", "rgba(0,0,0," + opa+ ")" );
