@@ -20,16 +20,17 @@ class Clock {
 		create();
 		
 		function create(){
-			console.log('CREATE');
+	
 			var keys = [];
 			var wakeuptime = 7;
 			var rgb = false;
-			var box  = document.getElementsByClassName("username-u0EL4I");
+			var box  = document.getElementsByClassName("size14-e6ZScH title-eS5yk3 da-size14 da-title");
+			var box2  = document.getElementsByClassName("size10-tblYdA subtext-3CDbHg da-subtext");
 			var clock = 0; //STANDARTZEIT BERLIN
-	
+		
 			if(box.length){
 				
-				
+				box2[0].innerHTML = "Berliner Zeit";
 				box[0].addEventListener("keydown", function(e) {
 					
 					keys[e.keyCode] = true;
@@ -85,7 +86,7 @@ class Clock {
 		
 				box[0].innerHTML ='12:59:59';
 				box[0].style.color = 'rgb(255, 0, 0)';
-				box[0].style.fontSize = "19px";
+				box[0].style.fontSize = "17px";
 		
 		
 				function Update(){
@@ -94,14 +95,21 @@ class Clock {
 				var sek = d.getSeconds();
 				var min = d.getMinutes();
 				var stu = d.getHours();
-				
+				console.log(clock);
+
+				if(clock == 0){
+					box2[0].innerHTML = "Berliner Zeit";
+				}
+
 					if(clock == 1){
-						stu = stu - 9;
+						box2[0].innerHTML = "Texsas Zeit";
+						stu = stu - 7;
 						if(stu < 0){
 							stu = stu+24;
 						}
 					}	
 					if(clock == 2){ 
+						box2[0].innerHTML = "Tokio Zeit";
 						stu = stu + 7;
 						if(stu > 23){
 							stu = stu-24;
@@ -109,6 +117,7 @@ class Clock {
 					}
 				
 					if(clock == 3){
+						box2[0].innerHTML = "Zeit bis zum Aufstehen";
 						sek = 59 - sek;
 						min = 59 - min;
 						if(stu > wakeuptime ){
@@ -174,8 +183,10 @@ class Clock {
 						box[0].style.color = 'rgb(255,255,255)';	
 					}			
 					
-				}
-		
+				}		
+				
+			
+
 				Update();
 				setInterval(Update,1000);
 			
