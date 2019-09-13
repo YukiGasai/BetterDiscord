@@ -45,7 +45,7 @@
                 "OfflineDel": false,
                 "ReadAllNotificationsButton": true,
                 "Silent Typing": true,
-                "Timer": false,
+                "Timer": true,
                 "TweetIt": true,
                 "Twitter": false,
                 "YouTube": true,

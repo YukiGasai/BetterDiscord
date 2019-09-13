@@ -28,7 +28,7 @@ class Timer {
 		var first = true;
 		var pressTimer;
 		var keys = [];
-		var box = document.getElementsByClassName("channels-Ie2l6A vertical-V37hAW flex-1O1GKY directionColumn-35P_nr");
+		var box = document.getElementsByClassName("container-PNkimc da-container");
 		var child = document.getElementsByClassName("container-2Thooq");
 		
 		
