@@ -30,11 +30,11 @@ class Timer {
 		var keys = [];
 		var box = document.getElementsByClassName("container-PNkimc da-container");
 		var child = document.getElementsByClassName("container-2Thooq");
-		
-		
-		
-		
-		
+
+		function createTimer(){
+
+			if($(".container-PNkimc.da-container").length && ! $("#BOX").length){
+
 		var cont = document.createElement("div");
 		cont.id = 'BOX';
 		cont.style.width = '240px';
@@ -190,6 +190,8 @@ class Timer {
 		}
 		playbutt.innerHTML = ''+ Startzeitmin +':'+ Startzeitsek+'';
 		}
+	}
+	}
 		
 		function Keytest(){
 				console.log('MOUSE OVER');
@@ -218,6 +220,9 @@ class Timer {
 				});
 			
 		}
+
+		setInterval(createTimer,1000);
+
 		
 	}
 		

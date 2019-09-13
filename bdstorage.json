@@ -45,11 +45,11 @@
                 "OfflineDel": false,
                 "ReadAllNotificationsButton": true,
                 "Silent Typing": true,
-                "Timer": false,
+                "Timer": true,
                 "TweetIt": true,
                 "Twitter": true,
-                "YouTube": true,
-                "Offline": true
+                "YouTube": false,
+                "Offline": false
             },
             "themes": {
                 "WDiscord": false,
