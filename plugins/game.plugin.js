@@ -189,7 +189,7 @@ class game{
 				Overallspeed = Speed-28.284271*Math.sqrt(snake.cells.length);
 				clearInterval(inter);
 				inter = setInterval(update,Overallspeed);
-				console.log(Overallspeed );
+	
 				box[0].innerHTML = 'Counter: ' +	snake.maxCells + '';
 			}
 			// check collision with all cells after this one (modified bubble sort)

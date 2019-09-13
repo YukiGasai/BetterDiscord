@@ -10,7 +10,6 @@ To Delete Blocked Message
 
 class Background {
 	constructor () {
-
 	}
 
 	getName () {return "Background";}
@@ -21,11 +20,9 @@ class Background {
 
 	getAuthor () {return "L7Yuki Gasai";}
 
-
 	
 	//legacy
 	load () {}
-
 
 	start () {
 
@@ -50,7 +47,7 @@ class Background {
 		
 		readTextFile("Background.config.json",function(text){
 			images = JSON.parse(text);
-					console.log(images);
+					console.log("Loaded images" + images);
 			});
 
 		 $('.container-2td-dC.da-container').last().hide();		
@@ -275,7 +272,7 @@ class Background {
 				 $(".BackgroundUrlInput").val(images.img[inde].link);
 				 x = inde;
 				 document.body.style.background = `url("${images.img[x].link}")`;	
-				console.log("CHANGE");
+				console.log("Saved Imagesettings");
 			})
 
 			var BackgroundNameP = $("<p>", {

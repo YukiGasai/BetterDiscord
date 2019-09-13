@@ -13,39 +13,17 @@ class Offline{
 	
 	//legacy
 	load(){}
-	
 	start(){
 
-        setInterval(1000,()=>{
-            console.log("YEE");
-        });
+		function ru (){
+			var d =  $('.membersGroup-v9BXpm.da-membersGroup').last().html();
+			if($('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().is(":visible") && d.indexOf("Offline") >= 0){
+			$('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().hide();
+			}
+        }
 
-
-       
-
-       
-      
-    
-        /*$('.membersWrap-2h-GB4.da-membersWrap').bind("DOMSubtreeModified",function(){
-                   
-                    
-                    var d =  $('.membersGroup-v9BXpm.da-membersGroup').last().html();
-        
-                    if($('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().is(":visible") && d.indexOf("Offline") >= 0){
-        
-                        
-                    $('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().hide();
-                    }
-                 });
-                 */
-
-
-
-
+        setInterval(ru,1000);
 	}
-	
 	initialize(){}
-	
 	stop(){}
-	
 }

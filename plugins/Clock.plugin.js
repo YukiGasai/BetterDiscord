@@ -65,7 +65,6 @@ class Clock {
 				var e = window.event || e;
 				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 				clock = clock + dd*-1
-				console.log(dd);
 				if (clock > 3){ clock = 0;}
 				if (clock < 0){ clock = 3;}
 			

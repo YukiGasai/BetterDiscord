@@ -41,15 +41,15 @@
                 "Clock": true,
                 "game": true,
                 "GoogleSearch": false,
-                "Hiddenchats": false,
+                "Hiddenchats": true,
                 "OfflineDel": false,
                 "ReadAllNotificationsButton": true,
                 "Silent Typing": true,
                 "Timer": true,
                 "TweetIt": true,
                 "Twitter": true,
-                "YouTube": false,
-                "Offline": false
+                "YouTube": true,
+                "Offline": true
             },
             "themes": {
                 "WDiscord": false,

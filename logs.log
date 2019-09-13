@@ -1,56 +1,12 @@
-[INF][14.9.2019, 00:08:55] Hooking dom-ready
-[INF][14.9.2019, 00:08:56] Hooked dom-ready
-[INF][14.9.2019, 00:08:56] Getting updater
-[INF][14.9.2019, 00:08:57] Latest Version: 0.3.2
-[INF][14.9.2019, 00:08:57] Getting commit hash
-[INF][14.9.2019, 00:08:57] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:08:57] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:08:57] Loading
-[INF][14.9.2019, 00:08:59] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
-[INF][14.9.2019, 00:09:00] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
-[INF][14.9.2019, 00:09:00] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
-[INF][14.9.2019, 00:09:00] Starting Up
-[INF][14.9.2019, 00:21:12] Hooked dom-ready
-[INF][14.9.2019, 00:21:12] Getting updater
-[INF][14.9.2019, 00:21:12] Latest Version: 0.3.2
-[INF][14.9.2019, 00:21:12] Getting commit hash
-[INF][14.9.2019, 00:21:14] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:21:14] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:21:14] Loading
-[INF][14.9.2019, 00:21:16] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
-[INF][14.9.2019, 00:21:16] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
-[INF][14.9.2019, 00:21:16] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
-[INF][14.9.2019, 00:21:16] Starting Up
-[INF][14.9.2019, 00:22:52] Hooked dom-ready
-[INF][14.9.2019, 00:22:52] Getting updater
-[INF][14.9.2019, 00:22:53] Latest Version: 0.3.2
-[INF][14.9.2019, 00:22:53] Getting commit hash
-[INF][14.9.2019, 00:22:54] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:22:54] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:22:54] Loading
-[INF][14.9.2019, 00:22:57] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
-[INF][14.9.2019, 00:22:57] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
-[INF][14.9.2019, 00:22:57] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
-[INF][14.9.2019, 00:22:57] Starting Up
-[INF][14.9.2019, 00:24:02] Hooked dom-ready
-[INF][14.9.2019, 00:24:02] Getting updater
-[INF][14.9.2019, 00:24:02] Latest Version: 0.3.2
-[INF][14.9.2019, 00:24:02] Getting commit hash
-[INF][14.9.2019, 00:24:03] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:24:03] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:24:03] Loading
-[INF][14.9.2019, 00:24:06] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
-[INF][14.9.2019, 00:24:06] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
-[INF][14.9.2019, 00:24:06] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
-[INF][14.9.2019, 00:24:06] Starting Up
-[INF][14.9.2019, 00:24:51] Hooked dom-ready
-[INF][14.9.2019, 00:24:51] Getting updater
-[INF][14.9.2019, 00:24:51] Latest Version: 0.3.2
-[INF][14.9.2019, 00:24:51] Getting commit hash
-[INF][14.9.2019, 00:24:51] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:24:51] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
-[INF][14.9.2019, 00:24:51] Loading
-[INF][14.9.2019, 00:24:55] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
-[INF][14.9.2019, 00:24:55] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
-[INF][14.9.2019, 00:24:55] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
-[INF][14.9.2019, 00:24:56] Starting Up
+[INF][14.9.2019, 01:24:14] Hooking dom-ready
+[INF][14.9.2019, 01:24:15] Hooked dom-ready
+[INF][14.9.2019, 01:24:15] Getting updater
+[INF][14.9.2019, 01:24:15] Latest Version: 0.3.2
+[INF][14.9.2019, 01:24:15] Getting commit hash
+[INF][14.9.2019, 01:24:16] 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
+[INF][14.9.2019, 01:24:16] Using hash: 45916aef50206a8fd7613224cc5d7e52d9f3ef0e
+[INF][14.9.2019, 01:24:16] Loading
+[INF][14.9.2019, 01:24:18] Loading Resource (//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js)
+[INF][14.9.2019, 01:24:18] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/css/main.min.css)
+[INF][14.9.2019, 01:24:18] Loading Resource (//cdn.staticaly.com/gh/rauenzi/BetterDiscordApp/45916aef50206a8fd7613224cc5d7e52d9f3ef0e/js/main.min.js)
+[INF][14.9.2019, 01:24:18] Starting Up

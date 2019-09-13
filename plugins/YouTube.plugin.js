@@ -46,7 +46,7 @@ class YouTube {
 			$("#ytThumbs").remove();
 		console.log("remove");
 	
-		focus("body");
+		focus(window);
 		}
 		
 	});
