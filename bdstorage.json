@@ -45,7 +45,7 @@
                 "OfflineDel": false,
                 "ReadAllNotificationsButton": true,
                 "Silent Typing": true,
-                "Timer": true,
+                "Timer": false,
                 "TweetIt": true,
                 "Twitter": false,
                 "YouTube": true,
@@ -59,7 +59,7 @@
         "canary": {},
         "ptb": {}
     },
-    "emoteCacheDate": "2019-08-31T13:05:04.297Z",
+    "emoteCacheDate": "2019-09-13T09:54:57.941Z",
     "bdcustomcss": "Lm1lc3NhZ2VHcm91cEJsb2NrZWRCdG4tMVBCQmgtewogICAgZGlzcGxheTpub25lOwp9Ci5tZXNzYWdlR3JvdXBCbG9ja2VkLTN3clFRWCwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWQsIC5tZXNzYWdlR3JvdXBCbG9ja2VkLUpxZmVFMiwgLmRhLW1lc3NhZ2VHcm91cEJsb2NrZWR7CiAgZGlzcGxheTogbm9uZTsgICAKfQ==",
     "0.2.15": true,
     "emoteCacheDays": 7
