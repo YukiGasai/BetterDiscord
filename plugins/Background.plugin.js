@@ -212,6 +212,7 @@ class Background {
 			}else{
 			var BackgroundSettings = $("<div>", {
 				'class': "BackgroundSettings",
+				"hidden":"true",
 				css: {
 					"position": "absolute",
 					"width":"50%",
@@ -221,11 +222,12 @@ class Background {
 					"font-size":"10px",
 					"background":"gray",
 					"padding-top":"20px"
+				
 				}
 			}).insertAfter("body");
-	
-	
-			BackgroundSettings.keypress(function(event){
+			$( BackgroundSettings).first().fadeIn( "slow" );
+
+			$(BackgroundSettings).keydown(function(event){
 				if ( event.which == 27 ) {
 				
 					$(".BackgroundSettings").remove();

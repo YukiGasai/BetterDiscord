@@ -14,9 +14,7 @@ class TweetIt {
 	getAuthor () {return "L7Yuki Gasai";}
 	
 	//legacy
-	load () {
-		
-	}
+	load () {}
 
 	start () {
 		
@@ -162,10 +160,20 @@ class TweetIt {
 	
 		 }
 	);
+	
+	$(".da-channelTextArea").keydown(function(event){
+
+		if(event.ctrlKey && event.keyCode == 89){
+			GAction();
+		}
+		if(event.ctrlKey && event.keyCode == 88){
+			TAction();
+		}
+	});
 
 	GoogleSVG.click(GAction);
-
 	}
+
 }
 
 	function TAction(){
@@ -179,19 +187,6 @@ class TweetIt {
 		b = b.replace(/#/g,"%23");
 		window.open("https://www.google.com/search?q="+b); 
 	}
-
-
-	$(".textArea-2Spzkt.da-textArea.textArea-2Spzkt.da-textArea.scrollbarGhostHairline-1mSOM1.scrollbar-3dvm_9.da-scrollbarGhostHairline.da-scrollbar").keydown(function(event){
-	
-		if(event.ctrlKey && event.keyCode == 89){
-		
-			GAction();
-		}
-		if(event.ctrlKey && event.keyCode == 88){
-			TAction();
-		}
-	});
-
 
 	setInterval(createButtonT,1000);
 	setInterval(createButtonG,1000);
