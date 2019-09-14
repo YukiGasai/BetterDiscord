@@ -66,7 +66,13 @@ class Background {
 		var inde;
 		var  box = document.getElementsByClassName("name-3YKhmS");
 		var rotationstatus = images.rotate;
-		var Rotationtring = "";
+		var Rotationtring;
+
+		if(rotationstatus){
+			Rotationtring = "ON";
+		}else{
+			Rotationtring = "OFF";
+		}
 
 			document.body.style.backgroundposition = 'center';
 			document.body.style.backgroundrepeat = 'no-repeat';
@@ -225,8 +231,9 @@ class Background {
 				
 				}
 			}).insertAfter("body");
+			
 			$( BackgroundSettings).first().fadeIn( "slow" );
-
+			$( BackgroundSettings).focus();
 			$(BackgroundSettings).keydown(function(event){
 				if ( event.which == 27 ) {
 				
@@ -268,13 +275,18 @@ class Background {
 	
 			$(".BackgroundSettings").focus();
 			
+			$(BackgroundIndexInput).bind('input', function () {
+				inde = $(".BackgroundIndexInput").val();
+				$(".BackgroundNameInput").val(images.img[inde].name);
+				$(".BackgroundUrlInput").val(images.img[inde].link);
+				x = inde;
+				document.body.style.background = `url("${images.img[inde].link}")`;	
+			    console.log("Saved Imagesettings");
+			});
+
+
 			BackgroundIndexInput.change(function(){
-				 inde = $(".BackgroundIndexInput").val();
-				 $(".BackgroundNameInput").val(images.img[inde].name);
-				 $(".BackgroundUrlInput").val(images.img[inde].link);
-				 x = inde;
-				 document.body.style.background = `url("${images.img[x].link}")`;	
-				console.log("Saved Imagesettings");
+				
 			})
 
 			var BackgroundNameP = $("<p>", {
@@ -347,18 +359,19 @@ class Background {
 
 			var BackgroundDelayInput = $("<input>", {
 				'class': "BackgroundDelayInput",
-				'type':"number",
+	
 				css: {
 					"position": "relative",
 					"width":"80%",
 					"height":"25px",
 					"font-size":"20px",
 					"margin":"5px 10%",
+					"display": "block",
 					"text-align":"center"
 					
 				}
 			}).val(delay/1000).appendTo($( ".BackgroundSettings" ));
-
+	
 			var BackgroundRotateButton = $("<button>", {
 				'class': "BackgroundRotateButton",
 				css: {
@@ -440,7 +453,9 @@ class Background {
 
 				x = inde;
 				document.body.style.background = `url("${BackgroundUrlInput.val()}")`;	
+				if(!isNaN($(".BackgroundDelayInput").val())){
 				delay = $(".BackgroundDelayInput").val() *1000;
+				}
 				opa = BackgroundDimInput.val()/100;
 				$("#app-mount").css("background", "rgba(0,0,0," + opa+ ")" );
 			});
@@ -462,7 +477,9 @@ class Background {
 			BackgroundOkButton.click(function(){
 				images.img[inde].name = $(".BackgroundNameInput").val();
 				images.img[inde].link = $(".BackgroundUrlInput").val();
+				if(!isNaN($(".BackgroundDelayInput").val())){
 				images.time = $(".BackgroundDelayInput").val();
+				}
 				images.dim = opa*100;
 				images.rotate = rotationstatus;
 				delay = images.time * 1000;
