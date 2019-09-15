@@ -107,13 +107,13 @@ class Background {
 
 			document.body.addEventListener("keydown", keysPressed, false);
 			document.body.addEventListener("keyup", keysReleased, false);
-			window.addEventListener("wheel", MouseWheelHandler, false);
+			document.body.addEventListener("wheel", MouseWheelHandler, false);
 			
 	function MouseWheelHandler(e) {
 
 			if (keys[17] && keys[20]){
 		
-				var e = window.event || e;
+				var e = document.body.event || e;
 				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))* 10000;
 				delay = delay + dd;
 				min = Math.trunc(delay/60000);
@@ -125,7 +125,7 @@ class Background {
 			}
 				if (keys[17] && keys[16]){
 		
-				var e = window.event || e;
+				var e = document.body.event || e;
 				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))* 60000;
 				delay = delay + dd;
 				min = Math.trunc(delay/60000);
@@ -226,7 +226,7 @@ class Background {
 					"top":"25%",
 					"left":"25%",
 					"font-size":"10px",
-					"background":"gray",
+					"background":"rgba(255,255,255,0.5)",
 					"padding-top":"20px"
 				
 				}

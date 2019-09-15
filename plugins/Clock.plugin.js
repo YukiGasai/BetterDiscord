@@ -17,8 +17,15 @@ class Clock {
 	load () {}
 
 	start () {
+
+
+
+
 		create();
 		
+
+
+
 		function create(){
 	
 			var keys = [];
@@ -27,7 +34,8 @@ class Clock {
 			var box  = document.getElementsByClassName("size14-e6ZScH title-eS5yk3 da-size14 da-title");
 			var box2  = document.getElementsByClassName("size10-tblYdA subtext-3CDbHg da-subtext");
 			var clock = 0; //STANDARTZEIT BERLIN
-		
+
+
 			if(box.length){
 				
 				box2[0].innerHTML = "Berliner Zeit";
@@ -136,7 +144,7 @@ class Clock {
 					if(stu.length < 2)stu = "0" + stu;
 				
 			
-					box[0].innerHTML = ''+ stu + ':' + min + ':' + sek +'';	
+				$(".size14-e6ZScH.title-eS5yk3.da-size14.da-title").html(''+ stu + ':' + min + ':' + sek +'');	
 		
 					if(rgb){
 			

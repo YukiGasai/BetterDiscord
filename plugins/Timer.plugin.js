@@ -30,7 +30,7 @@ class Timer {
 		var keys = [];
 		var box = document.getElementsByClassName("container-PNkimc da-container");
 		var child = document.getElementsByClassName("container-2Thooq");
-
+	var playbutt ;
 		function createTimer(){
 
 			if($(".container-PNkimc.da-container").length && ! $("#BOX").length){
@@ -85,7 +85,7 @@ class Timer {
 		
 		
 		
-		var playbutt = document.createElement("button");
+		 playbutt = document.createElement("button");
 		playbutt.id = 'BOX';
 		playbutt.style.width = '140px';
 		playbutt.style.height = '25px';
