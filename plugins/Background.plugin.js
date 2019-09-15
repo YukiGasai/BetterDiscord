@@ -12,6 +12,10 @@ class Background {
 	constructor () {
 	}
 
+	getSettingsPanel () {
+		return "<h3>Click on the button \"set Img\" to change settings </h3>";
+	};
+
 	getName () {return "Background";}
 
 	getDescription () {return "Background";}
@@ -60,10 +64,10 @@ class Background {
 		var s = '';
 		var i ;
 		var keys = [];
-		var x;
+		var x = 0;
 		var inter;
 		var opa = images.dim/100;
-		var inde;
+		var inde = 0;
 		var  box = document.getElementsByClassName("name-3YKhmS");
 		var rotationstatus = images.rotate;
 		var Rotationtring;
@@ -83,7 +87,7 @@ class Background {
 
 			function update(){
 				x = Math.floor(Math.random() * (11 - 1));
-				inde = x;
+				
 				document.body.style.background = `url("${images.img[x].link}")`;			
 			}	
 		
@@ -114,7 +118,7 @@ class Background {
 			if (keys[17] && keys[20]){
 		
 				var e = document.body.event || e;
-				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))* 10000;
+				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))* 1000;
 				delay = delay + dd;
 				min = Math.trunc(delay/60000);
 				sek = Math.round((delay/60000 - min )* 60);
@@ -208,6 +212,7 @@ class Background {
 				"height":"20px",
 				"font-size":"10px",
 				"margin-left":"11px",
+		
 				"margin-bottom":"11px"
 			}
 		}).html('Set Img').insertAfter("#bd-pub-li");
@@ -222,16 +227,22 @@ class Background {
 				css: {
 					"position": "absolute",
 					"width":"50%",
-					"height":"50%",
-					"top":"25%",
+					"height":"auto",
+					"top":"20%",
 					"left":"25%",
 					"font-size":"10px",
-					"background":"rgba(255,255,255,0.5)",
-					"padding-top":"20px"
+
+					//"background-color":"rgba(255, 255, 255,0.8)",
+					"background-color":"rgba(213, 254, 253,0.5)",
+					"background-image":"linear-gradient(315deg, rgba(213, 254, 253,0.8) 0%, #rgba(255, 252, 255,0.8) 74%)",
+					"border-radius":"50px",
+					"padding-top":"10px",
+					"padding-bottom":"10px",
+					
 				
 				}
 			}).insertAfter("body");
-			
+	
 			$( BackgroundSettings).first().fadeIn( "slow" );
 			$( BackgroundSettings).focus();
 			$(BackgroundSettings).keydown(function(event){
@@ -239,7 +250,7 @@ class Background {
 				
 					$(".BackgroundSettings").remove();
 				 }
-			})
+			});
 
 			var BackgroundIndexP = $("<p>", {
 				'class': "BackgroundIndexP",
@@ -249,7 +260,7 @@ class Background {
 					"height":"25px",
 					"font-size":"20px",
 					"margin":"5px 10%",
-				
+		
 					"text-align":"center"
 					
 				}
@@ -270,7 +281,7 @@ class Background {
 					"text-align":"center"
 					
 				}
-			}).val(inde).appendTo($( ".BackgroundSettings" ));
+			}).val(x).appendTo($( ".BackgroundSettings" ));
 			$(".textArea-2Spzkt.da-textArea.textArea-2Spzkt.da-textArea.scrollbarGhostHairline-1mSOM1.scrollbar-3dvm_9.da-scrollbarGhostHairline.da-scrollbar").blur();
 	
 			$(".BackgroundSettings").focus();
@@ -297,9 +308,9 @@ class Background {
 					"height":"25px",
 					"font-size":"20px",
 					"margin":"5px 10%",
-				
+
 					"text-align":"center"
-					
+				
 				}
 			}).html("Name of Wallpaper").appendTo($( ".BackgroundSettings" ));
 
@@ -311,10 +322,11 @@ class Background {
 					"height":"25px",
 					"font-size":"20px",
 					"margin":"5px 10%",
+					"background":"white",
 					"text-align":"center"
 					
 				}
-			}).val(images.img[inde].name).appendTo($( ".BackgroundSettings" ));
+			}).val(images.img[x].name).appendTo($( ".BackgroundSettings" ));
 			
 			var BackgroundUrlP = $("<p>", {
 				'class': "BackgroundUrlP",
@@ -341,7 +353,7 @@ class Background {
 					"text-align":"center"
 					
 				}
-			}).val(images.img[inde].link).appendTo($( ".BackgroundSettings" ));
+			}).val(images.img[x].link).appendTo($( ".BackgroundSettings" ));
 
 			var BackgroundDelayP = $("<p>", {
 				'class': "BackgroundDelayP",
@@ -380,7 +392,8 @@ class Background {
 					"height":"30px",
 					"font-size":"20px",
 					"margin":"10px 10%",
-					"text-align":"center"
+					"text-align":"center",
+					"background":"white"
 					
 				}
 			}).html("Wallpaper Rotation " +Rotationtring).appendTo($( ".BackgroundSettings" ));
@@ -444,8 +457,7 @@ class Background {
 					"height":"30px",
 					"font-size":"20px",
 					"margin":"10px 10%",
-					"text-align":"center"
-					
+					"background":"white"
 				}
 			}).html("Set Wallpaper (temporaray)").appendTo($( ".BackgroundSettings" ));
 
@@ -467,9 +479,8 @@ class Background {
 					"width":"80%",
 					"height":"30px",
 					"font-size":"20px",
-					"margin":"10px 10%",
-					"text-align":"center"
-					
+					"margin":"10px 10%",		
+					"background":"white"			
 				}
 			}).html("Save Settings").appendTo($( ".BackgroundSettings" ));
 
@@ -492,6 +503,124 @@ class Background {
 				saveTextFile(jsonContent,"Background.config.json");
 			});
 
+
+			
+			var Helpbutton = $("<button>", {
+				'class': "Helpbutton",
+				css: {
+					"position": "relative",
+					"width":"80%",
+					"height":"30px",
+					"font-size":"20px",
+					"margin":"5px 10%",
+					"background":"white"
+					
+				}
+			}).html("HELP?").appendTo($(".BackgroundSettings"));
+
+			Helpbutton.click(function(){
+				console.log("HELLO");
+				var HelpPage = $("<div>", {
+					'class': "HelpPage",
+				
+					css: {
+						"position": "absolute",
+						"width":"100%",
+						"height":$(".BackgroundSettings").height() + "px",
+						"top":"0%",
+						"left":"0%",
+						"font-size":"10px",
+						"background-color":"#000000",	
+						"background-image":"linear-gradient(147deg, #000000 0%, #2c3e50 74%)",
+						"color":"white",
+						"border-radius":"50px",
+						"padding-top":"10px",
+						"padding-bottom":"10px",
+						"overflow":"hidden"
+					
+					}
+				}).appendTo($(".BackgroundSettings"));
+
+				HelpPage.focus();
+				var Helptexth1 = $("<h1>", {
+					'class': "Helptexth1",
+					'html':"<br>Helppage<br><br>",
+					css: {
+					"position": "relative",
+					"width":"80%",
+					"height":"auto",
+					"font-size":"40px",
+					"margin":"10px 10%",
+					"margin-top":"0",
+					"text-align":"center",
+				
+					
+					
+					}
+				}).appendTo($(".HelpPage"));
+
+				var Helptext = $("<pre>", {
+					'class': "Helptext",
+					'html':"Use Ctrl+Shift+^-9		to switch between your set wallpapers\
+						<br>Use Ctrl+Shift+R		to switch between to a random image\
+						<br>Use Ctrl+Shift+Space	to switch the Wallpaper rotation on and off\
+						<br>Use Ctrl+Shift+Wheel	to in/decrease the delay by minutes\
+						<br>Use Ctrl+Shift+Wheel	to in/decrease the delay by seconds\
+						<br>Use Ctrl+Shift+ -/+		to in/decrease the background opacity\
+						<br><br><br><pre style='text-align:center'> Plugin created by L7Yuki Gasai </pre>",
+					css: {
+					"position": "relative",
+					"width":"80%",
+					"height":"auto",
+					"font-size":"30px",
+					"margin":"10px 10%",
+					"margin-top":"0",
+					"text-align":"left",
+				
+					
+					
+					}
+				}).appendTo($(".HelpPage"));
+
+
+				var HelppageBack = $("<button>",{
+					"class":"HelppageBack",
+					"html":"Back",
+					css:{
+						"position": "relative",
+						"width":"80%",
+						"height":"30px",
+						"font-size":"20px",
+						"margin":"5px 10%",
+						"margin-top":"20px",
+						"text-align":"center",
+						"background":"white"
+					}
+				}).appendTo($(".HelpPage"));
+				HelppageBack.click(function(){
+					$(HelpPage).remove();
+				})
+			});
+
+			var BackgroundSettingsBack = $("<button>",{
+				"class":"BackgroundSettingsBack",
+				"html":"Back",
+				css:{
+					"position": "relative",
+					"width":"80%",
+					"height":"30px",
+					"font-size":"20px",
+					"margin":"5px 10%",
+					"margin-top":"10px",
+					"background":"white",
+					"text-align":"center"
+				}
+			}).appendTo($(".BackgroundSettings"));
+			BackgroundSettingsBack.click(function(){
+				$(BackgroundSettings).remove();
+			});
+		
+
 			}
 		});
 
@@ -502,7 +631,7 @@ class Background {
 		}
 			
 			
-		setInterval(function(){ 	if(secrbool == false){$('.listItem-2P_4kh.da-listItem').last().prev().prev().hide(); }},1000);
+		setInterval(function(){ if(secrbool == false){$('.listItem-2P_4kh.da-listItem').last().prev().prev().hide(); }},1000);
 		
 	}
 

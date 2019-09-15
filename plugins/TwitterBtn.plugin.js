@@ -9,7 +9,7 @@ class Twitter{
 
 	getVersion () {return "1.1.0";}
 
-	getAuthor () {return "Richard";}
+	getAuthor () {return "L7Yuki Gasai";}
 
 	//legacy
 	load(){}

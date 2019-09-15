@@ -95,7 +95,7 @@ class TweetIt {
 
 	function createButtonG(){
 
-		if($(".buttons-205you.da-buttons").length&& !$("#GoogleButtonOutside").length){
+		if($(".buttons-205you.da-buttons").length && !$("#GoogleButtonOutside").length){
 
 		var GoogleButtonOutside = $("<div>", {
 			'id':"GoogleButtonOutside",
@@ -160,6 +160,8 @@ class TweetIt {
 	
 		 }
 	);
+
+	GoogleSVG.click(GAction);
 	
 	$(".da-channelTextArea").keydown(function(event){
 
@@ -171,7 +173,7 @@ class TweetIt {
 		}
 	});
 
-	GoogleSVG.click(GAction);
+
 	}
 
 }
