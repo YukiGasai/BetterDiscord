@@ -5,11 +5,15 @@ class Clock {
 
 	}
 
+	getSettingsPanel () {
+		return "<h3>Click on the time to change settings </h3>";
+	};
+
 	getName () {return "Clock";}
 
 	getDescription () {return "A little digital clock";}
 
-	getVersion () {return "1.1.0";}
+	getVersion () {return "2.0.0";}
 
 	getAuthor () {return "L7Yuki Gasai";}
 	
@@ -19,7 +23,7 @@ class Clock {
 	start () {
 		var fs = require('fs');
 		var settings;
-		
+		var inter ;
 		function readTextFile(file, callback) {
 			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
 			callback(fs.readFileSync(filepath));
@@ -46,7 +50,7 @@ class Clock {
 
 		var Anzeige = $(".colorStandard-2KCXvj.size14-e6ZScH.usernameContainer-1fp4nu.da-colorStandard.da-size14.da-usernameContainer > .size14-e6ZScH.title-eS5yk3.da-size14.da-title");
 		var Ort = $(".nameTag-3uD-yy.da-nameTag > .size10-tblYdA.subtext-3CDbHg.da-size10.da-subtext");
-		var wahl = 0;
+		var wahl = 1;
 		$(Ort).html(settings.locations[wahl].Name);
 		function update (){
 		
@@ -232,6 +236,8 @@ class Clock {
 							settings.wakeTime.min = parseInt($(".ClockMinInput").val() ,10 );
 							settings.wakeTime.hour= parseInt($(".ClockHourInput").val(),10 );
 							var jsonContent  = JSON.stringify(settings);
+							clearInterval(inter);
+							inter = setInterval(update,1000)
 							$(".ClockOkButton").css("background","springgreen");
 							saveTextFile(jsonContent,"\\AppData\\Roaming\\BetterDiscord\\plugins\\Clock.config.json");
 						});
@@ -297,7 +303,7 @@ class Clock {
 
 		}
 
-		setInterval(update,1000)
+		inter = setInterval(update,1000)
 		
 	}
 	
