@@ -17,189 +17,288 @@ class Clock {
 	load () {}
 
 	start () {
-
-
-
-
-		create();
+		var fs = require('fs');
+		var settings;
 		
-
-
-
-		function create(){
-	
-			var keys = [];
-			var wakeuptime = 7;
-			var rgb = false;
-			var box  = document.getElementsByClassName("size14-e6ZScH title-eS5yk3 da-size14 da-title");
-			var box2  = document.getElementsByClassName("size10-tblYdA subtext-3CDbHg da-subtext");
-			var clock = 0; //STANDARTZEIT BERLIN
-
-
-			if(box.length){
-				
-				box2[0].innerHTML = "Berliner Zeit";
-				box[0].addEventListener("keydown", function(e) {
-					
-					keys[e.keyCode] = true;
-					
-					if (keys[46]) {
-						if(rgb){
-							rgb=false;
-						}else{
-							rgb=true;
-						}
-					}	
-				
-					if (keys[38]){ 
-						wakeuptime++;
-						box[0].innerHTML = '' +wakeuptime;
-					}
-						
-					if (keys[40]){
-						wakeuptime--;
-						box[0].innerHTML = '' +wakeuptime;
-					}
-				
-				});
-			
-				box[0].addEventListener("keydown", function(e) {
-					keys[e.keyCode] = false;
-				});
-			
+		function readTextFile(file, callback) {
+			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
+			callback(fs.readFileSync(filepath));
+		};
 		
-				box[0].addEventListener("mousewheel", function(){
-			
-				var e = window.event || e;
-				var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-				clock = clock + dd*-1
-				if (clock > 3){ clock = 0;}
-				if (clock < 0){ clock = 3;}
-			
-				
-				});
-			
-		
-				var run = 0;
-				var d = new Date();
-				var sek = d.getSeconds();
-				var min = d.getMinutes();
-				var stu = d.getHours();
-		
-				var r = 255;
-				var g = 0;
-				var b = 0;
-				var Phase= 0;
-		
-				box[0].innerHTML ='12:59:59';
-				box[0].style.color = 'rgb(255, 0, 0)';
-				box[0].style.fontSize = "17px";
-		
-		
-				function Update(){
-			
-				var d = new Date();
-				var sek = d.getSeconds();
-				var min = d.getMinutes();
-				var stu = d.getHours();
-
-				if(clock == 0){
-					box2[0].innerHTML = "Berliner Zeit";
+		function saveTextFile (value, file){
+			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
+			fs.writeFileSync(filepath, value, function(err) {
+				if (err) {
+					console.log(err);
 				}
-
-					if(clock == 1){
-						box2[0].innerHTML = "Texsas Zeit";
-						stu = stu - 7;
-						if(stu < 0){
-							stu = stu+24;
-						}
-					}	
-					if(clock == 2){ 
-						box2[0].innerHTML = "Tokio Zeit";
-						stu = stu + 7;
-						if(stu > 23){
-							stu = stu-24;
-						}
-					}
-				
-					if(clock == 3){
-						box2[0].innerHTML = "Zeit bis zum Aufstehen";
-						sek = 59 - sek;
-						min = 59 - min;
-						if(stu > wakeuptime ){
-							stu = 24 - stu;
-							stu = stu + wakeuptime-1;
-						}else{
-							stu = wakeuptime-1 - stu;
-					
-						}
-					}
-				
-					sek = sek + "";
-					min = min + "";
-					stu = stu + "";
-				
-					if(sek.length < 2)sek = "0" + sek;
-					if(min.length < 2)min = "0" + min;
-					if(stu.length < 2)stu = "0" + stu;
-				
-			
-				$(".size14-e6ZScH.title-eS5yk3.da-size14.da-title").html(''+ stu + ':' + min + ':' + sek +'');	
-		
-					if(rgb){
-			
-						if(Phase == 0){
-							b++;
-							if(b == 255) Phase = 1;
-						}
-				
-						if(Phase == 1){
-							r--;
-							if(r == 0) Phase = 2;
-						}
-			
-						if(Phase == 2){
-							g++;
-							if(g == 255) Phase = 3;
-						}
-			
-						if(Phase == 3){
-							b--;
-							if(b == 0) Phase = 4;
-						}
-			
-						if(Phase == 4){
-							r++;
-							if(r == 255) Phase = 5;
-						}		
-
-						if(Phase == 5){
-							g--;
-							if(g == 0) Phase = 0;
-						}	
-
-						
-			
-					run++;
-			
-			
-					box[0].style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
-					
-					}else{
-						box[0].style.color = 'rgb(255,255,255)';	
-					}			
-					
-				}		
-				
-			
-
-				Update();
-				setInterval(Update,1000);
-			
-			}else{	
-				setTimeout(create,1000);
-			}
+			});
 		}
+	
+		readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\Clock.config.json",function(text){
+			settings = JSON.parse(text);
+			settings.locations.forEach(location => {
+				location.offset = parseInt(location.offset ,10)
+			});
+			settings.wakeTime.sec = parseInt(settings.wakeTime.sec,10);
+			settings.wakeTime.min = parseInt(settings.wakeTime.min,10);
+			settings.wakeTime.hour = parseInt(settings.wakeTime.hour,10);
+		});
+
+		var Anzeige = $(".colorStandard-2KCXvj.size14-e6ZScH.usernameContainer-1fp4nu.da-colorStandard.da-size14.da-usernameContainer > .size14-e6ZScH.title-eS5yk3.da-size14.da-title");
+		var Ort = $(".nameTag-3uD-yy.da-nameTag > .size10-tblYdA.subtext-3CDbHg.da-size10.da-subtext");
+		var wahl = 0;
+		$(Ort).html(settings.locations[wahl].Name);
+		function update (){
+		
+			if($(Anzeige).length && !$(Anzeige).hasClass("added")){
+				$(Anzeige).addClass("added");
+
+				let e =	document.getElementsByClassName("added");
+				e[0].addEventListener("mousewheel", function(){
+			
+					var e = window.event || e;
+					var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+					wahl = wahl + dd*-1
+					
+					if(wahl<0)wahl = settings.locations.length-1;
+					if(wahl>settings.locations.length-1) wahl = 0;
+
+					$(Ort).html(settings.locations[wahl].Name);
+					
+					});
+				Anzeige.click(function(){
+					if($(".ClockSettings").length){
+						$(".ClockSettings").remove();
+					}else{
+
+						var cssstyle =  {
+							"position": "relative",
+							"width":"80%",
+							"height":"25px",
+							"font-size":"20px",
+							"margin":"5px 10%",
+							"text-align":"center",
+							"transition":"all 1s"
+						}
+
+						var ClockSettings = $("<div>", {
+							'class': "ClockSettings",
+							"hidden":"true",
+							css: {
+								"position": "absolute",
+								"width":"50%",
+								"height":"auto",
+								"top":"20%",
+								"left":"25%",
+								"font-size":"10px",
+								"background-color":"rgba(213, 254, 253,0.5)",
+								"background-image":"linear-gradient(315deg, rgba(213, 254, 253,0.8) 0%, #rgba(255, 252, 255,0.8) 74%)",
+								"border-radius":"50px",
+								"padding-top":"10px",
+								"padding-bottom":"10px"		
+							}
+						}).insertAfter("body");
+
+						$(ClockSettings).first().fadeIn("slow");
+
+						var ClockIndexP = $("<p>", {
+							'class': "ClockIndexP",
+							'html':"Index of Location",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+			
+						var ClockIndexInput = $("<input>", {
+							'type':"number",
+							'min':0,
+							'max':settings.locations.length,
+							'class': "ClockIndexInput",
+							'val': wahl,
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+
+						var ClockNameP = $("<p>", {
+							'class': "ClockNameP",
+							'html':"Name of Location",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+			
+						var ClockNameInput = $("<input>", {
+							'class': "ClockNameInput",
+							'val': settings.locations[wahl].Name,
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+
+						var ClockOffsetP = $("<p>", {
+							'class': "ClockOffsetP",
+							'html': "Offset to GMT",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+			
+						var ClockOffsetInput = $("<input>", {
+							'class': "ClockOffsetInput",
+							'val':settings.locations[wahl].offset,
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+
+						var ClockWakeTimeP = $("<p>", {
+							'class': "ClockWakeTimeP",
+							'html': "Time to get up",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+
+						var ClockHourInput = $("<input>", {
+							'type':"number",
+							'min':1,
+							'max':24,
+							'class': "ClockHourInput",
+							'val':settings.wakeTime.hour,
+							css: {
+								"position": "relative",
+								"width":"25%",
+								"float":"left",
+								"height":"25px",
+								"font-size":"20px",
+								"margin":"5px 0%",
+								"text-align":"center",
+								"transition":"all 1s",
+								"margin-left":"10%"
+							}
+						}).appendTo($(ClockSettings));
+
+						var ClockMinInput = $("<input>", {
+							'type':"number",
+							'min':0,
+							'max':59,
+							'class': "ClockMinInput",
+							'val':settings.wakeTime.min,
+							css: {
+								"position": "relative",
+								"width":"25%",
+								"float":"left",
+								"height":"25px",
+								"font-size":"20px",
+								"margin":"5px 1.5%",
+								"text-align":"center",
+								"transition":"all 1s",
+							}
+							
+						}).appendTo($(ClockSettings));
+
+						var ClockSecInput = $("<input>", {
+							'type':"number",
+							'min':0,
+							'max':59,
+							'class': "ClockSecInput",
+							'val':settings.wakeTime.sec,
+							css: {		
+								"position": "relative",
+								"width":"25%",
+								"float":"right",
+								"height":"25px",
+								"font-size":"20px",
+								"margin":"5px 0%",
+								"text-align":"center",
+								"transition":"all 1s",
+								"margin-right":"10%"
+							}
+						}).appendTo($(ClockSettings));
+						
+						var ClockOkButton = $("<button>", {
+							'class': "ClockOkButton",
+							'html':"ADD / SAVE",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+						
+						var ClockSettingsBack = $("<button>",{
+							"class":"ClockSettingsBack",
+							"html":"Back",
+							css: cssstyle
+						}).appendTo($(ClockSettings));
+						ClockSettingsBack.click(function(){
+							$(ClockSettings).remove();
+						});
+
+						$(ClockIndexInput).bind('input', function () {
+							wahl = $(".ClockIndexInput").val();
+							$(".ClockNameInput").val(settings.locations[wahl].Name);
+							$(".ClockOffsetInput").val(settings.locations[wahl].offset);
+						});
+
+						ClockOkButton.click(function(){
+							let realindex = $(ClockIndexInput).val();
+							settings.locations[realindex].Name = $(".ClockNameInput").val();
+							settings.locations[realindex].offset = parseInt($(".ClockOffsetInput").val(),10);
+							settings.wakeTime.sec = parseInt($(".ClockSecInput").val() ,10 );
+							settings.wakeTime.min = parseInt($(".ClockMinInput").val() ,10 );
+							settings.wakeTime.hour= parseInt($(".ClockHourInput").val(),10 );
+							var jsonContent  = JSON.stringify(settings);
+							$(".ClockOkButton").css("background","springgreen");
+							saveTextFile(jsonContent,"\\AppData\\Roaming\\BetterDiscord\\plugins\\Clock.config.json");
+						});
+					}
+				});
+
+			}
+		
+			if($(Anzeige).length){
+				var d = new Date();
+					
+				if(wahl == 0){
+					var h = d.getHours();
+					var m = d.getMinutes();
+					var s = d.getSeconds();
+					var jahr = d.getFullYear();
+					var monat = d.getMonth();
+					var tag = d.getDate();
+
+					var wh = settings.wakeTime.hour;
+					var wm = settings.wakeTime.min;
+					var ws = settings.wakeTime.sec;
+
+
+					if(h<wh){
+						var calcdate = new Date(jahr,monat,tag,wh,wm,ws)
+					}else{
+						var calcdate = new Date(jahr,monat,tag+1,wh,wm,ws)
+					}
+					var diff = Math.abs(d.getTime() - calcdate.getTime());
+					
+					console.log(diff)
+
+					 s = Math.trunc((diff / 1000) % 60 );
+					 m = Math.trunc(((diff / (1000*60)) % 60));
+					 h = Math.trunc(((diff / (1000*60*60)) % 24));
+					console.log(h + "  " + m + "  "+ s)
+					
+					
+				}else{
+					var offset = settings.locations[wahl].offset;
+
+					var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+				
+					var nd = new Date(utc + (3600000*offset));
+
+					var h = nd.getHours();
+					var m = nd.getMinutes();
+					var s = nd.getSeconds();
+				}
+				
+
+		
+
+
+				if(h<10)h = "0" + h;
+				if(m<10)m = "0" + m;
+				if(s<10)s = "0" + s;
+
+				$(Anzeige).html(h+ ":" + m + ":" + s );
+				
+			}
+
+		}
+
+		setInterval(update,1000)
+		
 	}
 	
 	initialize(){}
