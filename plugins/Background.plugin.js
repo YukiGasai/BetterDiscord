@@ -29,7 +29,6 @@ class Background {
 	load () {
 		var fs = require('fs');
 	
-
 		function readTextFile(file, callback) {
 			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
 			callback(fs.readFileSync(filepath));
@@ -59,13 +58,15 @@ class Background {
 			if(!exists){
 				fs.writeFile(filepath2, '//META {"name":"BackgroundChanger Theme","description":"A very transparent Theme","author":"L7YukiGasai","version":"1.2"}*//\n\
 				body{opacity:1!important;background:url(https://i.imgur.com/AA0Ld8g.jpg)}div[class^=typeWindows]{background-color:#0000}.theme-dark,.theme-light{background:rgba(0,0,0,0)!important}.privateChannels-1nO12o{background-color:transparent}.theme-dark .headerBar-UHpsPw{background:rgba(0,0,0,0);box-shadow:0 1px 0 rgba(32,34,37,0),0 0 0 transparent}.theme-dark .circleIconButton-jET_ig{background:rgba(0,0,0,0);color:#2e5bb3;border-color:#2a56ab#2745c5}.wrapper-2lTRaf .homeButton-2Cw51C .da-wrapper .da-homeButton{border-radius:15px;background-color:rgba(0,0,0,0)}.theme-dark .wrapper-2lTRaf{background:#1a4d61;background-color:rgba(114,137,218,0)}.contentSelectedText-3wUhMi,.contentSelectedVoice-1WDIBM{background-color:rgba(71,171,247,.19)}.button-2b6hmh:hover{color:#009fff}.button-2b6hmh{opacity:1}.theme-dark .memberOnline-1CIh-0{color:#b9bbbe}.theme-dark .memberOnline-1CIh-0:hover{color:#521b1b}.theme-dark .member-3W1lQa:hover .content-OzHfo4{background-color:#1787af;color:#fff}.theme-dark .container-3gCOGc{background-color:rgba(54,57,63,0)}.theme-dark .textArea-2Spzkt{color:hsla(0,0%,100%,1)}.theme-dark .inner-zqa7da{background-color:rgba(8,10,10,.36);border:1px solid #0e67e6}.theme-dark .friendsOnline-2JkivW,.theme-light .friendsOnline-2JkivW{color:#3a71c1}.theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI:after,.theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI:before{border-color:#fff}.theme-dark .scrollerThemed-2oenus.themedWithTrack-q8E3vB .scroller-2FKFPG::-webkit-scrollbar-track-piece{background-color:rgba(0,0,0,0);border:3px solid rgba(179,179,179,0);border-radius:0}.videoBackground-3AY_fu .da-videoBackground{background:0 0}.homeIcon-tEMBK1{opacity:0;color:#3166b9}.wrapper-2lTRaf .da-wrapper .homeButton-2Cw51C .da-homeButton{border-radius:25px;background-color:rgba(0,0,0,0)}.theme-dark .standardSidebarView-3F1I7i{background:rgba(0,0,0,.01)}.theme-dark .wrapper-29NfPK{background-color:rgba(0,0,0,.2)}.name-uJV0GL{color:#fff}#Box,#app-mount,.channels-Ie2l6A,.container-2lgZY8,.container-PNkimc,.panels-j1Uci_,.scroller-2FKFPG,.theme-dark .activityFeed-1C0EmJ,.theme-dark .applicationStore-1pNvnv,.theme-dark .chat-3bRxxu,.theme-dark .chat-3bRxxu form,.theme-dark .content-yTz4x3,.theme-dark .gameLibrary-TTDw4Y,.theme-dark .members-1998pB,.theme-dark .messagesWrapper-3lZDfY,.theme-dark .wrapper-1Rf91z,.video-1FfuMD{background-color:rgba(0,0,0,0)}.container-1UB9sr,.theme-dark .container-1r6BKw,.theme-dark .container-2Thooq,.theme-dark .contentRegion-3nDuYy,.theme-dark .layer-3QrUeG,.theme-dark .layers-3iHuyZ,.theme-dark .sidebarRegion-VFTUkN,.theme-light .container-2Thooq{background:rgba(0,0,0,0)}.theme-dark .selected-nT-gM3:before,.theme-dark .unread-2OHH1w:before{background:#1680b2}.name-2WpE7M,.theme-dark #bd-settings-sidebar .ui-tab-bar-item,.theme-dark .description-3_Ncsb,.theme-dark .divider-3gKybi:not(.dividerRed-MKoLlr) .dividerContent-2L12VI,.theme-dark .itemDefault-3Jdr52,.theme-dark .itemHover-EnbcjT,.theme-dark .labelDescriptor-1PqHgD,.theme-dark .markup-2BOw-j,.theme-dark .memberOffline-2lN7gt{color:#fff}.theme-dark .friendsTable-133bsv .friendsRow-2yicud .friendsColumnName-1zBOKm,.theme-dark .membersGroup-v9BXpm{color:#fff}.contentColumnDefault-1VQkGM,.sidebar-CFHs9e{background:rgba(0,0,0,.15)}.childWrapper-anI2G9.da-childWrapper,.da-childWrapper.childWrapper-anI2G9:hover:first-child{background:0 0}.wrapper-1BJsBx[aria-label=Home]{color:#fff;background-image:url(https://i.imgur.com/MdCJUZz.png);background-size:contain}.wrapper-1BJsBx.selected-bZ3Lue .childWrapper-anI2G9{background:transparent}', {flag: 'wx'}, function (err, data) {})
+				alert("Please select the Background Changer Theme in the Theme settings for the full experience")
 			}
 		});	
-
+		/*
 		//"TRYS" to ser the THEME
 		readTextFile("\\AppData\\Roaming\\BetterDiscord\\bdstorage.json",function(text){
 			let settings = JSON.parse(text);
 			let allstring = settings.settings.stable.themes;
+			console.log(allstring);
 			for(let key in allstring) {
 				if(key == "BackgroundChanger Theme"){
 					allstring[key] = true
@@ -76,6 +77,7 @@ class Background {
 			let jsonContent  = JSON.stringify(settings);
 			saveTextFile(jsonContent,"\\AppData\\Roaming\\BetterDiscord\\bdstorage.json");					
 		});
+		*/
 
 	}
 
