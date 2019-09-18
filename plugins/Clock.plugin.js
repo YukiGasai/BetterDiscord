@@ -18,7 +18,15 @@ class Clock {
 	getAuthor () {return "L7Yuki Gasai";}
 	
 	//legacy
-	load () {}
+	load () {
+		var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\Clock.config.json";
+		//CREATES SETTINGS FILE
+		fs.exists(filepath1, function (exists) {
+			if(!exists){	
+				fs.writeFileSync(filepath1, '{"locations":[{"Name":"WakeUp","offset":0},{"Name":"Berlin","offset":2},{"Name":"Tokio","offset":9},{"Name":"Texsas","offset":-5}],"wakeTime":{"hour":8,"min":30,"sec":20}}', {flag: 'wx'}, function (err, data){}) 
+			}
+		});
+	}
 
 	start () {
 		var fs = require('fs');
