@@ -19,6 +19,7 @@ class Clock {
 	
 	//legacy
 	load () {
+		var fs = require('fs');
 		var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\Clock.config.json";
 		//CREATES SETTINGS FILE
 		fs.exists(filepath1, function (exists) {
@@ -78,7 +79,7 @@ class Clock {
 					$(Ort).html(settings.locations[wahl].Name);
 					
 					});
-				Anzeige.click(function(){
+				 $(".added").click(function(){
 					if($(".ClockSettings").length){
 						$(".ClockSettings").remove();
 					}else{
