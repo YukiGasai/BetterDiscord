@@ -42,9 +42,11 @@
                 "Silent Typing": true,
                 "Timer": true,
                 "TweetIt": true,
-                "Twitter": true,
+                "Twitter": false,
                 "YouTube": false,
-                "Darling": true
+                "Darling": true,
+                "Steam": false,
+                "Shortcut": true
             },
             "themes": {
                 "BackgroundChanger Theme": false

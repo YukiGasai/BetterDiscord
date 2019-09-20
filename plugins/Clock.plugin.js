@@ -72,7 +72,6 @@ class Clock {
 					var e = window.event || e;
 					var dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 					wahl = wahl + dd*-1
-					
 					if(wahl<0)wahl = settings.locations.length-1;
 					if(wahl>settings.locations.length-1) wahl = 0;
 
@@ -123,7 +122,7 @@ class Clock {
 						var ClockIndexInput = $("<input>", {
 							'type':"number",
 							'min':0,
-							'max':settings.locations.length,
+							'max':settings.locations.length-1,
 							'class': "ClockIndexInput",
 							'val': wahl,
 							css: cssstyle
@@ -265,7 +264,6 @@ class Clock {
 					var jahr = d.getFullYear();
 					var monat = d.getMonth();
 					var tag = d.getDate();
-
 					var wh = settings.wakeTime.hour;
 					var wm = settings.wakeTime.min;
 					var ws = settings.wakeTime.sec;
@@ -277,15 +275,11 @@ class Clock {
 						var calcdate = new Date(jahr,monat,tag+1,wh,wm,ws)
 					}
 					var diff = Math.abs(d.getTime() - calcdate.getTime());
-					
-					console.log(diff)
 
 					 s = Math.trunc((diff / 1000) % 60 );
 					 m = Math.trunc(((diff / (1000*60)) % 60));
-					 h = Math.trunc(((diff / (1000*60*60)) % 24));
-					console.log(h + "  " + m + "  "+ s)
-					
-					
+					 h = Math.trunc(((diff / (1000*60*60)) % 24));					
+				
 				}else{
 					var offset = settings.locations[wahl].offset;
 
@@ -297,10 +291,6 @@ class Clock {
 					var m = nd.getMinutes();
 					var s = nd.getSeconds();
 				}
-				
-
-		
-
 
 				if(h<10)h = "0" + h;
 				if(m<10)m = "0" + m;
@@ -309,7 +299,6 @@ class Clock {
 				$(Anzeige).html(h+ ":" + m + ":" + s );
 				
 			}
-
 		}
 
 		inter = setInterval(update,1000)
