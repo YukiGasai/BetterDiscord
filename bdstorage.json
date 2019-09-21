@@ -34,22 +34,22 @@
                 "fork-wp-2": false
             },
             "plugins": {
-                "Background": true,
-                "Clock": true,
-                "game": true,
-                "Offline": true,
-                "ReadAllNotificationsButton": true,
-                "Silent Typing": true,
-                "Timer": true,
-                "TweetIt": true,
+                "Background": false,
+                "Clock": false,
+                "game": false,
+                "Offline": false,
+                "ReadAllNotificationsButton": false,
+                "Silent Typing": false,
+                "Timer": false,
+                "TweetIt": false,
                 "Twitter": false,
                 "YouTube": false,
-                "Darling": true,
+                "Darling": false,
                 "Steam": false,
-                "Shortcut": true
+                "Shortcut": false
             },
             "themes": {
-                "BackgroundChanger Theme": false
+                
             }
         },
         "canary": {},

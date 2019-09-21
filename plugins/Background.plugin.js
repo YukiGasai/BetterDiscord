@@ -88,6 +88,15 @@ class Background {
 			console.log(images);
 		});
 
+		function addHover(requestElement, Color){
+            $(requestElement).hover(function(){
+                    $(this).css({"transform": "scaleY(1.1)","background": "#"+ Color})
+                },
+                function(){
+                    $(this).css({"transform": "scaleY(1.0)","background": "white"})
+            });
+        }
+
 		var secrbool = false;
 		var delay = images.time * 1000;
 		var keys = [];
@@ -253,7 +262,7 @@ class Background {
 				"font-size": "20px",
 				"margin": "5px 10%",
 				"text-align": "center",
-				"transition": "all 1s"
+				"transition": "all 1s",
 			}
 
 			let setImgbutton = $("<button>", {
@@ -288,7 +297,8 @@ class Background {
 							"background-image": "linear-gradient(315deg, rgba(213, 254, 253,0.8) 0%, #rgba(255, 252, 255,0.8) 74%)",
 							"border-radius": "50px",
 							"padding-top": "10px",
-							"padding-bottom": "10px"
+							"padding-bottom": "10px",
+					
 						}
 					}).insertAfter("body");
 
@@ -351,18 +361,6 @@ class Background {
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
 
-					var BackgroundRotateButton = $("<button>", {
-						'class': "BackgroundRotateButton",
-						'html': "Wallpaper Rotation " + Rotationtring,
-						css: cssstyle
-					}).appendTo($(BackgroundSettings));
-
-					var BackgroundThemeButton = $("<button>", {
-						'class': "BackgroundThemeButton",
-						'html': "Transparent Theme " + ThemeStatusString,
-						css: cssstyle
-					}).appendTo($(BackgroundSettings));
-
 					var BackgroundDimP = $("<p>", {
 						'class': "BackgroundDimP",
 						'html': "Dimming of Wallpapers " + Math.trunc(opa * 100) + "%",
@@ -379,32 +377,37 @@ class Background {
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
 
+					var BackgroundRotateButton = $("<button>", {
+						'class': "BackgroundRotateButton",
+						'html': "Wallpaper Rotation " + Rotationtring,
+						css: cssstyle
+					}).appendTo($(BackgroundSettings));
+
+					addHover(BackgroundRotateButton, "FFA500");
+
+					var BackgroundThemeButton = $("<button>", {
+						'class': "BackgroundThemeButton",
+						'html': "Transparent Theme " + ThemeStatusString,
+						css: cssstyle
+					}).appendTo($(BackgroundSettings));
+
+					addHover(BackgroundThemeButton, "FFA500");
+
 					var BackgroundOkButton = $("<button>", {
 						'class': "BackgroundOkButton",
 						'html': "Save Settings",
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
 
-					$(BackgroundOkButton).hover(
-						function () {
-							$(this).css({
-								"transform": "scaleY(1.1)",
-								"background": "grey"
-							})
-						},
-						function () {
-							$(this).css({
-								"transform": "scaleY(1.0)",
-								"background": "rgb(255,255,255)"
-							})
-						}
-					);
+					addHover(BackgroundOkButton,"90ee90");
 
 					var BackgroundChnageButton = $("<button>", {
 						'class': "BackgroundChnageButton",
-						'html': "Set Wallpaper (temporaray)",
+						'html': "Test Wallpaper",
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
+
+					addHover(BackgroundChnageButton,"90ee90");
 
 					var Helpbutton = $("<button>", {
 						'class': "Helpbutton",
@@ -412,11 +415,16 @@ class Background {
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
 
+					addHover(Helpbutton,"7ff7ff");
+
 					var BackgroundSettingsBack = $("<button>", {
 						"class": "BackgroundSettingsBack",
 						"html": "Back",
 						css: cssstyle
 					}).appendTo($(BackgroundSettings));
+
+					addHover(BackgroundSettingsBack,"7ff7ff");
+
 					BackgroundSettingsBack.click(function () {
 						$(BackgroundSettings).remove();
 					});
@@ -424,6 +432,8 @@ class Background {
 					//Event to chnage Background and information when clicking the arrow Keys 
 					$(BackgroundIndexInput).bind('input', function () {
 						inde = $(".BackgroundIndexInput").val();
+						$(BackgroundChnageButton).html("Test Wallpaper");
+						$(BackgroundOkButton).html("Save Settings");
 						$(".BackgroundNameInput").val(images.img[inde].name);
 						$(".BackgroundUrlInput").val(images.img[inde].link);
 						x = inde;
@@ -432,27 +442,12 @@ class Background {
 
 					//Turns on off Rotation on Buttonpress 
 					BackgroundRotateButton.click(function () {
-						if (rotationstatus) {
-							Rotationtring = "OFF";
-							Pause();
-						} else {
-							Rotationtring = "ON";
-							Pause();
-						}
+						Pause();	
 						BackgroundRotateButton.html("Wallpaper Rotation " + Rotationtring);
 					});
 
 					BackgroundThemeButton.click(function () {
-
-						if (ThemeStatus) {
-
-							Theme();
-						} else {
-
-							Theme();
-						}
-
-						console.log(ThemeStatusString)
+						Theme();	
 					});
 
 					//Sliderevent to see the dimming in real time
@@ -464,12 +459,14 @@ class Background {
 
 					//Changes Background Picture to see if it works for you but doesnt save it to .json file
 					BackgroundChnageButton.click(function () {
+						$(this).html("Test Wallpaper ✓");
 						x = inde;
 						document.body.style.background = `url("${BackgroundUrlInput.val()}")`;
 					});
 
 					//Changes Background Picture + all other settings and saves the values to the .json file
 					BackgroundOkButton.click(function () {
+						$(this).html("Save Settings ✓");
 						let realindex = $(BackgroundIndexInput).val();
 						images.img[realindex].name = $(".BackgroundNameInput").val();
 						images.img[realindex].link = $(".BackgroundUrlInput").val();

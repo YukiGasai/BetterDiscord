@@ -76,7 +76,7 @@ class Shortcut {
                 "font-size": "20px",
                 "margin": "5px 10%",
                 "text-align": "center",
-                "transition": "all 1s"
+                "transition": "all 1s",
             }
 
             if ($("#OptionLink").length) {
@@ -98,6 +98,7 @@ class Shortcut {
                         "marginTop ": '5px',
                         "background": 'url("https://image.flaticon.com/icons/svg/1665/1665731.svg")',
                         "background-Size": 'cover',
+                        "font-weight":"bold",
                         "transition": "all 0.4s ease-in-out "
                     }
                 });
@@ -137,7 +138,7 @@ class Shortcut {
                                 "background-image": "linear-gradient(315deg, rgba(213, 254, 253,0.8) 0%, #rgba(255, 252, 255,0.8) 74%)",
                                 "border-radius": "50px",
                                 "padding-top": "10px",
-                                "padding-bottom": "10px"
+                                "padding-bottom": "10px"                              
                             }
                         }).insertAfter("body");
 
@@ -200,7 +201,7 @@ class Shortcut {
                         }).appendTo(ShortcutSettings);
 
                         var ShortcutDeleteButton = $("<button>", {
-                            'html': "DELTE",
+                            'html': "DELETE",
                             'class': "ShortcutDeleteButton",
                             css: cssstyle
                         }).appendTo(ShortcutSettings);
