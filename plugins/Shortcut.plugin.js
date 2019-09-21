@@ -18,7 +18,7 @@ class Shortcut {
         //CREATES SETTINGS FILE
         fs.exists(filepath1, function (exists) {
             if (!exists) {
-                fs.writeFileSync(filepath1, '{"Programs":[{"Name":"Visual Code","Path":"C:\\Users\\Richard\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"},{"Name":"Minecraft","Path":"E:\\Games\\Minecraft\\MinecraftLauncher.exe"}]}', { flag: 'wx' }, function (err, data) { })
+                fs.writeFileSync(filepath1, '{"Programs":[{"Name":"Minecraft","Path":"E:\\\\Games\\\\Minecraft\\\\MinecraftLauncher.exe","Icon":"https://cdn.freebiesupply.com/logos/large/2x/minecraft-1-logo-png-transparent.png"},{"Name":"Osu!","Path":"C:\\\\Users\\\\Richard\\\\AppData\\\\Local\\\\osu!\\\\osu!.exe","Icon":"https://upload.wikimedia.org/wikipedia/commons/6/65/Osu%21Logo_%282015%29.svg"},{"Name":"Rocket League","Path":"E:\\\\Games\\\\SteamLibrary\\\\steamapps\\\\common\\\\rocketleague\\\\Binaries\\\\Win32\\\\RocketLeague.exe","Icon":"https://i.dlpng.com/static/png/4988652_thumb.png"},{"Name":"Twitter","Path":"https://twitter.com/home?lang=de","Icon":"https://www.yoyochinese.com/images/webpage/front/footer/Twitter-ICON.svg"},{"Name":"YouTube","Path":"https://www.youtube.com/?hl=de&gl=DE","Icon":"https://static.getjar.com/icon-50x50/ae/853366_thm.png"},{"Name":"Whats App","Path":"https://web.whatsapp.com/","Icon":"https://static.getjar.com/icon-50x50/b9/847775_thm.png"},{"Name":"Twitch","Path":"https://www.twitch.tv/","Icon":"https://static.getjar.com/icon-50x50/e7/861632_thm.jpg"}]}', { flag: 'wx' }, function (err, data) { })
             }
         });
     }
@@ -57,6 +57,15 @@ class Shortcut {
             settings = JSON.parse(text);
             console.log(settings);
         });
+
+        function addHover(requestElement, Color){
+            $(requestElement).hover(function(){
+                    $(this).css({"transform": "scaleY(1.1)","background": "#"+ Color})
+                },
+                function(){
+                    $(this).css({"transform": "scaleY(1.0)","background": "white"})
+            });
+        }
 
         function erstellen() {
 
@@ -162,7 +171,7 @@ class Shortcut {
 
                         var ShortcutNameInput = $("<input>", {
                             'class': "ShortcutNameInput",
-                            'val': settings.Programs[currentProgram].Name,
+                            'val': settings.Programs[0].Name,
                             css: cssstyle
                         }).appendTo(ShortcutSettings);
 
@@ -174,7 +183,7 @@ class Shortcut {
 
                         var ShortcutPathInput = $("<input>", {
                             'class': "ShortcutPathInput",
-                            'val': settings.Programs[currentProgram].Path,
+                            'val': settings.Programs[0].Path,
                             css: cssstyle
                         }).appendTo(ShortcutSettings);
 
@@ -186,7 +195,7 @@ class Shortcut {
 
                         var ShortcutIconInput = $("<input>", {
                             'class': "ShortcutIconInput",
-                            'val': settings.Programs[currentProgram].Icon,
+                            'val': settings.Programs[0].Icon,
                             css: cssstyle
                         }).appendTo(ShortcutSettings);
 
@@ -194,25 +203,33 @@ class Shortcut {
                             'html': "DELTE",
                             'class': "ShortcutDeleteButton",
                             css: cssstyle
-                        }).css({
-                            "background": "tomato"
                         }).appendTo(ShortcutSettings);
+
+                        addHover(ShortcutDeleteButton,"ff6347");
 
                         var ShortcutAddButton = $("<button>", {
                             'html': "Add",
                             'class': "ShortcutAddButton",
                             css: cssstyle
-                        }).css({
-                            "background": "lightgreen"
                         }).appendTo(ShortcutSettings);
+
+                        addHover(ShortcutAddButton,"90ee90");
 
                         var ShortcutSaveButton = $("<button>", {
                             'html': "Change",
                             'class': "ShortcutSaveButton",
                             css: cssstyle
-                        }).css({
-                            "background": "lightgreen"
                         }).appendTo(ShortcutSettings);
+
+                        addHover(ShortcutSaveButton,"90ee90");
+
+                        var ShortcutBackButton = $("<button>", {
+                            'html':"Back",
+                            'class':"ShortcutBackButton",
+                            css: cssstyle
+                        }).appendTo(ShortcutSettings);
+
+                        addHover(ShortcutBackButton,"7ff7ff");
 
                         $(ShortcutIndexInput).bind('input', function () {
                             currentProgram = $(".ShortcutIndexInput").val();
@@ -224,7 +241,7 @@ class Shortcut {
 
                         $(ShortcutDeleteButton).click(function () {
                             settings.Programs.splice(currentProgram, 1);
-
+                            $(this).html("DELETE ✔");
                             var Jsontext = JSON.stringify(settings);
                             saveTextFile(Jsontext, "\\AppData\\Roaming\\BetterDiscord\\plugins\\Shortcut.config.json");
 
@@ -234,17 +251,25 @@ class Shortcut {
                             $(ShortcutSettings).remove();
                             $(OptionLink).remove();
 
-
+                            currentProgram = 0;
                         });
 
                         $(ShortcutAddButton).click(function () {
+                            
                             if (addbool) {
+                                
                                 $(".ShortcutIndexInput").val(settings.Programs.length);
+                                $(".ShortcutAddButton").html("Click again to save");
                                 $(".ShortcutNameInput").val("");
                                 $(".ShortcutPathInput").val("");
                                 $(".ShortcutIconInput").val("");
                                 addbool = false;
+                                $(ShortcutDeleteButton).attr("disabled",true);
+                                $(ShortcutSaveButton).attr("disabled",true);
+                             
+
                             } else {
+                                $(this).html("SAVED ✔");
                                 settings.Programs.push({
                                     "Name": $(".ShortcutNameInput").val(),
                                     "Path": $(".ShortcutPathInput").val().replace("\\", "\\\\"),
@@ -268,15 +293,19 @@ class Shortcut {
                             settings.Programs[currentProgram].Name = $(".ShortcutNameInput").val();
                             settings.Programs[currentProgram].Path = $(".ShortcutPathInput").val();
                             settings.Programs[currentProgram].Icon = $(".ShortcutIconInput").val();
-
+                            $(this).html("CHANGED ✔");
                             var Jsontext = JSON.stringify(settings);
                             saveTextFile(Jsontext, "\\AppData\\Roaming\\BetterDiscord\\plugins\\Shortcut.config.json");
-
+                            currentProgram = 0;
                             Buttons.forEach(Button => {
                                 Button.remove();
                             });
                             $(ShortcutSettings).remove();
                             $(OptionLink).remove();
+                        });
+
+                        $(ShortcutBackButton).click(function(){
+                            ShortcutSettings.remove();
                         });
                     }
                 });
@@ -305,32 +334,28 @@ class Shortcut {
                         var inde = $(this).attr('id')
                         inde = parseInt(inde, 10);
                         var exepath = settings.Programs[inde].Path;
+                        exepath = exepath.replace("\"","");
                         if (exepath.includes("http")) {
                             window.open(exepath);
                         } else {
                             fs.exists(exepath, function (exists) {
                                 if (exists) {
                                     startexe(exepath);
+                                }else{
+                                    alert(`The selected Path for  ${settings.Programs[inde].Name} is not valid`)
                                 }
                             })
                         }
                     });
 
-                    $(Link).hover(
-                        function () {
-                            $(this).css({
-                                "opacity": "1",
-                                "transform": "scale(1.1)"
-                            });
+                    $(Link).hover(function(){
+                            $(this).css({"opacity": "1", "transform": "scale(1.1)"});
                         },
-                        function () {
-                            $(this).css({
-                                "opacity": "0.5",
-                                "transform": "scale(1.0)"
-                            });
+                        function(){
+                            $(this).css({"opacity": "0.5", "transform": "scale(1.0)"});
                         });
 
-                    $(".scroller-2FKFPG.members-1998pB").prepend($(Link));
+                    $(".scroller-2FKFPG.members-1998pB").prepend($(Link));  
 
                     Buttons.push(Link);
                 }

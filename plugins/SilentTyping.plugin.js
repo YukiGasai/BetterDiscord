@@ -17,7 +17,7 @@
         fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
         // Show the user where to put plugins in the future
         shell.Exec("explorer " + pathPlugins);
-        shell.Popup("I'm installed!\nJust reload Discord with Ctrl+R.", 0, "Successfully installed", 0x40);
+        shell.Popup("I'm installed!\nJust reload Discord w ith Ctrl+R.", 0, "Successfully installed", 0x40);
     }
     WScript.Quit();
 @else @*/

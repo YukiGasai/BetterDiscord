@@ -20,7 +20,7 @@ load () {
 
     fs.exists(filepath, function (exists) {
         if(!exists){	
-            fs.writeFileSync(filepath, '{"vol":"100","url":"http://minatobot.000webhostapp.com/02.mp3","img":"https://i.imgur.com/MdCJUZz.png"}', {flag: 'wx'}, function (err, data){}) 
+            fs.writeFileSync(filepath, '{"vol":"69","url":"https://minatobot.000webhostapp.com/Darling/","amount":"24","img":"https://i.imgur.com/MdCJUZz.png"}', {flag: 'wx'}, function (err, data){}) 
         }
     });
 }
