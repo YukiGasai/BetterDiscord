@@ -49,9 +49,7 @@
                 "Shortcut": true,
                 "CleanUp": true
             },
-            "themes": {
-                "BackgroundChanger Theme": false
-            }
+            "themes": {}
         },
         "canary": {},
         "ptb": {}
