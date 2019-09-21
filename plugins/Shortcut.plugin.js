@@ -138,6 +138,7 @@ class Shortcut {
                                 "background-image": "linear-gradient(315deg, rgba(213, 254, 253,0.8) 0%, #rgba(255, 252, 255,0.8) 74%)",
                                 "border-radius": "50px",
                                 "padding-top": "10px",
+                                "z-index":"10",
                                 "padding-bottom": "10px"                              
                             }
                         }).insertAfter("body");

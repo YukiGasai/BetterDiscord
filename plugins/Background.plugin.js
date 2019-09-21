@@ -281,6 +281,7 @@ class Background {
 							"border-radius": "50px",
 							"padding-top": "10px",
 							"padding-bottom": "10px",
+							"z-index":"10"
 					
 						}
 					}).insertAfter("body");
