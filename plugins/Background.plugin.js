@@ -96,8 +96,6 @@ class Background {
                     $(this).css({"transform": "scaleY(1.0)","background": "white"})
             });
         }
-
-		var secrbool = false;
 		var delay = images.time * 1000;
 		var keys = [];
 		var x = 0;
@@ -234,21 +232,6 @@ class Background {
 			//CTRL + SHIFT + Space = Start STOP
 			if (keys[17] && keys[16] && keys[32]) Pause();
 
-			//Das das schmutzige
-			if (keys[17] && keys[16] && keys[190]) {
-				var secr = $('.listItem-2P_4kh.da-listItem').last().prev().prev()
-				if (!$(secr).find('.blobContainer-239gwq.da-blobContainer').length) {
-					secr = $('.listItem-2P_4kh.da-listItem').last().prev().prev().prev();
-				}
-
-				if (secr.is(":hidden")) {
-					secr.show();
-					secrbool = true;
-				} else {
-					secr.hide();
-					secrbool = false;
-				}
-			}
 		}
 
 
@@ -568,18 +551,6 @@ class Background {
 
 		WallpaperIO();
 		if (rotationstatus) inter = setInterval(update, delay);
-
-		setInterval(() => {
-			if (secrbool == false) {
-				if ($('.listItem-2P_4kh.da-listItem').last().prev().prev().find('.blobContainer-239gwq.da-blobContainer').length) {
-					$('.listItem-2P_4kh.da-listItem').last().prev().prev().hide();
-				} else {
-					$('.listItem-2P_4kh.da-listItem').last().prev().prev().prev().hide();
-				}
-
-			}
-		}, 1000);
-
 	}
 
 	initialize() { }

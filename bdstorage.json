@@ -46,10 +46,11 @@
                 "YouTube": false,
                 "Darling": false,
                 "Steam": false,
-                "Shortcut": false
+                "Shortcut": false,
+                "CleanUp": false
             },
             "themes": {
-                
+                "BackgroundChanger Theme": false
             }
         },
         "canary": {},
