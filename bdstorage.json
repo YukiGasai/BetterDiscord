@@ -47,9 +47,12 @@
                 "Darling": true,
                 "Steam": false,
                 "Shortcut": true,
-                "CleanUp": true
+                "CleanUp": true,
+                "Markdown": true
             },
-            "themes": {}
+            "themes": {
+                "BackgroundChanger Theme": false
+            }
         },
         "canary": {},
         "ptb": {}
