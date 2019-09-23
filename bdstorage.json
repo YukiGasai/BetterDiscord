@@ -35,7 +35,7 @@
             },
             "plugins": {
                 "Background": true,
-                "Clock": true,
+                "Clock": false,
                 "game": true,
                 "Offline": false,
                 "ReadAllNotificationsButton": true,
@@ -48,7 +48,8 @@
                 "Steam": false,
                 "Shortcut": true,
                 "CleanUp": true,
-                "Markdown": true
+                "Markdown": true,
+                "Custom Context Menu": false
             },
             "themes": {
                 "BackgroundChanger Theme": false
