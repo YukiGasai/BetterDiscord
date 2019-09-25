@@ -1,4 +1,4 @@
-//META{"name":"Background"}*//
+//META{"name":"Background","version":"1.1.0"}*//
 
 
 /*

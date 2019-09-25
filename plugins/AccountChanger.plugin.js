@@ -101,6 +101,7 @@ class AccountChanger {
                 }).appendTo(contextPointText);
 
                 contextPoint.click(function(){
+                    $(contextPointDiv).html("--Restarting--")
                     login(nextToken);
                 });
 

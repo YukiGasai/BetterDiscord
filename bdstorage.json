@@ -52,14 +52,13 @@
                 "Custom Context Menu": false,
                 "AccountChanger": true
             },
-            "themes": {
-                "BackgroundChanger Theme": true
-            }
+            "themes": {}
         },
         "canary": {},
         "ptb": {}
     },
     "emoteCacheDays": 7,
     "emoteCacheDate": "2019-09-18T10:27:48.120Z",
-    "bdfavemotes": "e30="
+    "bdfavemotes": "e30=",
+    "bdcustomcss": "LmNvbnRhaW5lckNvenlCb3VuZGVkLTFyS0ZBbiAud3JhcHBlci0zdDlEZUEgew0KICB3aWR0aDogNDBweCAhaW1wb3J0YW50Ow0KICBoZWlnaHQ6IDQwcHggIWltcG9ydGFudDsNCiAgdHJhbnNpdGlvbjogYWxsIC45cyBlYXNlOw0KICAgb3BhY2l0eTogMSAhaW1wb3J0YW50Ow0KfQ0KLmNvbnRhaW5lckNvenlCb3VuZGVkLTFyS0ZBbiAud3JhcHBlci0zdDlEZUE6aG92ZXIgew0KICB3aWR0aDogODBweCAhaW1wb3J0YW50Ow0KICBoZWlnaHQ6IDgwcHggIWltcG9ydGFudDsNCn0NCi8qIEFsbG93cyB5b3UgdG8gY2hhbmdlIGJvcmRlci1yYWRpdXMgZG9uJ3QgdG91Y2ggKi8NCi5hdmF0YXItMTdtdE5hIC53cmFwcGVyLTN0OURlQSBmb3JlaWduT2JqZWN0W21hc2tdIHsNCiAgICBtYXNrOiBub25lOw0KfQ0KLyogQ2hhbmdlcyBCb3JkZXItUmFkaXVzICovDQouYXZhdGFyLVZ4Z1VMWiB7DQogICAgYm9yZGVyLXJhZGl1czogMTBweDsNCn0="
 }
