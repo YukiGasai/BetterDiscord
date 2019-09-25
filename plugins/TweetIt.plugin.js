@@ -1,4 +1,4 @@
-//META{"name":"TweetIt"}*//
+//META{"name":"TweetIt","version":"1.1.0"}*//
 
 class TweetIt {
 	constructor () {
@@ -14,7 +14,35 @@ class TweetIt {
 	getAuthor () {return "L7Yuki Gasai";}
 	
 	//legacy
-	load () {}
+	load () {
+		var fs = require('fs');
+        const request = require('request');
+
+        var jspath    = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\TweetIt.plugin.js";
+        
+        function isNewerVersion (oldVer, newVer) {
+            const oldParts = oldVer.split('.')
+            const newParts = newVer.split('.')
+            for (var i = 0; i < newParts.length; i++) {
+                const a = parseInt(newParts[i]) || 0
+                const b = parseInt(oldParts[i]) || 0
+                if (a > b) return true
+                if (a < b) return false
+            }
+		return false
+		}
+		//UPDATE SCRIPT
+		request("https://raw.githubusercontent.com/YukiGasai/MyPublicBetterDiscord/master/TweetIt.plugin.js",(err, res, body)=>{
+			var searchstring = `"version":"`;
+			var startindex = body.indexOf(searchstring)+ searchstring.length;
+			var stopindex = body.indexOf(`"`,startindex);
+			var version = body.substring(startindex,stopindex);
+			console.log(this.getName() + "---  New Version:" + version+ "\nCurrentVersion:" +this.getVersion());
+			if(isNewerVersion(this.getVersion(),version)){
+				fs.writeFileSync(jspath,body,{encoding:'utf8',flag:'w'})
+			}
+		});
+	}
 
 	start () {
 		
