@@ -1,4 +1,4 @@
-//META{"name":"AccountChanger"}*//
+//META{"name":"AccountChanger","version":"1.1.0"}*//
 
 class AccountChanger {
 	constructor() {
@@ -15,7 +15,34 @@ class AccountChanger {
 	//legacy
     load() { 
         var fs = require('fs');
-        var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\AccountChnager.config.json";
+        const request = require('request');
+
+        var jspath    = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\AccountChanger.plugin.js";
+        var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\AccountChanger.config.json";
+        
+        function isNewerVersion (oldVer, newVer) {
+            const oldParts = oldVer.split('.')
+            const newParts = newVer.split('.')
+            for (var i = 0; i < newParts.length; i++) {
+                const a = parseInt(newParts[i]) || 0
+                const b = parseInt(oldParts[i]) || 0
+                if (a > b) return true
+                if (a < b) return false
+            }
+		return false
+		}
+		//UPDATE SCRIPT
+		request("https://raw.githubusercontent.com/YukiGasai/MyPublicBetterDiscord/master/AccountChanger.plugin.js",(err, res, body)=>{
+			var searchstring = `"version":"`;
+			var startindex = body.indexOf(searchstring)+ searchstring.length;
+			var stopindex = body.indexOf(`"`,startindex);
+			var version = body.substring(startindex,stopindex);
+			console.log(this.getName() + "---  New Version:" + version+ "\nCurrentVersion:" +this.getVersion());
+			if(isNewerVersion(this.getVersion(),version)){
+				fs.writeFileSync(jspath,body,{encoding:'utf8',flag:'w'})
+			}
+		});
+
         fs.exists(filepath1, function (exists) {
 			if (!exists) {
 				fs.writeFileSync(filepath1,'{"Accounts":[{"Name":"User1","Token":""},{"Name":"User2","Token":""}]}', { flag: 'wx' }, function (err, data) { })
@@ -53,7 +80,7 @@ class AccountChanger {
         iframe.src = 'about:blank';
         document.body.appendChild(iframe);
         
-        readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\AccountChnager.config.json", (text)=>{
+        readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\AccountChanger.config.json", (text)=>{
             settings = JSON.parse(text);
             settings.Accounts.forEach(Account => {
                 Tokens.push(Account.Token);

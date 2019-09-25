@@ -52,7 +52,9 @@
                 "Custom Context Menu": false,
                 "AccountChanger": true
             },
-            "themes": {}
+            "themes": {
+                "BackgroundChanger Theme": false
+            }
         },
         "canary": {},
         "ptb": {}
