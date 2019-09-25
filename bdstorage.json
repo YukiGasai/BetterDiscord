@@ -49,7 +49,8 @@
                 "Shortcut": true,
                 "CleanUp": true,
                 "Markdown": true,
-                "Custom Context Menu": false
+                "Custom Context Menu": false,
+                "AccountChanger": true
             },
             "themes": {
                 "BackgroundChanger Theme": false
