@@ -75,7 +75,7 @@ class CleanUp{
 		readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json",function(text){
 			settings = JSON.parse(text);
 			settings.Servers.forEach(Server => {
-                console.log(Server.Name);
+             
 			});
 		});
 
@@ -90,7 +90,7 @@ class CleanUp{
                     if(secbool)secbool=false;
                     else secbool = true;
                 }
-                    console.log(secbool);
+                
             });
             document.body.addEventListener("keyup",function(e){keys[e.keyCode] = false;});
          
