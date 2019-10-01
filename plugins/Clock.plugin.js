@@ -84,7 +84,7 @@ class Clock {
 			settings.wakeTime.hour = parseInt(settings.wakeTime.hour,10);
 		});
 
-		var Anzeige = $(".colorStandard-2KCXvj.size14-e6ZScH.usernameContainer-1fp4nu.da-colorStandard.da-size14.da-usernameContainer > .size14-e6ZScH.title-eS5yk3.da-size14.da-title");
+		var Anzeige = $(".colorStandard-2KCXvj.size14-e6ZScH.usernameContainer-1fp4nu.da-colorStandard.da-size14.da-usernameContainer").children(".size14-e6ZScH.title-eS5yk3.da-size14.da-title");
 		var Ort = $(".nameTag-3uD-yy.da-nameTag > .size10-tblYdA.subtext-3CDbHg.da-size10.da-subtext");
 		var wahl = 1;
 		$(Ort).html(settings.locations[wahl].Name);
@@ -93,7 +93,7 @@ class Clock {
 			if($(Anzeige).length && !$(Anzeige).hasClass("added")){
 				$(Anzeige).addClass("added");
 
-				let e =	document.getElementsByClassName("added");
+				let e =	$(Anzeige);
 				e[0].addEventListener("mousewheel", function(){
 			
 					var e = window.event || e;
@@ -105,7 +105,7 @@ class Clock {
 					$(Ort).html(settings.locations[wahl].Name);
 					
 					});
-				 $(".added").click(function(){
+				 $(Anzeige).click(function(){
 					if($(".ClockSettings").length){
 						$(".ClockSettings").remove();
 					}else{

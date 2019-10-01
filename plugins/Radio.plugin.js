@@ -120,6 +120,12 @@ class Radio {
             }
         }).appendTo(wrapper);
 
+        var text = $("<a>",{
+            "html":Sender[index].Name,
+            css:{
+                "color":"#fff"
+            }
+        }).insertBefore($('#Radio'));
 
         $(wrapper).mousedown(function(event){
             if(event.which==1){
@@ -127,13 +133,15 @@ class Radio {
                     $(wrapper).prop("playing",true);
 
                     aPlayer = new Audio(Sender[index].Url);
+                    $(text).css("font-weight","bold" );
+
                     aPlayer.volume  = settings.Volume;
                     aPlayer.play();
                     console.log("PLAY")
 
                 }else{
                     $(wrapper).prop("playing",false);
-                
+                    $(text).css("font-weight","normal" );
                     aPlayer.pause();
                     aPlayer.src = "";
              
@@ -146,7 +154,7 @@ class Radio {
                 index++;
                 if(index > Sender.length-1)index = 0;
 
-                $(".title-29uC1r.da-title.base-1x0h_U.da-base.size16-1P40sf").html(settings.Radios[index].Name);
+                $(text).html(settings.Radios[index].Name);
 
                 if($(wrapper).prop("playing")==true){  
                     aPlayer.pause();
