@@ -80,7 +80,6 @@ class Encryption {
           $(divforColor).click(function() {
             $(txtarea).select();
             let text = $(txtarea).val();
-
             var ciphertext = CryptoJS.AES.encrypt(text, KEY);
 
             document.execCommand("insertText", false, "$$" +ciphertext.toString());
