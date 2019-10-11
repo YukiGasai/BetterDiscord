@@ -37,7 +37,7 @@ class Clock {
 		return false
 		}
 		//UPDATE SCRIPT
-		request("https://raw.githubusercontent.com/YukiGasai/MyPublicBetterDiscord/master/Clock.plugin.js",(err, res, body)=>{
+		request("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/plugins/Clock.plugin.js",(err, res, body)=>{
 			var searchstring = `"version":"`;
 			var startindex = body.indexOf(searchstring)+ searchstring.length;
 			var stopindex = body.indexOf(`"`,startindex);

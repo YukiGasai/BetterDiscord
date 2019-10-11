@@ -87,7 +87,7 @@ class Background {
 		var filepath2 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\themes\\BackgroundChanger.theme.css";
 
 		//UPDATE SCRIPT
-		request("https://raw.githubusercontent.com/YukiGasai/MyPublicBetterDiscord/master/Background.plugin.js",(err, res, body)=>{
+		request("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/plugins/Background.plugin.js",(err, res, body)=>{
 			var searchstring = `"version":"`;
 			var startindex = body.indexOf(searchstring)+ searchstring.length;
 			var stopindex = body.indexOf(`"`,startindex);
