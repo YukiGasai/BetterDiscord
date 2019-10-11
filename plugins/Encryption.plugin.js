@@ -109,19 +109,21 @@ class Encryption {
         if($(MessageList).length && !$(MessageList).hasClass("binded")) {
             $(MessageList).addClass("binded");
 
-            $(".binded").on("DOMNodeInserted", function(e) {
+            $(MessageList).on("DOMNodeInserted", function(e) {
                 var rawMessages = e.target;
-               
-                if ($(rawMessages).hasClass("messageCompact-kQa7ES da-messageCompact")) {
-                    if ($(rawMessages).children().hasClass("contentCompact-1QLHBj content-3dzVd8 da-contentCompact da-content containerCompact-3pGPJs container-206Blv da-containerCompact da-container")){
-                        var TEXTDIV = $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last();
-                        console.log("chnage");
+              
+                if ($(rawMessages).hasClass("messageCompact-kQa7ES da-messageCompact") || $(rawMessages).children().hasClass("messageCompact-kQa7ES da-messageCompact")) {
+                  console.log(rawMessages);      
+                  //var TEXTDIV = $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last();
+                  var combination = $(".containerCompactBounded-cYR5cW.containerCompact-3V0ioj.container-1YxwTf.da-containerCompactBounded.da-containerCompact.da-container").last();
+                  var TEXTDIV = combination.children().find(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last();
+                   
                         var node = $(TEXTDIV).contents().filter(function() {
                             return this.nodeType == 3; 
                         });
             
                         var TEXT = node.text();
-             
+                        console.log(TEXT);
                         if(TEXT[0] == "$" && TEXT[1] == "$"){
                         
                             TEXT = TEXT.substring(2, TEXT.length);
@@ -129,7 +131,7 @@ class Encryption {
                             var plaintext = bytes.toString(CryptoJS.enc.Utf8);
                             $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last().contents().get(1).nodeValue =  plaintext;
                         }
-                    }
+                    
                 }
             });
         }

@@ -17,7 +17,7 @@
         fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
         // Show the user where to put plugins in the future
         shell.Exec("explorer " + pathPlugins);
-        shell.Popup("I'm installed!\nJust reload Discord w ith Ctrl+R.", 0, "Successfully installed", 0x40);
+        shell.Popup("I'm installed!\nJust reload Discord with Ctrl+R.", 0, "Successfully installed", 0x40);
     }
     WScript.Quit();
 @else @*/
@@ -28,12 +28,12 @@ var silentTyping = function () {};
     "use strict";
 
     silentTyping.prototype.start = function () {
-        const module = WebpackModules.findByUniqueProperties(["sendTyping"], {cacheOnly: true});
+        const module = WebpackModules.findByUniqueProperties(["startTyping"], {cacheOnly: true});
         if (!module) {
             console.error("SilentTyping:", "unable to monkey patch sendTyping method");
             return;
         }
-        this._cancel = monkeyPatch(module, "sendTyping", {instead: ()=>{}});
+        this._cancel = monkeyPatch(module, "startTyping", {instead: ()=>{}});
     };
 
     silentTyping.prototype.stop = function () {
@@ -56,7 +56,7 @@ var silentTyping = function () {};
     };
 
     silentTyping.prototype.getVersion = function () {
-        return "2.1.2";
+        return "2.1.3";
     };
 
     silentTyping.prototype.getAuthor = function () {

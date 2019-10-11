@@ -1,4 +1,4 @@
-//META{"name":"Background","version":"1.2.3"}*//
+//META{"name":"Background","version":"1.2.5"}*//
 
 
 /*
@@ -18,19 +18,36 @@ body{opacity:1!important;background:url(https://i.imgur.com/AA0Ld8g.jpg)}div[cla
 .headerPlaying-j0WQBV, .headerStreaming-2FjmGz {
     background: rgba(61, 61, 61, 0.57);
 }
+
+	#app-mount .headerNormal-T_seeN,
+	#app-mount .body-3iLsc4, 
+	#app-mount .bodyInner-245q0L, 
+	.app-2rEoOp,
+	.bg-h5JY_x ,
+	#app-mount .footer-1fjuF6 {
+		background-color: transparent;
+	}
+	
+
+
+
 `;
 class Background {
 	constructor() {
 	}
 	getSettingsPanel() {
-		return "<h3>Click on the button \"set Img\" to CHANGE settings </h3>";
+		return `<div>
+		<button>TEST</button>
+		<h3>Click on the button \"set Img\" to CHANGE settings </h3>
+		
+		</div>`;
 	};
 
 	getName() { return "Background"; }
 
 	getDescription() { return "Background"; }
 
-	getVersion() { return "1.2.3"; }
+	getVersion() { return "1.2.5"; }
 
 	getAuthor() { return "L7Yuki Gasai"; }
 
