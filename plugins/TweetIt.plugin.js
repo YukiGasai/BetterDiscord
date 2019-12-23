@@ -46,11 +46,11 @@ class TweetIt {
 
 	start () {
 		
-		var chatbox = $(".buttons-205you.da-buttons");
+		var chatbox = $(".buttons-3JBrkn.da-buttons");
 
 		function createButtonT(){
 
-			if($(".buttons-205you.da-buttons").length&& !$("#TwitterButtonOutside").length){
+			if(chatbox.length&& !$("#TwitterButtonOutside").length){
 
 			var TwitterButtonOutside = $("<div>", {
 				'id':"TwitterButtonOutside",
@@ -65,7 +65,7 @@ class TweetIt {
 					"text-align":"center"
 					
 				}
-			}).appendTo($(".buttons-205you.da-buttons"));
+			}).appendTo(chatbox);
 
 			var TwitterButtonInside = $("<div>", {
 				'id':"TwitterButtonInside",
@@ -123,7 +123,7 @@ class TweetIt {
 
 	function createButtonG(){
 
-		if($(".buttons-205you.da-buttons").length && !$("#GoogleButtonOutside").length){
+		if(chatbox.length && !$("#GoogleButtonOutside").length){
 
 		var GoogleButtonOutside = $("<div>", {
 			'id':"GoogleButtonOutside",
@@ -138,7 +138,7 @@ class TweetIt {
 				"text-align":"center"
 				
 			}
-		}).appendTo($(".buttons-205you.da-buttons"));
+		}).appendTo(chatbox);
 
 		var GoogleButtonInside = $("<div>", {
 			'id':"GoogleButtonInside",

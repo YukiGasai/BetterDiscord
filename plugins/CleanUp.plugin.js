@@ -86,7 +86,8 @@ class CleanUp{
             serverlist.addClass("added");
             document.body.addEventListener("keydown",function(e){
                 keys[e.keyCode] = true; 
-                if (keys[17] && keys[16] && keys[190]) {
+                if (keys[190]) {
+                    console.log("IT happend")
                     if(secbool)secbool=false;
                     else secbool = true;
                 }
@@ -133,13 +134,13 @@ class CleanUp{
        
         if(secbool){
             for(var i = 0; i < settings.Servers.length; i++){
-                if(!$("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().parent().parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().parent().parent().hide();
+                if(!$("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().is(":hidden"))
+                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().hide();
             }
         }else{
             for(var i = 0; i < settings.Servers.length; i++){
-                if($("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().parent().parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().parent().parent().show();
+                if($("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().is(":hidden"))
+                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().show();
             }
         }
 

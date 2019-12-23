@@ -371,6 +371,7 @@ class Shortcut {
                                 if (exists) {
                                     startexe(exepath);
                                 }else{
+                                    console.log(exepath)
                                     alert(`The selected Path for  ${settings.Programs[inde].Name} is not valid`)
                                 }
                             })

@@ -97,7 +97,7 @@ class Radio {
             "tabindex":"0",
             "id":"Radio",
             "class":"iconWrapper-2OrFZ1 clickable-3rdHwn da-iconWrapper da-clickable",    
-            "playing":false,
+            "playing":true,
             "role":"button",
             "aria-label":Sender[index].Name,
      
