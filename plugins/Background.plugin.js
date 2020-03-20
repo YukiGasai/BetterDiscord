@@ -1,4 +1,4 @@
-//META{"name":"Background","version":"1.2.5"}*//
+//META{"name":"Background","version":"1.2.7"}*//
 
 
 /*
@@ -36,6 +36,16 @@ body{opacity:1!important;
 	
 	.scrollableContainer-2NUZem{
 	background-color: rgba(64, 68, 75, 0.45);
+
+    .container-1D34oG {
+		background-color: #ffffff00;
+	}
+
+	.nowPlayingColumn-2sl4cE {
+		background: #ffffff00;
+	}
+
+	
 }
 
 
