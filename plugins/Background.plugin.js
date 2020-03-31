@@ -66,7 +66,7 @@ class Background {
 
 	getDescription() { return "Background"; }
 
-	getVersion() { return "1.2.5"; }
+	getVersion() { return "1.2.7"; }
 
 	getAuthor() { return "L7Yuki Gasai"; }
 
