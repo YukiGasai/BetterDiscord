@@ -1,4 +1,4 @@
-//META{"name":"Shortcut","version":"1.0.4"}*//
+//META{"name":"Shortcut","version":"1.0.7"}*//
 
 class Shortcut {
     constructor() { }
@@ -7,7 +7,7 @@ class Shortcut {
 
     getDescription() { return "Creates Shortcuts to start Programs"; }
 
-    getVersion() { return "1.0.4"; }
+    getVersion() { return "1.0.7"; }
 
     getAuthor() { return "L7Yuki Gasai"; }
 

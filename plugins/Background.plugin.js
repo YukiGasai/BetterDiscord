@@ -36,6 +36,7 @@ body{opacity:1!important;
 	
 	.scrollableContainer-2NUZem{
 	background-color: rgba(64, 68, 75, 0.45);
+	}
 
     .container-1D34oG {
 		background-color: #ffffff00;
@@ -44,9 +45,11 @@ body{opacity:1!important;
 	.nowPlayingColumn-2sl4cE {
 		background: #ffffff00;
 	}
-
 	
-}
+	.theme-dark .container-1D34oG {
+		background-color: #ffffff00;
+	}
+
 
 
 

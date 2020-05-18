@@ -54,7 +54,8 @@ class CleanUp{
     start(){
         var fs = require('fs');
         var settings;
-        var serverlist = $(".scroller-2FKFPG.firefoxFixScrollFlex-cnI2ix.systemPad-3UxEGl.scroller-2TZvBN.da-scroller.da-firefoxFixScrollFlex.da-systemPad");
+       
+        var serverlist = document.querySelector('[aria-label="Server"]');
         var servers = $(".listItem-2P_4kh.da-listItem");
         var keys = [];
         var secbool = true;
@@ -81,11 +82,13 @@ class CleanUp{
 
 
     function erstellen (){
-       
-        if(serverlist.length && !serverlist.hasClass("added")){
-            serverlist.addClass("added");
-            document.body.addEventListener("keydown",function(e){
+  
+        if($(serverlist).length && !    serverlist.classList.contains("added")){
+            serverlist.classList.add("added");
+            console.log("added");
+            document.addEventListener("keydown",function(e){
                 keys[e.keyCode] = true; 
+                // . KEY
                 if (keys[190]) {
                     console.log("IT happend")
                     if(secbool)secbool=false;
@@ -93,12 +96,12 @@ class CleanUp{
                 }
                 
             });
-            document.body.addEventListener("keyup",function(e){keys[e.keyCode] = false;});
+            document.addEventListener("keyup",function(e){keys[e.keyCode] = false;});
          
                 
             servers.each(function(index){
                         
-                $(this).mousedown(function(){
+                $(this).mousedown(function(e){
                     var Name =  $(this).find(".wrapper-1BJsBx.da-wrapper").attr("aria-label");
                     var found = false;
                     for(var i = 0; i < settings.Servers.length; i++) {
@@ -107,22 +110,19 @@ class CleanUp{
                             break;
                         }
                     }
-                    if(keys[46]){               
-                       if(found == false){
+                    //Midddle Mouse 
+                    if(e.which === 2){        
+                        if(found){
+                            console.log(Name + " wurde entfernt")
+                                var index = settings.Servers.indexOf({"Name": Name});
+                                settings.Servers.splice(index,1);
+                                var jsonObj = JSON.stringify(settings);
+                                saveTextFile(jsonObj,"\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json")
+                           }else{
                             console.log(Name + " wurde hinzugefügt")
                             settings.Servers.push({
                                 "Name": Name
                             });
-                            var jsonObj = JSON.stringify(settings);
-                            saveTextFile(jsonObj,"\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json")
-                       }
-                    }
-                    if(keys[27]){
-                 
-                       if(found){
-                        console.log(Name + " wurde entfernt")
-                            var index = settings.Servers.indexOf({"Name": Name});
-                            settings.Servers.splice(index,1);
                             var jsonObj = JSON.stringify(settings);
                             saveTextFile(jsonObj,"\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json")
                        }
@@ -134,13 +134,13 @@ class CleanUp{
        
         if(secbool){
             for(var i = 0; i < settings.Servers.length; i++){
-                if(!$("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().hide();
+                if(!$("[aria-label*='"+settings.Servers[i].Name+"']").parent().is(":hidden"))
+                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().hide();
             }
         }else{
             for(var i = 0; i < settings.Servers.length; i++){
-                if($("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().parent().parent().show();
+                if($("[aria-label*='"+settings.Servers[i].Name+"']").parent().is(":hidden"))
+                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().show();
             }
         }
 

@@ -13,7 +13,7 @@ class BlackList {
     load () {}
     
     start () {
-        console.log("EE");
+
         var fs = require('fs');
         var settings;
     
@@ -33,8 +33,6 @@ class BlackList {
     
         readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\BlackList.config.json",function(text){
             settings = JSON.parse(text);
-            console.log("BlackList");
-            console.log(settings);
         });
         
 function checkForClear(){
@@ -42,7 +40,6 @@ function checkForClear(){
         $( ".username-2b1r56.da-username.username-31C1TQ.da-username" ).each(function( index ) {
             for(var i = 0; i < settings.People.length; i++){
                 if($( this ).text()==settings.People[i].Name){
-                    console.log( index + ": " + $( this ).text() );
                     $( this ).parent().parent().parent().parent().parent().hide() 
                 }
             }
@@ -51,7 +48,6 @@ function checkForClear(){
         $( ".name-uJV0GL.da-name" ).each(function( index ) {
             for(var i = 0; i < settings.People.length; i++){
                 if($( this ).text()==settings.People[i].Name){
-                    console.log( index + ": " + $( this ).text() );
                     $( this ).parent().parent().parent().parent().hide() 
                 }
             }
@@ -61,22 +57,30 @@ function checkForClear(){
             
             for(var i = 0; i < settings.People.length; i++){
                 if($( this ).text()==settings.People[i].Name){
-                    console.log( index + ": " + $( this ).text() );
                     $( this ).parent().parent().parent().parent().hide();
                 }
             }
             
             var childs = $(this).children(); 
             for (var k = 0; k < childs.length; k++){
-                console.log(childs[k]);
                 for(var i = 0; i < settings.People.length; i++){
                     if($(childs[k]).text()==settings.People[i].Name){
-                        console.log( index + " YEEER " + $(childs[k]).text() );
                         $(this).parent().parent().parent().parent().hide() ;
                     }
                 }
             }
         });
+		
+		
+		
+		
+		//$(".scroller-2FKFPG.da-scroller.systemPad-3UxEGl.da-systemPad.scroller-2TZvBN.da-scroller").show();
+		
+		
+		
+		
+		
+		
         setTimeout(checkForClear, 1000);
     }
 
