@@ -1,4 +1,4 @@
-//META{"name":"Background","version":"1.4.7"}*//
+//META{"name":"Background","version":"1.5.7"}*//
 
 
 /*
@@ -50,7 +50,59 @@ body{opacity:1!important;
 		background-color: #ffffff00;
 	}
 
+	.wrapper-2qzCYF {
 
+		background-color: #18191c00;
+	}
+	
+	.videoGridWrapper-3Hph3U {
+		background-color: #0000;
+	}
+	
+	.scroller-2TZvBN {
+		background-color: #20222500;
+	}
+	
+	.scroller-1JbKMe {
+		background-color: #20222500;
+	}
+	
+	.expandedFolderBackground-2sPsd- {
+	  background-color: #2f3136a8;
+	}
+	.emptyCard-1RJw8n {
+		background: #20222500;
+	}
+	
+	.members-1998pB, .members-1998pB>div {
+		background-color: #20222500;
+	}
+	
+	.contentRegionScroller-26nc1e {
+		background-color: #36393f00;
+	}
+	
+	.sidebarRegionScroller-3MXcoP {
+		background: #36393f00;
+	}
+	
+	
+	
+	#app-mount:before {
+	 background:#36393f00;
+	}
+	
+	#app-mount .botTagRegular-2HEhHi {
+	  background: #36393f00;
+	 
+	  margin-top: 0;
+	}
+	
+	
+	
+	[aria-label="Send a gift"] {
+		display: none;
+	}
 
 
 `;
@@ -69,7 +121,7 @@ class Background {
 
 	getDescription() { return "Background"; }
 
-	getVersion() { return "1.4.7"; }
+	getVersion() { return "1.5.7"; }
 
 	getAuthor() { return "L7Yuki Gasai"; }
 
@@ -125,7 +177,7 @@ class Background {
 			filepath2 = os.homedir() + "\\AppData\\Roaming\\BetterDiscord\\themes\\BackgroundChanger.theme.css";
 		}else if(bs == 'linux'){
 			jspath    = os.homedir() + "/.config/BetterDiscord/plugins/Background.plugin.js";
-			filepath1 = os.homedir() + "/.config/Roaming/BetterDiscord/plugins/Background.config.json";
+			filepath1 = os.homedir() + "onfig/Roaming/BetterDiscord/plugins/Background.config.json";
 			filepath2 = os.homedir() + "/.config/Roaming/BetterDiscord/themes/BackgroundChanger.theme.css";
 		}
 		//UPDATE SCRIPT
