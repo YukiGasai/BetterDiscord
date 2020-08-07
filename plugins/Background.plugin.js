@@ -1,4 +1,4 @@
-//META{"name":"Background","version":"1.2.7"}*//
+//META{"name":"Background","version":"1.4.7"}*//
 
 
 /*
@@ -69,7 +69,7 @@ class Background {
 
 	getDescription() { return "Background"; }
 
-	getVersion() { return "1.2.7"; }
+	getVersion() { return "1.4.7"; }
 
 	getAuthor() { return "L7Yuki Gasai"; }
 
