@@ -1,28 +1,40 @@
 //META{"name":"ReadAllNotificationsButton","authorId":"278543574059057154","invite":"Jx3TjNS","donate":"https://www.paypal.me/MircoWittrien","patreon":"https://www.patreon.com/MircoWittrien","website":"https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/ReadAllNotificationsButton","source":"https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/ReadAllNotificationsButton/ReadAllNotificationsButton.plugin.js"}*//
 
 var ReadAllNotificationsButton = (_ => {
-	var blacklist;
+	var blacklist, clearing;
+	var settings = {};
 	
 	return class ReadAllNotificationsButton {
 		getName () {return "ReadAllNotificationsButton";}
 
-		getVersion () {return "1.5.7";}
+		getVersion () {return "1.6.0";}
 
 		getAuthor () {return "DevilBro";}
 
 		getDescription () {return "Adds a button to clear all notifications.";}
 
 		constructor () {
+			this.changelog = {
+				"fixed":[["Context Menu Update","Fixes for the context menu update, yaaaaaay"]]
+			};
+			
 			this.patchedModules = {
 				after: {
 					Guilds: "render",
-					MessagesPopout: "render"
+					MessagesPopout: "render",
+					RecentsHeader: "default"
 				}
 			};
 		}
 
 		initConstructor () {
 			this.css = `
+				${BDFDB.dotCN.messagespopouttabbar} {
+					flex: 1 0 auto;
+				}
+				${BDFDB.dotCN.messagespopouttabbar} ~ * {
+					margin-left: 10px;
+				}
 				${BDFDB.dotCN._readallnotificationsbuttonframe} {
 					margin-bottom: 10px;
 				}
@@ -34,6 +46,7 @@ var ReadAllNotificationsButton = (_ => {
 					border-radius: 4px;
 					font-size: 12px;
 					line-height: 1.3;
+					white-space: nowrap;
 				}
 			`;
 
@@ -115,7 +128,7 @@ var ReadAllNotificationsButton = (_ => {
 			return settingsPanel = BDFDB.PluginUtils.createSettingsPanel(this, settingsItems);
 		}
 
-		//legacy
+		// Legacy
 		load () {}
 
 		start () {
@@ -147,7 +160,7 @@ var ReadAllNotificationsButton = (_ => {
 				let loadedBlacklist = BDFDB.DataUtils.load(this, "blacklist");
 				this.saveBlacklist(!BDFDB.ArrayUtils.is(loadedBlacklist) ? [] : loadedBlacklist);
 
-				BDFDB.ModuleUtils.forceAllUpdates(this);
+				this.forceUpdateAll();
 			}
 			else console.error(`%c[${this.getName()}]%c`, "color: #3a71c1; font-weight: 700;", "", "Fatal Error: Could not load BD functions!");
 		}
@@ -156,33 +169,41 @@ var ReadAllNotificationsButton = (_ => {
 			if (window.BDFDB && typeof BDFDB === "object" && BDFDB.loaded) {
 				this.stopping = true;
 
-				BDFDB.ModuleUtils.forceAllUpdates(this);
+				this.forceUpdateAll();
 				
 				BDFDB.PluginUtils.clear(this);
 			}
 		}
 
 
-		// begin of own functions
+		// Begin of own functions
+
+		onSettingsClosed () {
+			if (this.SettingsUpdated) {
+				delete this.SettingsUpdated;
+				this.forceUpdateAll();
+			}
+		}
 
 		onUserContextMenu (e) {
-			if (e.instance.props.channelId && e.instance.props.type == BDFDB.DiscordConstants.ContextMenuTypes.USER_PRIVATE_CHANNELS) {
-				let [children, index] = BDFDB.ReactUtils.findChildren(e.returnvalue, {name: BDFDB.LibraryComponents.ContextMenuItems.Group});
-				if (index > -1) this.injectItem(children, e.instance.props.channelId);
+			if (e.instance.props.channel && e.type == "DMUserContextMenu") {
+				let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: BDFDB.LibraryComponents.MenuItems.MenuGroup});
+				if (index > -1) this.injectItem(children, e.instance.props.channel.id);
 			}
 		}
 
 		onGroupDMContextMenu (e) {
-			if (e.instance.props.channelId) {
-				let [children, index] = BDFDB.ReactUtils.findChildren(e.returnvalue, {name: BDFDB.LibraryComponents.ContextMenuItems.Group});
-				if (index > -1) this.injectItem(children, e.instance.props.channelId);
+			if (e.instance.props.channel) {
+				let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: BDFDB.LibraryComponents.MenuItems.MenuGroup});
+				if (index > -1) this.injectItem(children, e.instance.props.channel.id);
 			}
 		}
 		
 		injectItem (children, channelId) {
-			children.unshift(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Group, {
-				children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+			children.unshift(BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuGroup, {
+				children: BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 					label: BDFDB.LanguageUtils.LanguageStrings.MARK_AS_READ,
+					id: "mark-dm-read",
 					disabled: !BDFDB.LibraryModules.DirectMessageUnreadStore.getUnreadPrivateChannelIds().includes(channelId),
 					action: event => {
 						BDFDB.ContextMenuUtils.close(event.target);
@@ -193,7 +214,7 @@ var ReadAllNotificationsButton = (_ => {
 		}
 		
 		processGuilds (e) {
-			let [children, index] = BDFDB.ReactUtils.findChildren(e.returnvalue, {name: "ConnectedUnreadDMs"});
+			let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: "ConnectedUnreadDMs"});
 			if (index > -1) children.splice(index + 1, 0, BDFDB.ReactUtils.createElement("div", {
 				className: BDFDB.disCNS.guildouter + BDFDB.disCN._readallnotificationsbuttonframe,
 				style: {height: 20},
@@ -205,7 +226,7 @@ var ReadAllNotificationsButton = (_ => {
 						style: {height: 20},
 						children: "read all",
 						onClick: _ => {
-							let settings = BDFDB.DataUtils.get(this, "settings"), clear = _ => {
+							let clear = _ => {
 								if (settings.includeGuilds) this.markGuildsAsRead(settings.includeMuted ? BDFDB.GuildUtils.getAll() : BDFDB.GuildUtils.getUnread());
 								if (settings.includeDMs) BDFDB.DMUtils.markAsRead(BDFDB.DMUtils.getAll());
 							};
@@ -213,39 +234,44 @@ var ReadAllNotificationsButton = (_ => {
 							else BDFDB.ModalUtils.confirm(this, `Are you sure you want to mark all Notifications as read?`, clear);
 						},
 						onContextMenu: event => {
-							BDFDB.ContextMenuUtils.open(this, event, BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Group, {
+							BDFDB.ContextMenuUtils.open(this, event, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuGroup, {
 								children: [
-									BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+									BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 										label: this.labels.context_unreadguilds_text,
+										id: BDFDB.ContextMenuUtils.createItemId(this.name, "mark-unread-read"),
 										action: event2 => {
 											BDFDB.ContextMenuUtils.close(event2._targetInst);
 											this.markGuildsAsRead(BDFDB.GuildUtils.getUnread());
 										}
 									}),
-									BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+									BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 										label: this.labels.context_pingedguilds_text,
+										id: BDFDB.ContextMenuUtils.createItemId(this.name, "mark-pinged-read"),
 										action: event2 => {
 											BDFDB.ContextMenuUtils.close(event2._targetInst);
 											this.markGuildsAsRead(BDFDB.GuildUtils.getPinged());
 										}
 									}),
-									BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+									BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 										label: this.labels.context_mutedguilds_text,
+										id: BDFDB.ContextMenuUtils.createItemId(this.name, "mark-muted-read"),
 										action: event2 => {
 											BDFDB.ContextMenuUtils.close(event2._targetInst);
 											this.markGuildsAsRead(BDFDB.GuildUtils.getMuted());
 										}
 									}),
-									BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+									BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 										label: this.labels.context_guilds_text,
+										id: BDFDB.ContextMenuUtils.createItemId(this.name, "mark-all-read"),
 										action: event2 => {
 											BDFDB.ContextMenuUtils.close(event2._targetInst);
 											this.addPinnedRecent(instance.props.channel.id);
 											this.markGuildsAsRead(BDFDB.GuildUtils.getAll());
 										}
 									}),
-									BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ContextMenuItems.Item, {
+									BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 										label: this.labels.context_dms_text,
+										id: BDFDB.ContextMenuUtils.createItemId(this.name, "mark-dms-read"),
 										action: event2 => {
 											BDFDB.ContextMenuUtils.close(event2._targetInst);
 											BDFDB.DMUtils.markAsRead(BDFDB.DMUtils.getAll());
@@ -260,39 +286,46 @@ var ReadAllNotificationsButton = (_ => {
 		}
 
 		processMessagesPopout (e) {
-			if (e.instance.props.className == BDFDB.disCN.recentmentionspopout && BDFDB.DataUtils.get(this, "settings", "addClearButton")) {
-				let [children, index] = BDFDB.ReactUtils.findChildren(e.returnvalue, {name: "RecentMentionsHeader"});
-				if (index > -1) children.splice(index, 0, BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Button, {
-					look: BDFDB.LibraryComponents.Button.Looks.OUTLINED,
-					color: BDFDB.LibraryComponents.Button.Colors.GREY,
-					hover: BDFDB.LibraryComponents.Button.Hovers.RED,
-					size: BDFDB.LibraryComponents.Button.Sizes.MIN,
-					children: BDFDB.LanguageUtils.LanguageStrings.REMOVE,
-					onClick: (event, buttoninstance) => {
-						let clear = _ => {
-							this.clearMentions(e.instance, BDFDB.DOMUtils.getParent(BDFDB.dotCN.messagespopoutwrap, BDFDB.ReactUtils.findDOMNode(buttoninstance)));
-						};
-						if (!BDFDB.DataUtils.get(this, "settings", "confirmClear")) clear();
-						else BDFDB.ModalUtils.confirm(this, `Are you sure you want to mark all Mentions as read?`, clear);
-					},
-					style: {
-						position: "absolute",
-						top: 14,
-						right: 16,
-						zIndex: 2001
-					}
-				}));
+			if (e.instance.props.className == BDFDB.disCN.recentmentionspopout && e.returnvalue.props.children && e.returnvalue.props.children[0]) {
+				e.returnvalue.props.children[0].props.messages = e.instance.props.messages;
 			}
 		}
 
-		clearMentions (instance, wrapper) {
-			if (!instance || !Node.prototype.isPrototypeOf(wrapper) || !document.contains(wrapper)) return;
-			let closebuttons = wrapper.querySelectorAll(BDFDB.dotCN.messagespopoutclosebutton);
-			for (let btn of closebuttons) btn.click();
-			if (closebuttons.length) {
-				instance.props.loadMore();
-				BDFDB.TimeUtils.timeout(_ => {this.clearMentions(instance, wrapper);},3000);
-			}
+		processRecentsHeader (e) {
+			if (settings.addClearButton && e.instance.props.tab == "Recent Mentions") e.returnvalue.props.children.push(BDFDB.ReactUtils.createElement("div", {
+				children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
+					text: `${BDFDB.LanguageUtils.LanguageStrings.CLOSE} (${BDFDB.LanguageUtils.LanguageStrings.FORM_LABEL_ALL})`,
+					children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Clickable, {
+						className: BDFDB.disCNS.messagespopoutbutton + BDFDB.disCN.messagespopoutbuttonsecondary,
+						children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SvgIcon, {
+							nativeClass: true,
+							name: BDFDB.LibraryComponents.SvgIcon.Names.CLOSE,
+							width: 16,
+							height: 16
+						}),
+						onClick: _ => {
+							let clear = _ => {
+								if (clearing) return BDFDB.NotificationUtils.toast("Already clearing some recent mentions, please wait...", {type: "error"});
+								let messages = [].concat(e.instance.props.messages);
+								if (messages.length) {
+									clearing = true;
+									let toast = BDFDB.NotificationUtils.toast("Clearing all recent mentions, please wait...", {timeout:0});
+									for (let i = 0; i < messages.length; i++) BDFDB.TimeUtils.timeout(_ => {
+										BDFDB.LibraryModules.RecentMentionUtils.deleteRecentMention(messages[i].id);
+										if (i == messages.length - 1) {
+											clearing = false;
+											toast.close();
+											BDFDB.NotificationUtils.toast("Cleared all recent mentions.", {type: "success"});
+										}
+									}, i * 1000);
+								}
+							};
+							if (settings.confirmClear) BDFDB.ModalUtils.confirm(this, `Are you sure you want to mark all mentions as read?`, clear);
+							else clear();
+						}
+					})
+				})
+			}));
 		}
 		
 		markGuildsAsRead (guilds) {
@@ -311,6 +344,12 @@ var ReadAllNotificationsButton = (_ => {
 		saveBlacklist (savedBlacklist) {
 			blacklist = savedBlacklist;
 			BDFDB.DataUtils.save(savedBlacklist, this, "blacklist");
+		}
+		
+		forceUpdateAll () {
+			settings = BDFDB.DataUtils.get(this, "settings");
+			
+			BDFDB.ModuleUtils.forceAllUpdates(this);
 		}
 
 		setLabelsByLanguage () {
