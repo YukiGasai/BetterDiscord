@@ -84,8 +84,8 @@ class Clock {
 			settings.wakeTime.hour = parseInt(settings.wakeTime.hour,10);
 		});
 
-		var Anzeige = $(".colorStandard-2KCXvj.size14-e6ZScH.usernameContainer-1fp4nu.da-colorStandard.da-size14.da-usernameContainer").children(".size14-e6ZScH.title-eS5yk3.da-size14.da-title");
-		var Ort = $(".nameTag-3uD-yy.da-nameTag > .size10-tblYdA.subtext-3CDbHg.da-size10.da-subtext");
+		var Anzeige = $(".size14-e6ZScH.title-eS5yk3.da-title");
+		var Ort = $(".size12-3cLvbJ.subtext-3CDbHg.da-subtext").parent(".size14-e6ZScH.title-eS5yk3.da-title");
 		var wahl = 1;
 		$(Ort).html(settings.locations[wahl].Name);
 		function update (){

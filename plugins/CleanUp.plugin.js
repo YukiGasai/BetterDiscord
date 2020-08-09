@@ -1,4 +1,34 @@
-//META{"name":"CleanUp","version":"1.6.0"}*//
+/**
+ * @name CleanUp
+ * @authorId 262613777357209601
+ * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/CleanUp.plugin.js
+ */
+var keys = [];
+var Serverlist;
+var secbool = true;
+
+   
+function HideServer(){
+    if(secbool){
+        for(var i = 0; i < Serverlist.length; i++){
+            var target = $("[aria-label*='"+Serverlist[i].Name+"']").parent();
+            if(target.parent().parent('.wrapper-25eVIn.da-wrapper').length){
+                console.log("HHHHH");
+                if(!$("[aria-label*='"+Serverlist[i].Name+"']").parent().is(":hidden"))
+                    $("[aria-label*='"+Serverlist[i].Name+"']").parent().hide();
+                   
+            }
+        }
+    }else{
+        for(var i = 0; i < Serverlist.length; i++){
+            var target = $("[aria-label*='"+Serverlist[i].Name+"']").parent();
+            if(target.parent().parent('.wrapper-25eVIn.da-wrapper').length){
+                if($("[aria-label*='"+ Serverlist[i].Name+"']").parent().is(":hidden"))
+                    $("[aria-label*='"+ Serverlist[i].Name+"']").parent().show();
+            }
+        }
+    }
+}
 
 class CleanUp{
 	constructor () {}
@@ -7,145 +37,97 @@ class CleanUp{
 
 	getDescription () {return "CleanUp";}
 
-	getVersion () {return "1.6.0";}
+	getVersion () {return "1.7.0";}
 
 	getAuthor () {return "Yuki Gasai";}
 	
 	//legacy
-    load(){
-        var fs = require('fs');
-        const request = require('request');
-	var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json";
-        var jspath    = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.plugin.js";
-
-        function isNewerVersion (oldVer, newVer) {
-            const oldParts = oldVer.split('.')
-            const newParts = newVer.split('.')
-            for (var i = 0; i < newParts.length; i++) {
-                const a = parseInt(newParts[i]) || 0
-                const b = parseInt(oldParts[i]) || 0
-                if (a > b) return true
-                if (a < b) return false
-            }
-		return false
-		}
-		//UPDATE SCRIPT
-		request("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/plugins/CleanUp.plugin.js",(err, res, body)=>{
-			var searchstring = `"version":"`;
-			var startindex = body.indexOf(searchstring)+ searchstring.length;
-			var stopindex = body.indexOf(`"`,startindex);
-			var version = body.substring(startindex,stopindex);
-			console.log(this.getName() + "---  New Version:" + version+ "\nCurrentVersion:" +this.getVersion());
-			if(isNewerVersion(this.getVersion(),version)){
-				fs.writeFileSync(jspath,body,{encoding:'utf8',flag:'w'})
-			}
-		});
-
-
-
-
-        fs.exists(filepath1, function (exists) {
-			if(!exists){	
-				fs.writeFileSync(filepath1, '{"Servers":[]}', {flag: 'wx'}, function (err, data){}) 
-			}
-		});
-    }
+    load(){}
     
     start(){
-        var fs = require('fs');
-        var settings;
-       
-        var serverlist = document.querySelector('[aria-label="Server"]');
-        var servers = $(".listItem-2P_4kh.da-listItem");
-        var keys = [];
-        var secbool = true;
-        function readTextFile(file, callback) {
-			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
-			callback(fs.readFileSync(filepath));
-		};
-		
-		function saveTextFile (value, file){
-			let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
-			fs.writeFileSync(filepath, value, function(err) {
-				if (err) {
-					console.log(err);
-				}
-			});
-		}
-	
-		readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json",function(text){
-			settings = JSON.parse(text);
-			settings.Servers.forEach(Server => {
-             
-			});
-		});
+        Serverlist = BdApi.loadData("CleanUp","Servers");
+        if(Serverlist == undefined)BdApi.saveData("CleanUp","Serves",[]);
+        Serverlist = BdApi.loadData("CleanUp","Servers");
 
 
-    function erstellen (){
-  
-        if($(serverlist).length && !    serverlist.classList.contains("added")){
-            serverlist.classList.add("added");
-            console.log("added");
-            document.addEventListener("keydown",function(e){
-                keys[e.keyCode] = true; 
-                // . KEY
-                if (keys[190]) {
-                    console.log("IT happend")
-                    if(secbool)secbool=false;
-                    else secbool = true;
-                }
-                
-            });
-            document.addEventListener("keyup",function(e){keys[e.keyCode] = false;});
-         
-                
-            servers.each(function(index){
-                        
-                $(this).mousedown(function(e){
-                    var Name =  $(this).find(".wrapper-1BJsBx.da-wrapper").attr("aria-label");
-                    var found = false;
-                    for(var i = 0; i < settings.Servers.length; i++) {
-                        if (settings.Servers[i].Name == Name) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    //Midddle Mouse 
-                    if(e.which === 2){        
-                        if(found){
-                            console.log(Name + " wurde entfernt")
-                                var index = settings.Servers.indexOf({"Name": Name});
-                                settings.Servers.splice(index,1);
-                                var jsonObj = JSON.stringify(settings);
-                                saveTextFile(jsonObj,"\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json")
-                           }else{
-                            console.log(Name + " wurde hinzugefügt")
-                            settings.Servers.push({
-                                "Name": Name
-                            });
-                            var jsonObj = JSON.stringify(settings);
-                            saveTextFile(jsonObj,"\\AppData\\Roaming\\BetterDiscord\\plugins\\CleanUp.config.json")
-                       }
+        function checkFlag() {
+            if($('.listItem-2P_4kh.da-listItem').length) {
+                $(document).off('mousedown').on("keydown",function(e){
+                    keys[e.keyCode] = true; 
+                    // . KEY
+                    if (keys[190]) {
+                        console.log("IT happend")
+                        if(secbool)secbool=false;
+                        else secbool = true;
+                        HideServer();
                     }
                 });
-
-            });
+                $(document).off('mousedown').on("keyup",function(e){keys[e.keyCode] = false;});
+               HideServer();
+            }
         }
+        window.setTimeout(checkFlag, 1000);   
        
-        if(secbool){
-            for(var i = 0; i < settings.Servers.length; i++){
-                if(!$("[aria-label*='"+settings.Servers[i].Name+"']").parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().hide();
+    }
+
+    onSwitch(){
+       
+
+        var Serverdiv = $(".scroller-2TZvBN.da-scroller.none-2Eo-qx.scrollerBase-289Jih").find("[aria-controls='Servers']");
+
+        var servers = $(".listItem-2P_4kh.da-listItem");
+        
+        servers.each(function(index){
+
+            if(index > 3){
+         
+        
+            console.log("ADDED")
+            $(this).off('mousedown').on('mousedown', function(e){
+                var Name =  $(this).find(".wrapper-1BJsBx.da-wrapper").attr("aria-label");
+                var found = false;
+                for(var i = 0; i < Serverlist.length; i++) {
+                    if (Serverlist[i].Name == Name) {
+                        found = true;
+                        break;
+                    }
+                }
+                //Midddle Mouse 
+                if(e.which === 2){ 
+                    e.preventDefault();
+                    if(found){
+                        BdApi.showConfirmationModal("Show Server "+Name,[],{
+                            danger: true,
+                            confirmText: "Yes",
+                            cancelText: "No",
+                            onConfirm :()=>{
+                                var index = Serverlist.indexOf({"Name": Name});
+                                Serverlist.splice(index,1);
+                                BdApi.saveData("CleanUp","Servers",Serverlist);
+                            }
+                        });   
+                    }else{
+                        BdApi.showConfirmationModal("Hide Server "+Name,[],{
+                        danger: true,
+                        confirmText: "Yes",
+                        cancelText: "No",
+                        onConfirm :()=>{
+                                Serverlist.push({"Name": Name});
+                                BdApi.saveData("CleanUp","Servers",Serverlist);
+                            }
+                        });  
+                    }
+                    HideServer();
+                }
+            });
             }
-        }else{
-            for(var i = 0; i < settings.Servers.length; i++){
-                if($("[aria-label*='"+settings.Servers[i].Name+"']").parent().is(":hidden"))
-                $("[aria-label*='"+settings.Servers[i].Name+"']").parent().show();
-            }
-        }
+        });
+       
+        
+        HideServer();
 
         var d =  $('.membersGroup-v9BXpm.da-membersGroup').last().html();
-        if($('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().is(":visible") && d.indexOf("Offline") >= 0){
+        if($('.membersGroup-v9BXpm.da-membersGroup').last().nextAll() && d.indexOf("Offline") >= 0){
             $('.membersGroup-v9BXpm.da-membersGroup').last().nextAll().hide();
         }
 
@@ -154,14 +136,9 @@ class CleanUp{
             $(ServerError).hide();
             console.log("Hide Server Error")
         } 
-
-
     }
-
-
-        setInterval(erstellen,1000);
-
-    }
-
+    
     stop(){}
+
+    observer(changes) {}
 }
