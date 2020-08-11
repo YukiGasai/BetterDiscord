@@ -13,7 +13,7 @@ function HideServer(){
         for(var i = 0; i < Serverlist.length; i++){
             var target = $("[aria-label*='"+Serverlist[i].Name+"']").parent();
             if(target.parent().parent('.wrapper-25eVIn.da-wrapper').length){
-                console.log("HHHHH");
+
                 if(!$("[aria-label*='"+Serverlist[i].Name+"']").parent().is(":hidden"))
                     $("[aria-label*='"+Serverlist[i].Name+"']").parent().hide();
                    
@@ -80,9 +80,7 @@ class CleanUp{
         servers.each(function(index){
 
             if(index > 3){
-         
-        
-            console.log("ADDED")
+
             $(this).off('mousedown').on('mousedown', function(e){
                 var Name =  $(this).find(".wrapper-1BJsBx.da-wrapper").attr("aria-label");
                 var found = false;
