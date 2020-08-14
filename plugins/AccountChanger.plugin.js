@@ -70,7 +70,7 @@ class AccountChanger {
             setTimeout(() => {
             location.reload();
             }, 2500);
-            }
+        }
         
         var iframe = document.createElement('iframe');
         iframe.onload = function(){
