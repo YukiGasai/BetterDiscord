@@ -4,9 +4,6 @@
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
  */
 
-const { settings } = require('cluster');
-
-
 var ThemeSettings = {
 	Images : [],
 	Time : 1000,
@@ -21,9 +18,7 @@ module.exports = class Background {
 	}
 	getSettingsPanel() {
 		return `<div>
-		<button>TEST</button>
 		<h3>Click on the button \"set Img\" to CHANGE settings </h3>
-		
 		</div>`;
 	};
 
@@ -41,31 +36,55 @@ module.exports = class Background {
 	start() {
 
 		//Check if Theme exists else download and use it
-		async function CheckIfThemeExists(){
-			if(BdApi.Themes.get("BackgroundChanger Theme") == null)
+		
+		if(BdApi.Themes.get("BackgroundChanger Theme") == null)
+		{
+			fetch("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/themes/BackgroundChanger.theme.css")
+			.then(response=>response.text())
+			.then(text=>
+				{		
+					(async () => await require('fs').promises.writeFile(BdApi.Themes.folder + "/BackgroundChanger.theme.css", text))();	
+				})
+			.catch(err=> console.log(err));
+		}	
+	
+	
+			function WaitForFullLoad()
 			{
-				fetch("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/themes/BackgroundChanger.theme.css")
-				.then(response=>response.text())
-				.then(text=>
-					{		
-						(async () => await require('fs').promises.writeFile(BdApi.Themes.folder + "/BackgroundChanger.theme.css", text))();	
-
-    	            })
-				.catch(err=> console.log(err));
-			}	
-			return;
-		}
-		//Check if Theme is enabled else enable it
-		async function EnableTheme(){
-				await CheckIfThemeExists();
-				setTimeout(()=>{
-				if(!BdApi.Themes.isEnabled("BackgroundChanger Theme")){
+				return new Promise((resolve, reject) => {
+					let run = 0;
+					let WaitIntervall = setInterval(()=>{
+						run++;
+	
+						if(BdApi.Themes.get("BackgroundChanger Theme") != null)
+						{
+							clearInterval(WaitIntervall);
+							resolve();
+						}else{
+						   if(run > 100)
+						   {
+							clearInterval(WaitIntervall);
+							reject();
+						   }
+						   console.log("WAIT");
+						}
+					}, 100);
+			
+				})
+			}
+	
+			function SwitchThemeOn()
+			{
+				if(!BdApi.Themes.isEnabled("BackgroundChanger Theme"))
+				{
 					BdApi.Themes.enable("BackgroundChanger Theme");
-				}
-			}, 100);	
-		};
-
-EnableTheme();
+				}  
+			}
+	
+	
+		  WaitForFullLoad()
+			.then(()=>SwitchThemeOn())
+			.catch(()=>console.log('Theme could not be loaded'))
 
 			function UpdateSettingsSmart(Key,Value)
 			{
@@ -101,19 +120,6 @@ EnableTheme();
             });
 		}
 		
-	/*
-		var iframe = document.createElement('iframe');
-		iframe.onload = function(){ 
-    	var ifrLocalStorage = iframe.contentWindow.localStorage;
-    	var text = ifrLocalStorage.getItem('UserSettingsStore');
-		text = JSON.parse(text);
-		if(text.theme == `light`)alert("Please use dark mode for the Background Plugin to work.\n Thank you <3");
-		};
-		iframe.src = 'about:blank';
-		document.body.appendChild(iframe);
-	*/
-
-
 		var delay = ThemeSettings.Time * 1000;
 		var keys = [];
 		var x = 0;
@@ -140,17 +146,21 @@ EnableTheme();
 		}
 
 		
-		document.body.style.backgroundPosition = 'center';
-		document.body.style.backgroundRepeat = 'no-repeat';
-		document.body.style.backgroundSize = 'cover';
-
 		$("#app-mount").css("background", "rgba(0,0,0," + opa + ")");
+
+		function UpdateBackgroundImage(ImageUrl)
+		{
+			document.body.style.background = `url("${ImageUrl}")`;
+			document.body.style.backgroundPosition = 'center';
+			document.body.style.backgroundRepeat = 'no-repeat';
+			document.body.style.backgroundSize = 'cover';
+		}
+
 
 		function update() {
 			if(!ThemeSettings.Transparancy){
 			x = Math.floor(Math.random() * 10);
-			document.body.style.background = `url("${ThemeSettings.Images[x].link}")  no-repeat center center fixed`;
-			document.body.style.backgroundSize = 'cover';
+			UpdateBackgroundImage(ThemeSettings.Images[x].link);
 			}
 		}
 		update();
@@ -166,58 +176,40 @@ EnableTheme();
 		}
 		document.body.addEventListener("keydown", keysPressed, false);
 		document.body.addEventListener("keyup", keysReleased, false);
-		/*
-			if (keys[17] && keys[20]) {
-				var e = document.body.event || e;
-				dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-				UpdateTime();
+	
+		document.body.addEventListener('wheel', function(e){
+			if(ThemeSettings.Rotation){
+			let increase = 0
+			if (keys[17] && keys[20]) increase = 1;
+			else if (keys[17] && keys[16])  increase = 60;
+			if(increase == 0) return;
+				let wDelta = e.wheelDelta < 0 ? -1 : 1;
+				ThemeSettings.Time = 	parseInt(ThemeSettings.Time) + parseInt(wDelta) * increase;
+				if (ThemeSettings.Time < 1) ThemeSettings.Time = 1;
+				let min = Math.trunc(ThemeSettings.Time/60);
+				let sec =  ThemeSettings.Time - min*60;
+				$(".name-3YKhmS").html('' + min + " : " + sec + '');
+				$(".BackgroundDelayInput").val(ThemeSettings.Time);
+				clearInterval(inter);
+				inter = setInterval(update, ThemeSettings.Time*1000);
 			}
-			if (keys[17] && keys[16]) {
-				var e = document.body.event || e;
-				dd = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) * 60;
-				UpdateTime();
-			}
-*/
-			document.body.addEventListener('wheel', function(e){
-				if(settings.Rotation){
-				let increase = 0
-
-				if (keys[17] && keys[20]) increase = 1;
-
-				else if (keys[17] && keys[16])  increase = 60;
-
-				if(increase == 0) return;
-
-					let wDelta = e.wheelDelta < 0 ? -1 : 1;
-					ThemeSettings.Time = 	parseInt(ThemeSettings.Time) + parseInt(wDelta) * increase;
-					if (ThemeSettings.Time < 1) ThemeSettings.Time = 1;
-					let min = Math.trunc(ThemeSettings.Time/60);
-					let sec =  ThemeSettings.Time - min*60;
-					$(".name-3YKhmS").html('' + min + " : " + sec + '');
-					$(".BackgroundDelayInput").val(ThemeSettings.Time);
-					clearInterval(inter);
-					inter = setInterval(update, ThemeSettings.Time*1000);
-				}
-			});
-
-			
+		});
 
 		function keysReleased(e) { keys[e.keyCode] = false; }
 		function keysPressed(e) {
 			keys[e.keyCode] = true;
 			//CTRL + SHIFT + ^-9 = set das Bild des richtigen Index
-			if (keys[17] && keys[16] && keys[220]) { document.body.style.background = `url("${ThemeSettings.Images[0].link}")`; x = 0; inde = 0 }
-			if (keys[17] && keys[16] && keys[49])  { document.body.style.background = `url("${ThemeSettings.Images[1].link}")`; x = 1; inde = 1 }
-			if (keys[17] && keys[16] && keys[50])  { document.body.style.background = `url("${ThemeSettings.Images[2].link}")`; x = 2; inde = 2 }
-			if (keys[17] && keys[16] && keys[51])  { document.body.style.background = `url("${ThemeSettings.Images[3].link}")`; x = 3; inde = 3 }
-			if (keys[17] && keys[16] && keys[52])  { document.body.style.background = `url("${ThemeSettings.Images[4].link}")`; x = 4; inde = 4 }
-			if (keys[17] && keys[16] && keys[53])  { document.body.style.background = `url("${ThemeSettings.Images[5].link}")`; x = 5; inde = 5 }
-			if (keys[17] && keys[16] && keys[54])  { document.body.style.background = `url("${ThemeSettings.Images[6].link}")`; x = 6; inde = 6 }
-			if (keys[17] && keys[16] && keys[55])  { document.body.style.background = `url("${ThemeSettings.Images[7].link}")`; x = 7; inde = 7 }
-			if (keys[17] && keys[16] && keys[56])  { document.body.style.background = `url("${ThemeSettings.Images[8].link}")`; x = 8; inde = 8 }
-			if (keys[17] && keys[16] && keys[57])  { document.body.style.background = `url("${ThemeSettings.Images[9].link}")`; x = 9; inde = 9 }
+			if (keys[17] && keys[16] && keys[220]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[0].link); x = 0; inde = 0 }
+			if (keys[17] && keys[16] && keys[49])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[1].link); x = 1; inde = 1 }
+			if (keys[17] && keys[16] && keys[50])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[2].link); x = 2; inde = 2 }
+			if (keys[17] && keys[16] && keys[51])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[3].link); x = 3; inde = 3 }
+			if (keys[17] && keys[16] && keys[52])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[4].link); x = 4; inde = 4 }
+			if (keys[17] && keys[16] && keys[53])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[5].link); x = 5; inde = 5 }
+			if (keys[17] && keys[16] && keys[54])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[6].link); x = 6; inde = 6 }
+			if (keys[17] && keys[16] && keys[55])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[7].link); x = 7; inde = 7 }
+			if (keys[17] && keys[16] && keys[56])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[8].link); x = 8; inde = 8 }
+			if (keys[17] && keys[16] && keys[57])  { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[9].link); x = 9; inde = 9 }
 			//CTRL + SHIFT + R = Neues Random Bild
-			document.body.style.backgroundSize = 'cover';
 			if (keys[17] && keys[16] && keys[82]) update();
 			//CTRL + SHIFT + Space = Increase Background Opacity
 			if (keys[17] && keys[16] && keys[187]) {
@@ -410,7 +402,7 @@ EnableTheme();
 							$(".BackgroundNameInput").val(ThemeSettings.Images[inde].name);
 							$(".BackgroundUrlInput").val(ThemeSettings.Images[inde].link);
 							x = inde;
-							document.body.style.background = `url("${ThemeSettings.Images[inde].link}")`;
+							UpdateBackgroundImage(ThemeSettingsurl.Images[inde].link);
 						}
 					});
 					$(BackgroundDelayInput).bind('input', function () {
@@ -430,10 +422,11 @@ EnableTheme();
 						if(ThemeSettings.Transparancy){
 							ThemeSettings.Transparancy = false;
 							inde = $(".BackgroundIndexInput").val();
-							document.body.style.background = `url("${ThemeSettings.Images[inde].link}")`;
+							UpdateBackgroundImage(ThemeSettings.Images[inde].link);
+
 						}else{
 							ThemeSettings.Transparancy = true;
-							document.body.style.background = `url()`;
+							UpdateBackgroundImage('');
 						}
 	
 						BdApi.saveData("background","Rotation", ThemeSettings.Rotation);
@@ -457,7 +450,7 @@ EnableTheme();
 					BackgroundChnageButton.click(function () {
 						$(this).html("Test Wallpaper ✓");
 						x = inde;
-						document.body.style.background = `url("${BackgroundUrlInput.val()}")`;
+						UpdateBackgroundImage(BackgroundUrlInput.val());
 					});
 					//Changes Background Picture + all other settings and saves the values to the .json file
 					BackgroundOkButton.click(function () {
