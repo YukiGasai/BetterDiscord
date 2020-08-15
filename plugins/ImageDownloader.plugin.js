@@ -1,10 +1,8 @@
 /**
  * @name ImageDownloader
  * @authorId 262613777357209601
- * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
+ * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/ImageDownloader.plugin.js
  */
-
-const { FILE } = require('dns');
 
 module.exports = class ImageDownloader {
 
