@@ -10,9 +10,12 @@ module.exports = class ImageDownloader {
         return `
         <div>
             <h3>Full Path to SaveFolderLocation</h3>
-            <input style="width:80%" placeholder="FULL PATH" id="PathInput"></input>
+            <input style="width:70%" placeholder="FULL PATH" id="PathInput"></input>
             <button onclick=' document.getElementById("PathInput").value  = BdApi.loadData("ImageDownloader", "Path");     '> LOAD </button>
             <button onclick=' BdApi.saveData("ImageDownloader", "Path", "" + document.getElementById("PathInput").value ); '> SAVE </button>
+            <button onclick='
+                require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path"));
+            '> OPEN </button>
         </div>
         `;
     };
