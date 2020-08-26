@@ -10,16 +10,36 @@ module.exports = class ImageDownloader {
         return `
         <div>
             <h3>Full Path to SaveFolderLocation</h3>
-            <input style="width:70%" placeholder="FULL PATH" id="PathInput"></input>
-            <button onclick=' document.getElementById("PathInput").value  = BdApi.loadData("ImageDownloader", "Path");     '> LOAD </button>
-            <button onclick=' BdApi.saveData("ImageDownloader", "Path", "" + document.getElementById("PathInput").value ); '> SAVE </button>
-            <button onclick='
-                require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path"));
-            '> OPEN </button>
+            <div>
+                <input style="width:70%" placeholder="FULL PATH" id="PathInput0"></input>
+                <button onclick=' document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");     '> LOAD </button>
+                <button onclick=' 
+                BdApi.saveData("ImageDownloader", "Path[0]", "" + document.getElementById("PathInput0").value ); 
+                BdApi.Plugins.toggle("ImageDownloader");
+                BdApi.Plugins.toggle("ImageDownloader");
+                '> SAVE </button>
+                <button onclick='
+                    require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[0]"));
+                '> OPEN </button>
+            </div>
+            <br>
+            <div>
+                <input style="width:70%" placeholder="FULL PATH" id="PathInput1"></input>
+                <button onclick=' document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]");     '> LOAD </button>
+                <button onclick=' 
+                BdApi.saveData("ImageDownloader", "Path[1]", "" + document.getElementById("PathInput1").value ); 
+                BdApi.Plugins.toggle("ImageDownloader");
+                BdApi.Plugins.toggle("ImageDownloader");
+                '> SAVE </button>
+                <button onclick='
+                    require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[1]"));
+                '> OPEN </button>
+            </div>
+            <br>
         </div>
         `;
     };
-// UpdateSettings(CorrectPath(document.getElementById("PathInput").value));
+// UpdateSettings(CorrectPath(document.getElementById("PathInput0").value));
 	getName() { return "ImageDownloader"; }
 
 	getDescription() { return "Double clicking an Image will download it in a set folder."; }
@@ -33,53 +53,62 @@ module.exports = class ImageDownloader {
 	}
 	start() {
         var fs = require('fs');  
+        var util = require("util");
         var https = require('https');
 
         var DownloaderSettings = {
-            Path: ""
+            Path: []
         }
         
         //get Default Directory ..\BetterDiscord\ImageDownloads
-        function GetFolderPath(){
+        function GetFolderPath(index){
             var Folder = BdApi.Plugins.folder;
             Folder = Folder.slice(0,Folder.lastIndexOf("\\"));
-            Folder = Folder + "\\ImageDownloads\\";
+            Folder = Folder + "\\ImageDownloads" + index;
             return Folder;
         }
         
-       
-        UpdateSettings(undefined);
-
-         //Create and/or load config file
-        function UpdateSettings(newPath)
+        function CretaeDirIfNotExists(Path) 
         {
-            DownloaderSettings.Path = BdApi.loadData("ImageDownloader", "Path");
-            if(DownloaderSettings.Path == undefined)
+            try{
+                if (!fs.existsSync(Path)) {
+                    fs.mkdirSync(Path, { recursive: true });
+                }
+                return true;
+            }catch{
+                return false;
+            }
+        }
+
+        //Create and/or load config file
+        function UpdateSettings(newPath, index)
+        {
+            DownloaderSettings.Path[index] = BdApi.loadData("ImageDownloader", "Path[" + index + "]");
+            if(DownloaderSettings.Path[index] == undefined)
             {
-                BdApi.saveData("ImageDownloader", "Path", "" + GetFolderPath());
+                BdApi.saveData("ImageDownloader", "Path[" + index + "]", "" + GetFolderPath(index));
             }else if(newPath != undefined) 
             {
-                 BdApi.saveData("ImageDownloader", "Path", "" + newPath);
+                 BdApi.saveData("ImageDownloader", "Path[" + index + "]", "" + newPath);
             }
-            DownloaderSettings.Path = BdApi.loadData("ImageDownloader", "Path");
+            DownloaderSettings.Path[index] = BdApi.loadData("ImageDownloader", "Path[" + index + "]");
         }
 
         //Make sure Path ends with \
-        function CorrectPath(Path)
+        function CorrectPath(Path , index)
         {
-            try{
-                if(Path[Path.length - 1] != "\\" && Path != "")
-                {
-                    Path =  Path + "\\"
-                }
-                 // Create set Savedirectory if it doesn't exist
-                if (!fs.existsSync(Path)) {
-                    fs.mkdirSync(Path);
-                }
-                return Path
-            }catch{
-                return GetFolderPath();
+            if(Path[Path.length - 1] != "\\" && Path != "")
+            {
+                Path =  Path + "\\"
             }
+             // Create set Savedirectory if it doesn't exist
+            let validPath = CretaeDirIfNotExists(Path);
+            if(validPath != true)
+            {
+                BdApi.showToast("Path is not valid reset to standard Path" , {timeout:3000, type:"danger"});
+                return GetFolderPath(index);
+            }
+            return Path;
         }
 
         //Save Image from Link to Path source https://medium.com/@onlineinerview/simple-function-in-node-js-to-save-image-from-url-to-local-disk-server-fd627ae7f6a6
@@ -91,46 +120,84 @@ module.exports = class ImageDownloader {
             });
         }
 
-        function CheckForChangedSettings()
+        function CheckForChangedSettings(index)
         {
-            var ConfigPath = BdApi.loadData("ImageDownloader", "Path")
-            if(DownloaderSettings.Path != ConfigPath)
+            var ConfigPath = BdApi.loadData("ImageDownloader", "Path[" + index + "]")
+            if(DownloaderSettings.Path[index] != ConfigPath)
             {
-                DownloaderSettings.Path = ConfigPath;
-                UpdateSettings(CorrectPath(ConfigPath));
+                DownloaderSettings.Path[index] = ConfigPath;
+                UpdateSettings(CorrectPath(ConfigPath, index) , index);
              
             }
         }
 
-        //Add Doubleclick listener to all Imges
-        setInterval(AddEventsListeners, 1000)
-    
+        function GetUrlFromTarget (event) {
+            
+            var BaseImageURL = event.currentTarget.src;              // get Link to Image
+            BaseImageURL = BaseImageURL.replace(/\?.*/,"");          // cut of extra Parameter
+            var NameStart = BaseImageURL.lastIndexOf("/")+1;        
+            var FullFileName  = BaseImageURL.substring(NameStart);   // get Name with Filetype
+            var getFileTypeIndex = FullFileName.lastIndexOf(".");   
+            var FileName  = FullFileName.slice(0,getFileTypeIndex);  // get Name without Filetype
+            var FileType  = FullFileName.substring(getFileTypeIndex);// get Filetype to add Timestamp to Filename
+            if( FileType[0] != ".") FileType = "." + FileType;
+            return {
+                    Url  : BaseImageURL,
+                    Name : FileName + "-" + Math.round((new Date()).getTime() / 1000) + "-" + FileType
+            }
+        }
+
+        function ShowSuccessToast()
+        {
+            var option = {
+                type : "success",
+                timeout : 500 
+            }
+            BdApi.showToast("Saved Image to Folder",option);
+            $( this ).off( event );
+        }
+
+        function CopyToClipboard(ImgUrl)
+        {
+           var str = util.inspect(ImgUrl); 
+           str =str.slice(1,str.length-1);
+            require('child_process').spawn('clip').stdin.end(str);
+        }
+
         function AddEventsListeners()
         {
 
-            CheckForChangedSettings();
+            CheckForChangedSettings(0);
+            CheckForChangedSettings(1);
 
-            $('img, video').off('dblclick').on('dblclick', function (event) {
-            
-                var BaseImageURL = event.currentTarget.src;              // get Link to Image
-                BaseImageURL = BaseImageURL.replace(/\?.*/,"");          // cut of extra Parameter
-                var NameStart = BaseImageURL.lastIndexOf("/")+1;        
-                var FullFileName  = BaseImageURL.substring(NameStart);   // get Name with Filetype
-                var getFileTypeIndex = FullFileName.lastIndexOf(".");   
-                var FileName  = FullFileName.slice(0,getFileTypeIndex);  // get Name without Filetype
-                var FileType  = FullFileName.substring(getFileTypeIndex);// get Filetype to add Timestamp to Filename
-                if( FileType[0] != ".") FileType = "." + FileType;
-                saveImageToDisk(BaseImageURL, DownloaderSettings.Path + FileName + "-" + Math.round((new Date()).getTime() / 1000) + "-" + FileType);
-                
-                var option = {
-                    type : "success",
-                    timeout : 500 
-                }
-                BdApi.showToast("Saved Image to Folder",option);
-                $( this ).off( event );
-                 
+            $('img, video').off('dblclick').on('dblclick', function(event) {
+                let info = GetUrlFromTarget(event);
+                saveImageToDisk(info.Url, DownloaderSettings.Path[0] + info.Name);
+                CopyToClipboard(info.Url);
+                ShowSuccessToast();
             });
+
+            $('img, video').off('mousedown').on('mousedown', function(event) {
+                if (event.button == 1) {
+                    let info = GetUrlFromTarget(event);
+                    saveImageToDisk(info.Url, DownloaderSettings.Path[1] + info.Name);
+                    CopyToClipboard(info.Url);
+                    ShowSuccessToast();
+                }
+            });
+                             
         }
+
+
+        UpdateSettings(undefined, 0);
+        UpdateSettings(undefined, 1);
+
+        CretaeDirIfNotExists(DownloaderSettings.Path[0]);
+        CretaeDirIfNotExists(DownloaderSettings.Path[1]);
+        //Add Doubleclick listener to all Imges
+        setInterval(AddEventsListeners, 1000)
+    
+        
     }
     stop(){}
 }

@@ -34,7 +34,7 @@ module.exports = class Background {
 	load() {
 	}
 	start() {
-
+		console.log(BdApi.loadData("ImageDownloader", "Images"));
 		//Check if Theme exists else download and use it
 		
 		if(BdApi.Themes.get("BackgroundChanger Theme") == null)

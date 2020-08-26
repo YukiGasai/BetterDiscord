@@ -70,6 +70,16 @@ module.exports = class BlackList {
             }
         });
 
+        //Hide from Channel list
+        $(".usernameFont-aFalyR.username-lm8y6T.da-username").each(function(index){
+            for(var i = 0; i < People.length; i++){
+                if($( this ).text()== People[i].Name){
+                    $( this ).parent().parent().parent().hide();
+                }
+            }
+        })
+
+
         $( ".textContent-3N7xXx.da-textContent.base-1x0h_U.da-base.size16-1P40sf" ).each(function( index ) {
             for(var i = 0; i < People.length; i++){
                 if($( this ).text()== People[i].Name){
