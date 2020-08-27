@@ -25,10 +25,11 @@ module.exports = class AvatarChanger {
 			<div>
 				<input style="width:70%" placeholder="Path to Discord Console" id="PathInputConsole"></input>
 				<button onclick=' document.getElementById("PathInputConsole").value  = BdApi.loadData("AvatarChanger", "ConsolePath");     '> LOAD </button>
-				<button onclick=' 
-				BdApi.saveData("AvatarChanger", "ConsolePath", "" + document.getElementById("PathInputConsole").value ); 
-				BdApi.Plugins.toggle("AvatarChanger");
-				BdApi.Plugins.toggle("AvatarChanger");
+				<button onclick=' if(document.getElementById("PathInputConsole").value != ''){
+					BdApi.saveData("AvatarChanger", "ConsolePath", "" + document.getElementById("PathInputConsole").value ); 
+					BdApi.Plugins.toggle("AvatarChanger");
+					BdApi.Plugins.toggle("AvatarChanger");
+				}
 				'> SAVE </button>
 			</div>
 			<br>
