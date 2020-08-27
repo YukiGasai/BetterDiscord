@@ -228,6 +228,9 @@ module.exports = class Background {
 		}
 		//HERE STARTS THE SETTINGS PAGE A LOT OF HTML CSS SHIT----------------------------------------------------------------------------------
 		function WallpaperIO() {
+
+			if($('#Set-Img-Button').length < 1)
+			{
 			var cssstyle = {
 				"position": "relative",
 				"width": "80%",
@@ -238,8 +241,7 @@ module.exports = class Background {
 				"transition": "all 1s",
 			}
 			let setImgbutton = $("<button>", {
-				'class': "wrapper-25eVIn circleButtonMask-2VNJsN da-wrapper da-circleButtonMask",
-				'id': "bd-pub-button",
+				'id': "Set-Img-Button",
 				'html': "Set Img",
 				css: {
 					"position": "relative",
@@ -247,7 +249,10 @@ module.exports = class Background {
 					"height": "20px",
 					"font-size": "10px",
 					"margin-left": "11px",
-					"margin-bottom": "11px"
+					"margin-bottom": "11px",
+					"background-color": "#2f3136",
+					"color": "#b9bbbe",
+					"border-radius": "4px"
 				}
 			}).insertAfter("#bd-pub-li");
 			setImgbutton.click(function () {
@@ -543,6 +548,7 @@ module.exports = class Background {
 					});
 				}
 			});
+		}
 		}
 		WallpaperIO();
 		if (ThemeSettings.Rotation) inter = setInterval(update, ThemeSettings.Time * 1000);
