@@ -40,7 +40,7 @@ module.exports = class RadioButton {
 
     onSwitch()
     {
-
+        if($('#Radio').length < 1){
         var index = 0;
         var currentProgram = 0;
 
@@ -313,6 +313,6 @@ module.exports = class RadioButton {
 			return false;
 		}
     }    
-
+    }
     stop(){}
 }
