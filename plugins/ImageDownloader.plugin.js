@@ -14,9 +14,12 @@ module.exports = class ImageDownloader {
                 <input style="width:70%" placeholder="FULL PATH" id="PathInput0"></input>
                 <button onclick=' document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");     '> LOAD </button>
                 <button onclick=' 
-                BdApi.saveData("ImageDownloader", "Path[0]", "" + document.getElementById("PathInput0").value ); 
-                BdApi.Plugins.toggle("ImageDownloader");
-                BdApi.Plugins.toggle("ImageDownloader");
+                if(document.getElementById("PathInput0").value != "")
+                {
+                    BdApi.saveData("ImageDownloader", "Path[0]", "" + document.getElementById("PathInput0").value ); 
+                    BdApi.Plugins.toggle("ImageDownloader");
+                    BdApi.Plugins.toggle("ImageDownloader");
+                }
                 '> SAVE </button>
                 <button onclick='
                     require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[0]"));
@@ -27,9 +30,12 @@ module.exports = class ImageDownloader {
                 <input style="width:70%" placeholder="FULL PATH" id="PathInput1"></input>
                 <button onclick=' document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]");     '> LOAD </button>
                 <button onclick=' 
-                BdApi.saveData("ImageDownloader", "Path[1]", "" + document.getElementById("PathInput1").value ); 
-                BdApi.Plugins.toggle("ImageDownloader");
-                BdApi.Plugins.toggle("ImageDownloader");
+                if(document.getElementById("PathInput1").value != "")
+                {
+                    BdApi.saveData("ImageDownloader", "Path[1]", "" + document.getElementById("PathInput1").value ); 
+                    BdApi.Plugins.toggle("ImageDownloader");
+                    BdApi.Plugins.toggle("ImageDownloader");
+                }
                 '> SAVE </button>
                 <button onclick='
                     require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[1]"));
