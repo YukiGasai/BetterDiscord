@@ -8,10 +8,58 @@ module.exports = class ImageDownloader {
 
     getSettingsPanel () {
         return `
-        <div>
+           
+            <style>
+            img{
+                width:10px;
+                height:10px;
+                float:right;
+                opacity:0.1;
+            }
+
+            h3{
+                width:100%;
+                text-align:center;
+                color: #3E82E5;
+                padding: 10px;
+            }
+
+            input::placeholder {
+                color: #ff4954;
+              }
+
+            input, button{
+                border: none;
+                border-bottom: 2px solid #3E82E5;
+                background: transparent;
+                color : white;
+               
+            }
+
+            input{
+                margin: 10px 0px 0px 0px;
+            }
+
+            input:focus{
+                border-bottom: 2px solid #00b0f4;
+            }
+
+            button{
+                transition: 0.7s;
+            }
+
+            button:active {
+                border-bottom: 2px solid #00b0f4;
+            }
+
+            button:hover{
+                background:rgb(220,220,220,0.5)
+            }
+
+            </style>
             <h3>Full Path to SaveFolderLocation</h3>
             <div>
-                <input style="width:70%" placeholder="FULL PATH" id="PathInput0"></input>
+                <input style="width:70%" placeholder="Full Path to Folder" id="PathInput0"></input>
                 <button onclick=' document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");     '> LOAD </button>
                 <button onclick=' 
                 if(document.getElementById("PathInput0").value != "")
@@ -27,7 +75,7 @@ module.exports = class ImageDownloader {
             </div>
             <br>
             <div>
-                <input style="width:70%" placeholder="FULL PATH" id="PathInput1"></input>
+                <input style="width:70%" placeholder="Full Path to Folder" id="PathInput1"></input>
                 <button onclick=' document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]");     '> LOAD </button>
                 <button onclick=' 
                 if(document.getElementById("PathInput1").value != "")
@@ -41,8 +89,10 @@ module.exports = class ImageDownloader {
                     require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[1]"));
                 '> OPEN </button>
             </div>
-            <br>
-        </div>
+            <img onload='
+            document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");
+            document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]"); 
+            ' src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu'> </img>
         `;
     };
 // UpdateSettings(CorrectPath(document.getElementById("PathInput0").value));
