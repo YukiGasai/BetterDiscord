@@ -1,80 +1,144 @@
 <style>
-    img{
+    #DinoGirlPic{
         width:10px;
         height:10px;
         float:right;
         opacity:0.1;
     }
-    h3{
+    #SettingsTitle{
         width:100%;
         text-align:center;
         color: #3E82E5;
         padding: 10px;
     }
-    input::placeholder {
-        color: #ff4954;
-      }
-    input, button{
+
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+
+    .YSettingsInput, .YSettingsButton{
         border: none;
         border-bottom: 2px solid #3E82E5;
         background: transparent;
         color : white;
-       
     }
-    input{
-        margin: 10px 0px 0px 0px;
+    .YSettingsInput{
+        margin: 10px 0px 0px 20px;
     }
 
-    input:focus{
+    .YSettingsInput:focus{
         border-bottom: 2px solid #00b0f4;
     }
 
-    button{
+    .YSettingsButton{
         transition: 0.7s;
     }
 
-    button:active {
-        border-bottom: 2px solid #00b0f4;
+    .YSettingsButton:active {
+       height: 17px
     }
 
-    button:hover{
+    .YSettingsButton:hover{
         background:rgb(220,220,220,0.5)
     }
 
     </style>
-    <h3>Full Path to SaveFolderLocation</h3>
+
+    <h3 id="SettingsTitle"><span>Full Path to SaveFolderLocation</span></h3>
+
     <div>
-        <input style="width:70%" placeholder="Full Path to Folder" id="PathInput0"></input>
-        <button onclick=' document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");     '> LOAD </button>
-        <button onclick=' 
-        if(document.getElementById("PathInput0").value != "")
-        {
-            BdApi.saveData("ImageDownloader", "Path[0]", "" + document.getElementById("PathInput0").value ); 
-            BdApi.Plugins.toggle("ImageDownloader");
-            BdApi.Plugins.toggle("ImageDownloader");
-        }
-        '> SAVE </button>
-        <button onclick='
-            require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[0]"));
-        '> OPEN </button>
+        <input  
+                class="YSettingsInput" 
+                style="width:70%" 
+                placeholder="Full Path to Folder" 
+                id="PathInput0">
+        </input>
+        <button 
+                class="YSettingsButton" 
+                onclick='
+                    BdApt.linkJS("re", url)
+                    document.getElementById("PathInput0").value = BdApi.loadData("ImageDownloader", "Path[0]");
+                '> 
+                    LOAD 
+        </button>
+        <button 
+                class="YSettingsButton" 
+                onclick=' 
+                    if(document.getElementById("PathInput0").value != "")
+                    {
+                        BdApi.saveData("ImageDownloader", "Path[0]", "" + document.getElementById("PathInput0").value ); 
+                        BdApi.Plugins.toggle("ImageDownloader");
+                        BdApi.Plugins.toggle("ImageDownloader");
+                    }
+                '> 
+                SAVE 
+        </button>
+        <button 
+                class="YSettingsButton" 
+                onclick='
+                    require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[0]"));
+                '> 
+                OPEN 
+        </button>
     </div>
     <br>
     <div>
-        <input style="width:70%" placeholder="Full Path to Folder" id="PathInput1"></input>
-        <button onclick=' document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]");     '> LOAD </button>
-        <button onclick=' 
-        if(document.getElementById("PathInput1").value != "")
-        {
-            BdApi.saveData("ImageDownloader", "Path[1]", "" + document.getElementById("PathInput1").value ); 
-            BdApi.Plugins.toggle("ImageDownloader");
-            BdApi.Plugins.toggle("ImageDownloader");
-        }
-        '> SAVE </button>
-        <button onclick='
-            require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[1]"));
-        '> OPEN </button>
+        <input  
+                class="YSettingsInput" 
+                style="width:70%" 
+                placeholder="Full Path to Folder" 
+                id="PathInput1">
+        </input>
+        <button 
+                class="YSettingsButton" 
+                onclick=' 
+                    document.getElementById("PathInput1").value = BdApi.loadData("ImageDownloader", "Path[1]");
+                '> 
+                LOAD 
+        </button>
+        <button 
+                class="YSettingsButton" 
+                onclick=' 
+                    if(document.getElementById("PathInput1").value != "")
+                    {
+                        BdApi.saveData("ImageDownloader", "Path[1]", "" + document.getElementById("PathInput1").value ); 
+                        BdApi.Plugins.toggle("ImageDownloader");
+                        BdApi.Plugins.toggle("ImageDownloader");
+                    }
+                '> 
+                SAVE 
+        </button>
+        <button 
+                class="YSettingsButton" 
+                onclick='
+                    require("child_process").exec("start " + BdApi.loadData("ImageDownloader", "Path[1]"));
+                '> 
+                OPEN 
+        </button>
     </div>
-    <img onload='
-    document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");
-    document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]"); 
-    ' src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu'> </img>
+    <img 
+        id="DinoGirlPic" 
+        onload='
+            document.getElementById("PathInput0").value  = BdApi.loadData("ImageDownloader", "Path[0]");
+            document.getElementById("PathInput1").value  = BdApi.loadData("ImageDownloader", "Path[1]"); 
+        ' 
+        src='https://i.imgur.com/9IBSiro.jpg' 
+        alt='Best waifu' 
+        onclick='
+            function show02(AAAA){
+                BdApi.showConfirmationModal("D"+AAAA+"rling?",
+                [
+                    BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+                ],
+                {
+                    danger: true,
+                    confirmText: "Love the 02",
+                    cancelText: "Die in hell",
+                    onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                    onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+                })
+            }
+            show02("a");
+        '> 
+    </img>

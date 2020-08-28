@@ -7,50 +7,9 @@
 module.exports = class AvatarChanger {
 
 	getSettingsPanel () {
-
-	
-
-        return `
-        <div>
-			<div>
-                <input style="width:70%" placeholder="Path to Avatar Folder" id="PathInputAvatar"></input>
-                <button onclick=' document.getElementById("PathInputAvatar").value  = BdApi.loadData("AvatarChanger", "AvatarPath");     '> LOAD </button>
-				<button onclick=' TEST();
-				if(document.getElementById("PathInputAvatar").value != "")
-				{
-                	BdApi.saveData("AvatarChanger", "AvatarPath", "" + document.getElementById("PathInputAvatar").value ); 
-                	BdApi.Plugins.toggle("AvatarChanger");
-					BdApi.Plugins.toggle("AvatarChanger");
-				};
-				'> SAVE </button>
-				<button onclick='require("child_process").exec("start " + BdApi.loadData("AvatarChanger", "AvatarPath")); '> OPEN </button>
-			</div>
-			<br>
-			<div>
-				<input style="width:70%" placeholder="Path to Discord Console" id="PathInputConsole"></input>
-				<button onclick=' document.getElementById("PathInputConsole").value  = BdApi.loadData("AvatarChanger", "ConsolePath");     '> LOAD </button>
-				<button onclick='
-				if(document.getElementById("PathInputConsole").value != ""){
-					BdApi.saveData("AvatarChanger", "ConsolePath", "" + document.getElementById("PathInputConsole").value ); 
-					BdApi.Plugins.toggle("AvatarChanger");
-					BdApi.Plugins.toggle("AvatarChanger");
-				}
-				'> SAVE </button>
-			</div>
-			<br>
-			<div>
-				<input style="width:70%" placeholder="Discord Token" id="InputToken"></input>
-				<button onclick=' document.getElementById("InputToken").value  = BdApi.loadData("AvatarChanger", "DiscordToken");     '> LOAD </button>
-				<button onclick=' 
-				if(document.getElementById("InputToken").value != ""){
-					BdApi.saveData("AvatarChanger", "DiscordToken", "" + document.getElementById("InputToken").value ); 
-					BdApi.Plugins.toggle("AvatarChanger");
-					BdApi.Plugins.toggle("AvatarChanger");
-				}
-				'> SAVE </button>
-			</div>
-        </div>
-        `;
+		var fs = require('fs'); 
+        var html = fs.readFileSync(BdApi.Plugins.folder + '\\AvatarChanger.settings.html','utf8');
+        return html;
     };
 
 	getName () {return "AvatarChanger";}
