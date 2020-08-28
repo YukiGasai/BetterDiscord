@@ -8,8 +8,7 @@ module.exports = class ImageDownloader {
 
     getSettingsPanel () {
         var fs = require('fs'); 
-        var html = fs.readFileSync(BdApi.Plugins.folder + '\\ImageDownloader.settings.html','utf8')
-        console.log(html)
+        var html = fs.readFileSync(BdApi.Plugins.folder + '\\ImageDownloader.settings.html','utf8');
         return html;
     };
 // UpdateSettings(CorrectPath(document.getElementById("PathInput0").value));
