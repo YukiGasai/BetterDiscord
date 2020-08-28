@@ -1,3 +1,4 @@
 *.json
 *.log
 ImageD*/
+*.settings.html
