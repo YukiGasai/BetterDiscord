@@ -27,7 +27,8 @@ module.exports = class ImageDownloader {
         var fs = require('fs');  
         var util = require("util");
         var https = require('https');
-
+        var os = require('os');
+        var platform = os.platform();
         var DownloaderSettings = {
             Path: []
         }
@@ -35,8 +36,14 @@ module.exports = class ImageDownloader {
         //get Default Directory ..\BetterDiscord\ImageDownloads
         function GetFolderPath(index){
             var Folder = BdApi.Plugins.folder;
-            Folder = Folder.slice(0,Folder.lastIndexOf("\\"));
-            Folder = Folder + "\\ImageDownloads" + index + "\\";
+            if(platform=='win32')
+            {
+                Folder = Folder.slice(0,Folder.lastIndexOf("\\"));
+                Folder = Folder + "\\ImageDownloads" + index + "\\";
+            }else{
+                Folder = Folder.slice(0,Folder.lastIndexOf("/"));
+                 Folder = Folder + "/ImageDownloads" + index + "/";
+            }
             return Folder;
         }
         
@@ -69,9 +76,17 @@ module.exports = class ImageDownloader {
         //Make sure Path ends with \
         function CorrectPath(Path , index)
         {
-            if(Path[Path.length - 1] != "\\" && Path != "")
+            if(platform=='win32')
             {
-                Path =  Path + "\\"
+                if(Path[Path.length - 1] != "\\" && Path != "")
+                {
+                    Path =  Path + "\\"
+                }
+            }else{
+                if(Path[Path.length - 1] != "/" && Path != "")
+                {
+                    Path =  Path + "/"
+                }
             }
              // Create set Savedirectory if it doesn't exist
             let validPath = CretaeDirIfNotExists(Path);
