@@ -160,7 +160,7 @@ module.exports = class ImageDownloader {
             $('img, video').off('dblclick').on('dblclick', function(event) {
                 let info = GetUrlFromTarget(event);
                 saveImageToDisk(info.Url, DownloaderSettings.Path[0] + info.Name);
-                CopyToClipboard(info.Url);
+                if(platform=='win32') CopyToClipboard(info.Url);
                 ShowSuccessToast();
             });
 
@@ -168,7 +168,7 @@ module.exports = class ImageDownloader {
                 if (event.button == 1) {
                     let info = GetUrlFromTarget(event);
                     saveImageToDisk(info.Url, DownloaderSettings.Path[1] + info.Name);
-                    CopyToClipboard(info.Url);
+                    if (platform=='win32') CopyToClipboard(info.Url);
                     ShowSuccessToast();
                 }
             });
