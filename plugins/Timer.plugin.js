@@ -22,6 +22,9 @@ class Timer {
 
 	start () {
 
+		var audio = new Audio('https://minatobot.000webhostapp.com/Gurr.mp3');
+
+
 		var Startzeitmin = 5;
 		var Startzeitsek = 0;
 		var running = false;
@@ -183,6 +186,8 @@ class Timer {
 			
 				running=false;
 				playbutt.style.color='red';
+				audio.play();
+
 		}
 		playbutt.innerHTML = ''+ Startzeitmin +':'+ Startzeitsek+'';
 		}

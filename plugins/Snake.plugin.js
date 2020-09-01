@@ -1,29 +1,40 @@
-//META{"name":"game"}*//
-
-class game{
+/**
+ * @name Snake Plugin
+ * @authorId 262613777357209601
+ * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
+ */
+module.exports = class Snake {
 	constructor () {}
 
-	getName () {return "game";}
+	getName () {return "Snake";}
 
-	getDescription () {return "game";}
+	getDescription () {return "Ctrl S starts a game of Snake";}
 
-	getVersion () {return "1.1.0";}
+	getVersion () {return "1.2.0";}
 
-	getAuthor () {return "Richard";}
+	getAuthor () {return "L7YukiGasai";}
 	
 	//legacy
 	load(){}
 	
 	start(){
 		
+
+	var Highscore = BdApi.loadData("Snake","HighScore");
+	if(Highscore == undefined)BdApi.saveData("Snake","HighScore", 0);
+	Highscore = BdApi.loadData("Snake","HighScore");
+		
+
 	var canvas = document.createElement('canvas');
 
 		canvas.id = "CursorLayer";
-		canvas.width =0; 
+		canvas.width  = 0; 
 		canvas.height = 0; 
 		canvas.style.zIndex = 3;
 		canvas.style.position = "absolute";
 		canvas.style.border = "1px solid";
+		canvas.style.top = 0;
+		canvas.style.left = 0;
 
 
 		var body = document.getElementsByTagName("body")[0];
@@ -31,11 +42,9 @@ class game{
 
 		var cursorLayer = document.getElementById("CursorLayer");
 
-
 		var ctx = canvas.getContext("2d");
-	
 
-			var  box = document.getElementsByClassName("name-3YKhmS");
+		var  box = document.getElementsByClassName("name-3YKhmS");
 	
 		// SNAKE
 		var Overallspeed = 500;
@@ -60,18 +69,31 @@ class game{
 		};
 		
 		
-		var inter = setInterval(update,200);
+		var inter = setInterval(update,snake.Speed);
+	
 	
 		function restart(){
+			if(snake.maxCells > Highscore)
+			{	
+				Highscore = snake.maxCells;
+				BdApi.saveData("Snake","HighScore", Highscore);
+			}
+			
 			snake.x = 160;
 			snake.y = 160;
+			Overallspeed = 500;
 			snake.Speed = 500;
 			snake.cells = [];
 			snake.maxCells = 1;
 			snake.dx = grid;
 			snake.dy = 0;
+			box[0].innerHTML = 'HS: '+ Highscore  + "\t CS: "+ snake.maxCells + '';
+			
 			newApple();
 		}
+
+		restart();
+
 
 		document.addEventListener('keydown', function(e) {
 		  if (e.which === 37 && snake.dx === 0) {
@@ -149,7 +171,7 @@ class game{
 			if(Game==true){	
 				canvas.width =$(window).width(); 
 				canvas.height = $(window).height();
-			}
+
 
 		  ctx.clearRect(0,0,canvas.width,canvas.height);
 		  snake.x += snake.dx;
@@ -186,11 +208,11 @@ class game{
 			if (cell.x === apple.x && cell.y === apple.y) {
 			  snake.maxCells++;
 				newApple();
-				Overallspeed = Speed-28.284271*Math.sqrt(snake.cells.length);
+				Overallspeed = Speed-28.284271*Math.sqrt(snake.cells.length)*5;
 				clearInterval(inter);
 				inter = setInterval(update,Overallspeed);
 	
-				box[0].innerHTML = 'Counter: ' +	snake.maxCells + '';
+				box[0].innerHTML = 'HS: '+ Highscore  + "\t CS: "+ snake.maxCells + '';
 			}
 			// check collision with all cells after this one (modified bubble sort)
 			for (var i = index + 1; i < snake.cells.length; i++) {
@@ -201,6 +223,7 @@ class game{
 			  }
 			}
 		  });
+		}
 		}
 		}
 	}

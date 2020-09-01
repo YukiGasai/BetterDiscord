@@ -104,7 +104,7 @@ start () {
                     $(z2VolP).html("VOLUME OF 02 "+ z2VolInput.val());
                     settings.vol = z2VolInput.val();
                     var jsonContent  = JSON.stringify(settings);
-                    saveTextFile(jsonContent,"\\AppData\\Roaming\\BetterDiscord\\plugins\\Darling.config.json" );
+                    saveTextFile(jsonContent,"\\AppData\\Roaming\\BetterDiscord\\plugins\\Darling.config.json");
                 });
             }
         }
