@@ -64,10 +64,24 @@
             class="YSettingsButton" 
             onclick=' 
 		        if(document.getElementById("InputKey").value != ""){
+                    var date = new Date().getTime();
+                    var oldKey =  BdApi.loadData("Encryption", "KEY")
+                    var history = BdApi.loadData("Encryption", "History"); 
+                    if(history==undefined)      BdApi.saveData("Encryption", "History", []) 
+                    var history = BdApi.loadData("Encryption", "History"); 
+                    history.push({"ExpiredDate":date,"KEY":oldKey})
+                    BdApi.saveData("Encryption", "History", history) 
 		        	BdApi.saveData("Encryption", "KEY", "" + document.getElementById("InputKey").value ); 
 		        	BdApi.Plugins.toggle("Encryption");
 		        	BdApi.Plugins.toggle("Encryption");
 		        }
             '> SAVE 
         </button>
+        <button 
+        class="YSettingsButton" 
+        onclick='
+           var history = BdApi.loadData("Encryption", "History");
+        BdApi.alert("Key History",JSON.stringify(history))
+        '> HISTORY 
+    </button>
     </div>

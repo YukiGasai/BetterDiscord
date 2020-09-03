@@ -4,7 +4,12 @@
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
  */
 module.exports = class Snake {
-	constructor () {}
+
+	getSettingsPanel () {
+		var fs = require('fs'); 
+		var html = fs.readFileSync(BdApi.Plugins.folder + '\\Snake.settings.html','utf8');
+		return html;
+	  }
 
 	getName () {return "Snake";}
 
@@ -18,16 +23,23 @@ module.exports = class Snake {
 	load(){}
 	
 	start(){
-		
 
 	var Highscore = BdApi.loadData("Snake","HighScore");
 	if(Highscore == undefined)BdApi.saveData("Snake","HighScore", 0);
 	Highscore = BdApi.loadData("Snake","HighScore");
+
+	var MainColor = BdApi.loadData("Snake","MainColor");
+	if(MainColor == undefined)BdApi.saveData("Snake","MainColor", "#00ff00");
+	MainColor = BdApi.loadData("Snake","MainColor");
+
+	var SecondaryColor = BdApi.loadData("Snake","SecondaryColor");
+	if(SecondaryColor == undefined)BdApi.saveData("Snake","SecondaryColor", "#ff0000");
+	SecondaryColor = BdApi.loadData("Snake","SecondaryColor");
 		
 
 	var canvas = document.createElement('canvas');
 
-		canvas.id = "CursorLayer";
+		canvas.id = "CanvasID";
 		canvas.width  = 0; 
 		canvas.height = 0; 
 		canvas.style.zIndex = 3;
@@ -40,7 +52,7 @@ module.exports = class Snake {
 		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(canvas);
 
-		var cursorLayer = document.getElementById("CursorLayer");
+		var cursorLayer = document.getElementById("CanvasID");
 
 		var ctx = canvas.getContext("2d");
 
@@ -87,9 +99,14 @@ module.exports = class Snake {
 			snake.maxCells = 1;
 			snake.dx = grid;
 			snake.dy = 0;
+			if(box[0] != undefined)
 			box[0].innerHTML = 'HS: '+ Highscore  + "\t CS: "+ snake.maxCells + '';
 			
 			newApple();
+
+			clearInterval(inter);
+			inter = setInterval(update,Overallspeed);
+
 		}
 
 		restart();
@@ -198,20 +215,20 @@ module.exports = class Snake {
 			snake.cells.pop();
 		  }
 		  
-		  ctx.fillStyle = 'red';
+		  ctx.fillStyle = SecondaryColor;
 		  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
 		  // draw snake
-		  ctx.fillStyle = 'green';
+		  ctx.fillStyle = MainColor;
 		  snake.cells.forEach(function(cell, index) {
 			ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
 			// snake ate apple
 			if (cell.x === apple.x && cell.y === apple.y) {
 			  snake.maxCells++;
 				newApple();
-				Overallspeed = Speed-28.284271*Math.sqrt(snake.cells.length)*5;
+				Overallspeed = 100;
 				clearInterval(inter);
 				inter = setInterval(update,Overallspeed);
-	
+				if(box[0] != undefined)
 				box[0].innerHTML = 'HS: '+ Highscore  + "\t CS: "+ snake.maxCells + '';
 			}
 			// check collision with all cells after this one (modified bubble sort)
@@ -231,7 +248,12 @@ module.exports = class Snake {
 	
 	initialize(){}
 	
-	stop(){}
+	stop(){
+		$('canvas#CanvasID').each(function (){
+			$(this).remove();
+		});
+
+	}
 	
 	
 	
