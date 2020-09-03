@@ -46,7 +46,7 @@ class CleanUp{
     
     start(){
         Serverlist = BdApi.loadData("CleanUp","Servers");
-        if(Serverlist == undefined)BdApi.saveData("CleanUp","Serves",[]);
+        if(Serverlist[0] == undefined)BdApi.saveData("CleanUp","Servers",[]);
         Serverlist = BdApi.loadData("CleanUp","Servers");
 
 
@@ -90,8 +90,10 @@ class CleanUp{
                         break;
                     }
                 }
+                console.log("CLICK");
                 //Midddle Mouse 
-                if(e.which === 2){ 
+                if(e.which == 2){ 
+             
                     e.preventDefault();
                     if(found){
                         BdApi.showConfirmationModal("Show Server "+Name,[],{
@@ -136,7 +138,10 @@ class CleanUp{
         } 
     }
     
-    stop(){}
+    stop(){
+        
 
-    observer(changes) {}
+
+    }
+
 }

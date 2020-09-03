@@ -1,18 +1,31 @@
-//META{"name":"Encryption","version":"1.0.0"}*//
+/**
+ * @name Encryption
+ * @authorId 262613777357209601
+ * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Encryption.plugin.js
+ */
 
-class Encryption {
-  constructor() {}
+
+var EncryptionIntervall1;
+var EncryptionIntervall2;
+
+module.exports = class Encryption {
+
+  getSettingsPanel () {
+    var fs = require('fs'); 
+    var html = fs.readFileSync(BdApi.Plugins.folder + '\\Encryption.settings.html','utf8');
+    return html;
+  }
 
   getName() {
     return "Encryption";
   }
 
   getDescription() {
-    return "Encryption";
+    return "Encrypt Messages";
   }
 
   getVersion() {
-    return "1.0.0";
+    return "2.0.0";
   }
 
   getAuthor() {
@@ -20,32 +33,14 @@ class Encryption {
   }
 
   //legacy
-  load() {
-    var fs = require('fs');
-    var filepath1 = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + "\\AppData\\Roaming\\BetterDiscord\\plugins\\Encryption.config.json";
-
-    //CREATES SETTINGS FILE
-    fs.exists(filepath1, function (exists) {
-        if (!exists) {
-            fs.writeFileSync(filepath1, '{"KEY":"TEST"}', { flag: 'wx' }, function (err, data) { })
-        }
-    });
-  }
+  load() {}
 
   start() {  
-     var fs = require('fs');
-     var KEY;
-     var txtarea = document.getElementsByClassName("textArea-2Spzkt da-textArea textArea-2Spzkt da-textArea scrollbarGhostHairline-1mSOM1 scrollbar-3dvm_9 da-scrollbarGhostHairline da-scrollbar");
-     
-     function readTextFile(file, callback) {
-        let filepath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + file;
-        callback(fs.readFileSync(filepath));
-    };
-    readTextFile("\\AppData\\Roaming\\BetterDiscord\\plugins\\Encryption.config.json", function (text) {
-        settings = JSON.parse(text);
-        KEY = settings.KEY;
-    });
 
+    var KEY;
+    KEY = BdApi.loadData("Encryption","KEY");
+    if(KEY == undefined)BdApi.saveData("Encryption","KEY","Change ME");
+    KEY = BdApi.loadData("Encryption","KEY");
 
     $("<script>", {
       src:"https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"
@@ -53,93 +48,84 @@ class Encryption {
 
     function addListeners() {
 
-      if ($(".contextMenu-HLZMGh.da-contextMenu").length && !$("#MEIN3").length){
-        var start  = txtarea[0].selectionStart;
-        var finish = txtarea[0].selectionEnd;
-        var text   = txtarea[0].value;
-        if (text[finish - 1] == " ") finish--;
-        var sel = txtarea[0].value.substring(start, finish);
+      if ($(".toolbar-2bjZV7.da-toolbar").length && !$("#MEINBUTTON3").length){
 
-        if (sel.length > 0) {
-          var submenu2 = $("<div>", {
-            id: "MEIN3",
-            class: "itemGroup-1tL0uz da-itemGroup"
-          }).appendTo($(".contextMenu-HLZMGh.da-contextMenu"));
+            var Base = $('.toolbar-2bjZV7.da-toolbar');
+      
+            var Button = $("<button>", {
+              id: "MEINBUTTON3",
+              style: "width=100px",
+              type : "button",
+              class: "button-qqmJ7w da-button button-38aScr da-button lookFilled-1Gx00P inactive-3i9Q2Q da-inactive hover-28QbSq da-hover grow-q77ONN da-grow hasHover-3X1-zV da-hasHover"
+            }).appendTo($(".toolbar-2bjZV7.da-toolbar"));
+      
+            var Div = $("<div>", {
+              id: "MEINDIV3",
+              class: "contents-18-Yxp da-contents buttonInner-3shTxu da-buttonInner"
+            }).appendTo($("#MEINBUTTON3"));
+      
+            var Svg = $("<img>", {
+              id: "MEINSVG3",
+              viewBox: "0 0 24 24",
+              class: "icon-KgGMGo da-icon",
+              width: 24,
+              height: 24,
+              style:" text-align: center;  margin-left: auto; margin-right: auto;width: 50%;",
+              alt:"",
+              src : "https://cdn.worldvectorlogo.com/logos/lets-encrypt-icon.svg"
+            }).appendTo($("#MEINBUTTON3"));
 
-          var divforColor = $("<div>",{
-            tabindex: "0",
-            class:"item-1Yvehc itemBase-tz5SeC da-item da-itemBase itemToggle-S7XGOQ itemBase-tz5SeC da-itemToggle da-itemBase clickable-11uBi- da-clickable",
-            role: "button"
-          }).appendTo($(submenu2));
 
-          var textforColor = $("<div>", {
-            html: "Encrypt",
-            class: "label-JWQiNe da-label"
-          }).appendTo($(divforColor));
 
-          $(divforColor).click(function() {
-            $(txtarea).select();
-            let text = $(txtarea).val();
-            var ciphertext = CryptoJS.AES.encrypt(text, KEY);
 
-            document.execCommand("insertText", false, "$$" +ciphertext.toString());
+          $("#MEINBUTTON3").click(function() {
+         
+            let text =  window.getSelection().toString()
+                  var ciphertext = CryptoJS.AES.encrypt(text, KEY);
+
+            document.execCommand("insertText", false, "$$" +ciphertext.toString() + "$$");
           });
         }
-      }
     }
 
     function binden() {
-
-        $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").each(function(index){
-            $(this).mousedown(function(but){
-                if(but.which==2){
-                   let selText = $(this).contents().get(1).nodeValue;   
-                   selText = selText.substring(2, selText.length);
-
-                   let bytes2 = CryptoJS.AES.decrypt(selText, KEY);
-                   let plaintext2 = bytes2.toString(CryptoJS.enc.Utf8)
-
-                   if(plaintext2.replace(/^\s+|\s+$/g, '').length != 0)
-                   $(this).contents().get(1).nodeValue =  plaintext2;
-                }
-            });
-        });
-
-        var MessageList = $(".scroller-2FKFPG.firefoxFixScrollFlex-cnI2ix.da-scroller.da-firefoxFixScrollFlex.systemPad-3UxEGl.da-systemPad.messages-3amgkR");
-        if($(MessageList).length && !$(MessageList).hasClass("binded")) {
-            $(MessageList).addClass("binded");
-
-            $(MessageList).on("DOMNodeInserted", function(e) {
-                var rawMessages = e.target;
-              
-                if ($(rawMessages).hasClass("messageCompact-kQa7ES da-messageCompact") || $(rawMessages).children().hasClass("messageCompact-kQa7ES da-messageCompact")) {
-                  console.log(rawMessages);      
-                  //var TEXTDIV = $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last();
-                  var combination = $(".containerCompactBounded-cYR5cW.containerCompact-3V0ioj.container-1YxwTf.da-containerCompactBounded.da-containerCompact.da-container").last();
-                  var TEXTDIV = combination.children().find(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last();
-                   
-                        var node = $(TEXTDIV).contents().filter(function() {
-                            return this.nodeType == 3; 
-                        });
+   
+        $('div[id^=chat-messages-] > div.contents-2mQqc9.da-contents > div.markup-2BOw-j.da-markup.messageContent-2qWWxC.da-messageContent ').each(function (){
+          $(this).off('click').on('click', function (e){
+            var changes = false;
+            var FULLTEXT = e.target.innerText;
+            while(FULLTEXT.indexOf("$$") > -1){
+              changes = true;
+              var Index1 = FULLTEXT.indexOf('$$')
+              var Index2 = FULLTEXT.indexOf('$$', Index1+2)
+              if(Index1 == -1 || Index2 == -1) {
+                break;
+              }
+  
+              var cryptext = FULLTEXT.substring(Index1+2, Index2)
+              var bytes = CryptoJS.AES.decrypt(cryptext, KEY);
+              var plaintext = bytes.toString(CryptoJS.enc.Utf8);
             
-                        var TEXT = node.text();
-                        console.log(TEXT);
-                        if(TEXT[0] == "$" && TEXT[1] == "$"){
-                        
-                            TEXT = TEXT.substring(2, TEXT.length);
-                            var bytes = CryptoJS.AES.decrypt(TEXT, KEY);
-                            var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-                            $(".markup-2BOw-j.da-markup.isCompact-1hsne1.da-isCompact").last().contents().get(1).nodeValue =  plaintext;
-                        }
-                    
-                }
-            });
-        }
+              FULLTEXT = FULLTEXT.replace(/\$\$.*\$\$/,plaintext);
+            }
+            if(changes){
+              e.target.innerText = FULLTEXT;
+            }
+          });
+        });
     }
 
-    setInterval(binden, 1000);
-    setInterval(addListeners, 100);
+    EncryptionIntervall1 = setInterval(binden, 1000);
+    EncryptionIntervall2 = setInterval(addListeners, 100);
+
   }
 
-  stop() {}
+  stop() {
+    clearInterval(EncryptionIntervall1);
+    clearInterval(EncryptionIntervall2);
+
+    $('div[id^=chat-messages-] > div.contents-2mQqc9.da-contents > div.markup-2BOw-j.da-markup.messageContent-2qWWxC.da-messageContent ').each(function (){
+      $(this).off('click');
+    })
+  }
 }

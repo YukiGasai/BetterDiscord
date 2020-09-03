@@ -1,0 +1,73 @@
+<style>
+    #DinoGirlPic{
+        width:10px;
+        height:10px;
+        float:right;
+        opacity:0.1;
+    }
+    #SettingsTitle{
+        width:100%;
+        text-align:center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+
+    .YSettingsInput, .YSettingsButton{
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color : white;
+    }
+    .YSettingsInput{
+        margin: 10px 0px 0px 20px;
+    }
+
+    .YSettingsInput:focus{
+        border-bottom: 2px solid #00b0f4;
+    }
+
+    .YSettingsButton{
+        transition: 0.7s;
+    }
+
+    .YSettingsButton:active {
+       height: 17px
+    }
+
+    .YSettingsButton:hover{
+        background:rgb(220,220,220,0.5)
+    }
+
+    </style>
+
+    <h3 id="SettingsTitle"><span>Set the Encryption Key</span></h3>
+
+    <div>
+        <input  
+            class="YSettingsInput" 
+            style="width:70%" 
+            placeholder="Encryption Key" 
+            id="InputKey">
+        </input>
+        <button 
+            class="YSettingsButton" 
+            onclick='
+                document.getElementById("InputKey").value  = BdApi.loadData("Encryption", "KEY");
+            '> LOAD 
+        </button>
+        <button 
+            class="YSettingsButton" 
+            onclick=' 
+		        if(document.getElementById("InputKey").value != ""){
+		        	BdApi.saveData("Encryption", "KEY", "" + document.getElementById("InputKey").value ); 
+		        	BdApi.Plugins.toggle("Encryption");
+		        	BdApi.Plugins.toggle("Encryption");
+		        }
+            '> SAVE 
+        </button>
+    </div>
