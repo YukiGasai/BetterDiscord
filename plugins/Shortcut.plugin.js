@@ -25,7 +25,7 @@ module.exports = class BlackList {
     }
 
     onSwitch(){
-
+        const fs = require('fs')
         var exec = require('child_process').execFile;
         var Buttons = [];
         var currentProgram = 0;
