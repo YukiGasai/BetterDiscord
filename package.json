@@ -1,0 +1,18 @@
+{
+  "name": "l7betterdiscordlib",
+  "version": "1.6.3",
+  "description": "A lib that contains all bd plugins",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YukiGasai/BetterDiscord.git"
+  },
+  "author": "l7yukigasai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YukiGasai/BetterDiscord/issues"
+  },
+  "homepage": "https://github.com/YukiGasai/BetterDiscord#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
