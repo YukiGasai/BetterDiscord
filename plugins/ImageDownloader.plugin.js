@@ -38,7 +38,7 @@ module.exports = class ImageDownloader {
         function GetFolderPath(index){
             let Folder = BdApi.Plugins.folder;
             Folder = path.join(Folder, '../');
-            Folder = path.join(Folder,'ImageDownloader'+index);
+            Folder = path.join(Folder,'ImageDownloadegr'+index);
             return Folder;
         }
         
