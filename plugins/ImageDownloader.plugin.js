@@ -7,8 +7,9 @@
 module.exports = class ImageDownloader {
 
     getSettingsPanel () {
-        var fs = require('fs'); 
-        var html = fs.readFileSync(BdApi.Plugins.folder + '\\ImageDownloader.settings.html','utf8');
+        const fs = require('fs'); 
+        const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'ImageDownloader.settings.html'),'utf8');
         return html;
     };
 // UpdateSettings(CorrectPath(document.getElementById("PathInput0").value));
@@ -24,26 +25,20 @@ module.exports = class ImageDownloader {
 	load() {
 	}
 	start() {
-        var fs = require('fs');  
-        var util = require("util");
-        var https = require('https');
-        var os = require('os');
-        var platform = os.platform();
+        const fs = require('fs');  
+        const os = require('os');
+        const path = require('path');
+        const util = require("util");
+        const https = require('https');
+
         var DownloaderSettings = {
             Path: []
         }
         
         //get Default Directory ..\BetterDiscord\ImageDownloads
         function GetFolderPath(index){
-            var Folder = BdApi.Plugins.folder;
-            if(platform=='win32')
-            {
-                Folder = Folder.slice(0,Folder.lastIndexOf("\\"));
-                Folder = Folder + "\\ImageDownloads" + index + "\\";
-            }else{
-                Folder = Folder.slice(0,Folder.lastIndexOf("/"));
-                 Folder = Folder + "/ImageDownloads" + index + "/";
-            }
+            let Folder = BdApi.Plugins.folder;
+            Folder = path.join(Folder,'ImageDownloader'+index)
             return Folder;
         }
         
@@ -76,18 +71,6 @@ module.exports = class ImageDownloader {
         //Make sure Path ends with \
         function CorrectPath(Path , index)
         {
-            if(platform=='win32')
-            {
-                if(Path[Path.length - 1] != "\\" && Path != "")
-                {
-                    Path =  Path + "\\"
-                }
-            }else{
-                if(Path[Path.length - 1] != "/" && Path != "")
-                {
-                    Path =  Path + "/"
-                }
-            }
              // Create set Savedirectory if it doesn't exist
             let validPath = CretaeDirIfNotExists(Path);
             if(validPath != true)
@@ -159,7 +142,7 @@ module.exports = class ImageDownloader {
 
             $('img, video').off('dblclick').on('dblclick', function(event) {
                 let info = GetUrlFromTarget(event);
-                saveImageToDisk(info.Url, DownloaderSettings.Path[0] + info.Name);
+                saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[0], info.Name));
                 if(platform=='win32') CopyToClipboard(info.Url);
                 ShowSuccessToast();
             });
@@ -167,7 +150,7 @@ module.exports = class ImageDownloader {
             $('img, video').off('mousedown').on('mousedown', function(event) {
                 if (event.button == 1) {
                     let info = GetUrlFromTarget(event);
-                    saveImageToDisk(info.Url, DownloaderSettings.Path[1] + info.Name);
+                    saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[1], info.Name));
                     if (platform=='win32') CopyToClipboard(info.Url);
                     ShowSuccessToast();
                 }

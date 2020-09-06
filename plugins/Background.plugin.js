@@ -14,8 +14,7 @@ var ThemeSettings = {
  }
 
 module.exports = class Background {
-	constructor() {
-	}
+
 	getSettingsPanel() {
 		return `<div>
 		<h3>Click on the button \"set Img\" to CHANGE settings </h3>

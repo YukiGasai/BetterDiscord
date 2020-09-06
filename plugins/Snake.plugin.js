@@ -6,8 +6,9 @@
 module.exports = class Snake {
 
 	getSettingsPanel () {
-		var fs = require('fs'); 
-		var html = fs.readFileSync(BdApi.Plugins.folder + '\\Snake.settings.html','utf8');
+		const fs = require('fs'); 
+		const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'Snake.settings.html'),'utf8');
 		return html;
 	  }
 

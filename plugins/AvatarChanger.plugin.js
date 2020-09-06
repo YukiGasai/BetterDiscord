@@ -7,8 +7,9 @@
 module.exports = class AvatarChanger {
 
 	getSettingsPanel () {
-		var fs = require('fs'); 
-        var html = fs.readFileSync(BdApi.Plugins.folder + '\\AvatarChanger.settings.html','utf8');
+		const fs = require('fs'); 
+		const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'AvatarChanger.settings.html'),'utf8');
         return html;
     };
 
@@ -24,8 +25,9 @@ module.exports = class AvatarChanger {
 	load () {}
 
 	start () {
-
+		
 	const fs = require("fs")
+	const path = require('path');
 	const cp = require('child_process');
 	const AvatarChangerSettings = {
 		AvatarFolderPath : '',

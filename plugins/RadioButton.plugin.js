@@ -1,7 +1,7 @@
 /**
  * @name RadioButton
  * @authorId 262613777357209601
- * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Radio.plugin.js
+ * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/RadioButton.plugin.js
  */
 
 var RadioSettingsConfig = {
