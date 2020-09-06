@@ -35,10 +35,10 @@ module.exports = class ImageDownloader {
             Path: []
         }
         
-        //get Default Directory ..\BetterDiscord\ImageDownloads
         function GetFolderPath(index){
             let Folder = BdApi.Plugins.folder;
-            Folder = path.join(Folder,'ImageDownloader'+index)
+            Folder = path.join(Folder, '../');
+            Folder = path.join(Folder,'ImageDownloader'+index);
             return Folder;
         }
         
