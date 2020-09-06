@@ -46,7 +46,7 @@ class CleanUp{
     
     start(){
         Serverlist = BdApi.loadData("CleanUp","Servers");
-        if(Serverlist[0] == undefined)BdApi.saveData("CleanUp","Servers",[]);
+        if(Serverlist == undefined)BdApi.saveData("CleanUp","Servers",[]);
         Serverlist = BdApi.loadData("CleanUp","Servers");
 
 

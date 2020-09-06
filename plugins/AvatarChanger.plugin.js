@@ -25,8 +25,9 @@ module.exports = class AvatarChanger {
 	load () {}
 
 	start () {
-		
+
 	const fs = require("fs")
+	const os = require("os");
 	const path = require('path');
 	const cp = require('child_process');
 	const AvatarChangerSettings = {
@@ -54,28 +55,14 @@ module.exports = class AvatarChanger {
 
 		var index = Math.floor(Math.random() * Filearray.length);
 
-		if(AvatarChangerSettings.AvatarFolderPath[AvatarChangerSettings.AvatarFolderPath.length-1] == "\\")
-		{
-			AvatarChangerSettings.AvatarPathForConsole  = AvatarChangerSettings.AvatarFolderPath  + Filearray[index];
-		}else{
-			AvatarChangerSettings.AvatarPathForConsole  = AvatarChangerSettings.AvatarFolderPath + "\\"  + Filearray[index];
-		}
+		AvatarChangerSettings.AvatarPathForConsole  = path.join(AvatarChangerSettings.AvatarFolderPath , Filearray[index]);
+
+		if(os.platform="win32")
 		AvatarChangerSettings.AvatarPathForConsole  = AvatarChangerSettings.AvatarPathForConsole.replace(/\\/g,'\\\\');
 
 
-		cp.execFile(AvatarChangerSettings.DiscordConsolePath,
-		[
-			'-t',
-			`"user ${AvatarChangerSettings.DiscordToken}"`,
-			'-x',
-			`avatar ${AvatarChangerSettings.AvatarPathForConsole}`
-		],
-		{},
-		(data,err)=>{
-			if(err) console.log(err);
+		cp.exec(AvatarChangerSettings.DiscordConsolePath + ' -t ' + '"user ' + AvatarChangerSettings.DiscordToken + '"' + ' -x ' + '"avatar ' + AvatarChangerSettings.AvatarPathForConsole + '"' );
 
-			else console.log(data.toString()); 
-		})
 	});
   }
 
