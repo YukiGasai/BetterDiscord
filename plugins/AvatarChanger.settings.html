@@ -72,6 +72,7 @@
             class="YSettingsButton" 
             onclick='
                 require("child_process").exec("start " + "\""+ "\" " + BdApi.loadData("AvatarChanger", "AvatarPath")); 
+                require("child_process").exec("xdg-open " + BdApi.loadData("AvatarChanger", "AvatarPath"));
             '> OPEN 
         </button>
 	</div>
