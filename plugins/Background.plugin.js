@@ -16,9 +16,11 @@ var ThemeSettings = {
 module.exports = class Background {
 
 	getSettingsPanel() {
-		return `<div>
-		<h3>Click on the button \"set Img\" to CHANGE settings </h3>
-		</div>`;
+		return `
+		<div>
+		<h2 style="color:white">Click on the button \"set Img\" to open the settingspage </h2>
+		</div>
+		`;
 	};
 
 	getName() { return "Background"; }

@@ -60,7 +60,6 @@ module.exports = class AvatarChanger {
 		if(os.platform="win32")
 		AvatarChangerSettings.AvatarPathForConsole  = AvatarChangerSettings.AvatarPathForConsole.replace(/\\/g,'\\\\');
 
-
 		cp.exec(AvatarChangerSettings.DiscordConsolePath + ' -t ' + '"user ' + AvatarChangerSettings.DiscordToken + '"' + ' -x ' + '"avatar ' + AvatarChangerSettings.AvatarPathForConsole + '"' );
 
 	});
