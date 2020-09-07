@@ -1,3 +1,5 @@
 *.json
+!package*.json
 *.log
 ImageD*/
+node*/

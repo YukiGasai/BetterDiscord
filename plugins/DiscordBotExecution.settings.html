@@ -1,0 +1,71 @@
+<style>
+    #DinoGirlPic{
+        width:10px;
+        height:10px;
+        float:right;
+        opacity:0.1;
+    }
+
+    #SettingsTitle{
+        width:100%;
+        text-align:center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+
+    .YSettingsInput, .YSettingsButton{
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color : white;
+    }
+    .YSettingsInput{
+        margin: 10px 0px 0px 20px;
+    }
+
+    .YSettingsInput:focus{
+        border-bottom: 2px solid #00b0f4;
+    }
+
+    .YSettingsButton{
+        transition: 0.7s;
+    }
+
+    .YSettingsButton:active {
+       height: 17px
+    }
+
+    .YSettingsButton:hover{
+        background:rgb(220,220,220,0.5)
+    }
+</style>
+<h3 id="SettingsTitle"><span>Settings for Bot</span></h3>
+<div>
+    <input  
+        class="YSettingsInput" 
+        style="width:70%" 
+        placeholder="Discord Token" 
+        id="InputToken">
+    </input>
+    <button 
+        class="YSettingsButton" 
+        onclick='
+            document.getElementById("InputToken").value  = BdApi.loadData("DiscordBotExecution", "BotToken");
+        '> LOAD 
+    </button>
+    <button 
+        class="YSettingsButton" 
+        onclick=' 
+            if(document.getElementById("InputToken").value != ""){
+                BdApi.saveData("DiscordBotExecution", "BotToken", "" + document.getElementById("InputToken").value ); 
+                BdApi.Plugins.toggle("DiscordBotExecution");
+                BdApi.Plugins.toggle("DiscordBotExecution");
+            }
+        '> SAVE 
+    </button>
+</div>
