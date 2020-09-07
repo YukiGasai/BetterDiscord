@@ -132,9 +132,11 @@ module.exports = class ImageDownloader {
             
             var str = util.inspect(ImgUrl); 
             str =str.slice(1,str.length-1);
-            if (require('os').platform == 'win32'){
+            if (platform.os.family == 'Windows')
+            {
                 require('child_process').spawn('clip').stdin.end(str);
-            }else{
+            }else if (platform.os.family == 'Linux')
+            {
                 require('child_process').exec("echo " + str + " | xclip -selection clipboard");
             }
         }
