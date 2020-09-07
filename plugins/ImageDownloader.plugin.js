@@ -129,9 +129,14 @@ module.exports = class ImageDownloader {
 
         function CopyToClipboard(ImgUrl)
         {
-           var str = util.inspect(ImgUrl); 
-           str =str.slice(1,str.length-1);
-            require('child_process').spawn('clip').stdin.end(str);
+            
+            var str = util.inspect(ImgUrl); 
+            str =str.slice(1,str.length-1);
+            if (require('os').platform == 'win32'){
+                require('child_process').spawn('clip').stdin.end(str);
+            }else{
+                require('child_process').exec("echo " + str + " | xclip -selection clipboard");
+            }
         }
 
         function AddEventsListeners()
@@ -143,7 +148,7 @@ module.exports = class ImageDownloader {
             $('img, video').off('dblclick').on('dblclick', function(event) {
                 let info = GetUrlFromTarget(event);
                 saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[0], info.Name));
-                if(platform=='win32') CopyToClipboard(info.Url);
+                CopyToClipboard(info.Url);
                 ShowSuccessToast();
             });
 
@@ -151,7 +156,7 @@ module.exports = class ImageDownloader {
                 if (event.button == 1) {
                     let info = GetUrlFromTarget(event);
                     saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[1], info.Name));
-                    if (platform=='win32') CopyToClipboard(info.Url);
+                    CopyToClipboard(info.Url);
                     ShowSuccessToast();
                 }
             });

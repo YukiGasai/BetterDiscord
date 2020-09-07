@@ -72,7 +72,7 @@ module.exports = class Encryption {
           height: 24,
           style:" text-align: center;  margin-left: auto; margin-right: auto;width: 50%;",
           alt:"",
-          src : "https://cdn.worldvectorlogo.com/logos/lets-encrypt-icon.svg"
+          src : "C:\Users\Richard\Desktop\eeeee"
         }).appendTo(Svg);
 
         Button.click(function() {

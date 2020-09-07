@@ -4,13 +4,14 @@
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/DiscordBotExecution.plugin.js
  */
 
- var DiscordBotClient;
+ var client;
 
 module.exports = class DiscordBotExecution {
 
 	getSettingsPanel () {
-        var fs = require('fs'); 
-        var html = fs.readFileSync(BdApi.Plugins.folder + '\\DiscordBotExecution.settings.html','utf8');
+		const fs = require('fs'); 
+		const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'DiscordBotExecution.settings.html'),'utf8');
         return html;
     };
 
@@ -28,25 +29,31 @@ module.exports = class DiscordBotExecution {
     start(){
 
 		const token = BdApi.loadData("DiscordBotExecution", "BotToken");
-	
 		const Discord = require('discord.js');
-		DiscordBotClient = new Discord.Client();
 
-		DiscordBotClient.on('ready', () => {
-			console.log(`Logged in as ${DiscordBotClient.user.tag}!`);
+		client = new Discord.Client();
+
+		client.on('ready', () => {
+			console.log(`Logged in as ${client.user.tag}!`);
 		});
 
-		DiscordBotClient.on('message', msg => {
+		client.on('message', msg => {
 		  if (msg.content === 'ping') {
-		    msg.reply('pong');
+			client.users.fetch(msg.author.id)
+			.then(user => {
+				var shit = user.avatarURL;
+				msg.reply(shit);
+			})
+			.catch(console.error);
+		   
 		  }
 		});
 
-		DiscordBotClient.login(token);
+		client.login(token);
 
     }
 
     stop(){
-		DiscordBotClient.destroy();
+		client.destroy();
 	}
 }
