@@ -1,5 +1,5 @@
 /**
- * @name Background Plugin
+ * @name Background
  * @authorId 262613777357209601
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
  */
@@ -13,7 +13,7 @@ var ThemeSettings = {
 	ThemeStatus : true
  }
 
-module.exports = class Background {
+ module.exports = class Background {
 
 	getSettingsPanel() {
 		return `

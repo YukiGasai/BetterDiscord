@@ -1,5 +1,5 @@
 /**
- * @name Snake Plugin
+ * @name Snake
  * @authorId 262613777357209601
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/Background.plugin.js
  */

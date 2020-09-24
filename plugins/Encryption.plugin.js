@@ -61,19 +61,9 @@ module.exports = class Encryption {
 
         var Div = $("<div>", {
           id: "MEINDIV3",
-          class: "contents-18-Yxp da-contents buttonInner-3shTxu da-buttonInner"
-        }).appendTo(Button);
-
-        var Svg = $("<img>", {
-          id: "MEINSVG3",
-          viewBox: "0 0 24 24",
-          class: "icon-KgGMGo da-icon",
-          width: 24,
-          height: 24,
-          style:" text-align: center;  margin-left: auto; margin-right: auto;width: 50%;",
-          alt:"",
-          src : "C:\Users\Richard\Desktop\eeeee"
-        }).appendTo(Svg);
+      
+          style: "width:24px; height:24px; background: url('https://i.imgur.com/wQB2LX9.png') no-repeat center"
+        }).appendTo($("#MEINBUTTON3"));
 
         Button.click(function() {
           let text =  window.getSelection().toString();

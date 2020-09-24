@@ -147,14 +147,14 @@ module.exports = class ImageDownloader {
             CheckForChangedSettings(0);
             CheckForChangedSettings(1);
 
-            $('img, video').off('dblclick').on('dblclick', function(event) {
+            $('img, video, svg').off('dblclick').on('dblclick', function(event) {
                 let info = GetUrlFromTarget(event);
                 saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[0], info.Name));
                 CopyToClipboard(info.Url);
                 ShowSuccessToast();
             });
 
-            $('img, video').off('mousedown').on('mousedown', function(event) {
+            $('img, video, svg').off('mousedown').on('mousedown', function(event) {
                 if (event.button == 1) {
                     let info = GetUrlFromTarget(event);
                     saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[1], info.Name));
@@ -171,7 +171,8 @@ module.exports = class ImageDownloader {
 
         CretaeDirIfNotExists(DownloaderSettings.Path[0]);
         CretaeDirIfNotExists(DownloaderSettings.Path[1]);
-        //Add Doubleclick listener to all Imges
+
+
         setInterval(AddEventsListeners, 1000)
     
         
