@@ -4,6 +4,7 @@
  * @source https://github.com/YukiGasai/BetterDiscord/blob/master/plugins/BlackList.plugin.js
  */
 var People;
+var HideM;
 module.exports = class BlackList {
     
     getName () {return "BlackList";}
@@ -13,13 +14,39 @@ module.exports = class BlackList {
     getVersion () {return "1.2.0";}
     
     getAuthor () {return "L7Yuki Gasai";}
-    
+
+	getSettingsPanel () {
+		const fs = require('fs'); 
+		const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'BlackList.settings.html'),'utf8');
+        return html;
+    };
+
     load () {}
     
     start () { 
         People = BdApi.loadData("BlackList","People");
         if(People == undefined)BdApi.saveData("BlackList","People",[]);
         People = BdApi.loadData("BlackList","People");
+
+        HideM = BdApi.loadData("BlackList","HideM");
+        if(HideM == undefined)BdApi.saveData("BlackList","HideM",false);
+        HideM = BdApi.loadData("BlackList","HideM");
+
+        if(HideM)
+        {
+            $('head').append(`
+            <style id="HideM" type="text/css">
+            .blockedSystemMessage-2Rk1ek {display:none;}
+            </style>
+            `);
+        }else{
+            try{
+                $("#HideM").remove();
+            }catch(e){};
+        }
+
+
     }
     
 
@@ -100,6 +127,10 @@ module.exports = class BlackList {
 
     initialize(){}
         
-    stop(){}
+    stop(){
+        try{
+            $("#HideM").remove();
+        }catch(e){};
+    }
     observer(changes) {}
 }
