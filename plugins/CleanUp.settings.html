@@ -1,0 +1,78 @@
+<style>
+    #DinoGirlPic {
+        width: 10px;
+        height: 10px;
+        float: right;
+        opacity: 0.1;
+    }
+    
+    #SettingsTitle {
+        width: 100%;
+        text-align: center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+    
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .YSettingsInput,
+    .YSettingsButton {
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color: white;
+    }
+    
+    .YSettingsInput {
+        margin: 10px 0px 0px 20px;
+    }
+    
+    .YSettingsInput:focus {
+        border-bottom: 2px solid #00b0f4;
+    }
+    
+    .YSettingsButton {
+        transition: 0.7s;
+    }
+    
+    .YSettingsButton:active {
+        height: 17px
+    }
+    
+    .YSettingsButton:hover {
+        background: rgb(220, 220, 220, 0.5)
+    }
+</style>
+
+<h3 id="SettingsTitle"><span>Set the Encryption Key</span></h3>
+
+<div>
+    <button class="YSettingsButton" onclick='
+        var showOffline = BdApi.loadData("CleanUp", "showOffline");
+        BdApi.saveData("CleanUp", "showOffline", !showOffline) 
+        BdApi.Plugins.toggle("CleanUp");
+        BdApi.Plugins.toggle("CleanUp");
+        '> Toggle Show Offline
+    </button>
+</div>
+
+<img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
+        function show02(AAAA){
+            BdApi.showConfirmationModal("D"+AAAA+"rling?",
+            [
+                BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+            ],
+            {
+                danger: true,
+                confirmText: "Love the 02",
+                cancelText: "Die in hell",
+                onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+            })
+        }
+        show02("a");
+    '>
+</img>
