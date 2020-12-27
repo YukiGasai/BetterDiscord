@@ -104,6 +104,7 @@ module.exports = class ImageDownloader {
         function GetUrlFromTarget (event) {
             
             var BaseImageURL = event.currentTarget.src;              // get Link to Image
+            if(BaseImageURL === undefined)return null;
             BaseImageURL = BaseImageURL.replace(/\?.*/,"");          // cut of extra Parameter
             var NameStart = BaseImageURL.lastIndexOf("/")+1;        
             var FullFileName  = BaseImageURL.substring(NameStart);   // get Name with Filetype
@@ -148,18 +149,28 @@ module.exports = class ImageDownloader {
             CheckForChangedSettings(1);
 
             $('img, video, svg').off('dblclick').on('dblclick', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
                 let info = GetUrlFromTarget(event);
-                saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[0], info.Name));
-                CopyToClipboard(info.Url);
-                ShowSuccessToast();
+                if(info !== null)
+                {
+                    saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[0], info.Name));
+                    CopyToClipboard(info.Url);
+                    ShowSuccessToast();
+                }
             });
 
             $('img, video, svg').off('mousedown').on('mousedown', function(event) {
                 if (event.button == 1) {
+                    event.preventDefault();
+                    event.stopPropagation();
                     let info = GetUrlFromTarget(event);
-                    saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[1], info.Name));
-                    CopyToClipboard(info.Url);
-                    ShowSuccessToast();
+                    if(info !== null)
+                    {
+                        saveImageToDisk(info.Url, path.join(DownloaderSettings.Path[1], info.Name));
+                        CopyToClipboard(info.Url);
+                        ShowSuccessToast();
+                    }
                 }
             });
                              

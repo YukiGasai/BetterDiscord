@@ -56,6 +56,9 @@ module.exports = class BlackList {
             let Name = event.target.textContent;
             if(event.which == 2 && event.target.nodeName.toUpperCase() == 'SPAN' && Name.toUpperCase() != "BOT"){
                 
+                event.preventDefault();
+                event.stopPropagation();
+
                 BdApi.showConfirmationModal("Hide away "+Name, 
                     [],
                     {

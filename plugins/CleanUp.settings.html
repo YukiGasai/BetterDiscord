@@ -47,9 +47,36 @@
     }
 </style>
 
-<h3 id="SettingsTitle"><span>Set the Encryption Key</span></h3>
+<h3 id="SettingsTitle"><span>Set Hidden Server</span></h3>
 
 <div>
+    <div id="CleanUpServerList"></div>
+
+    <input  
+        class="YSettingsInput" 
+        style="width:70%" 
+        placeholder="Server Name" 
+        id="InputName">
+    </input>
+
+    <button 
+        class="YSettingsButton" 
+        onclick=' 
+            var newName = document.getElementById("InputName").value;
+            if(newName != ""){
+                var ServerList = BdApi.loadData("CleanUp", "Servers");
+ 
+                ServerList.push({"Name":newName})
+
+                BdApi.saveData("CleanUp", "Servers", ServerList); 
+
+                addServer(newName);
+
+                BdApi.Plugins.toggle("CleanUp");
+                BdApi.Plugins.toggle("CleanUp");
+            }
+        '> ADD 
+    </button>
     <button class="YSettingsButton" onclick='
         var showOffline = BdApi.loadData("CleanUp", "showOffline");
         BdApi.saveData("CleanUp", "showOffline", !showOffline) 
@@ -74,5 +101,54 @@
             })
         }
         show02("a");
+    '
+    onload='
+        var ServerListOuter = BdApi.loadData("CleanUp", "Servers"); 
+
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        var code = ` 
+        function addServer(serverName)
+        {
+            var ServerListDiv = document.getElementById("CleanUpServerList");
+            var pTag = document.createElement("p");
+            pTag.innerText = serverName;
+            pTag.addEventListener("click", function(e){
+            
+                function checkName(serverName)
+                {
+                    return e.target.innerText === serverName;
+                }
+
+                var ServerList = BdApi.loadData("CleanUp", "Servers");
+
+                ServerList = ServerList.filter(function(value, index, arr){ 
+                    return value.Name !== serverName;
+                });
+    
+                BdApi.saveData("CleanUp","Servers",ServerList);
+                BdApi.Plugins.toggle("CleanUp");
+                BdApi.Plugins.toggle("CleanUp");
+
+                e.target.style= "display:none";
+            });
+            ServerListDiv.appendChild(pTag);
+        }`;
+
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          s.text = code;
+          document.body.appendChild(s);
+        }   
+            
+            
+        ServerListOuter.forEach(server => {
+            addServer(server.Name);           
+        });
+
+     
+
     '>
 </img>

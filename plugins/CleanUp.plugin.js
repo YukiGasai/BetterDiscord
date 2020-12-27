@@ -92,67 +92,18 @@ class CleanUp {
 
         var servers = $(".listItem-2P_4kh.da-listItem");
 
-        servers.each(function(index) {
-
-            if (index > 3) {
-
-                $(this).off('mousedown').on('mousedown', function(e) {
-                    var Name = $(this).find(".wrapper-1BJsBx.da-wrapper").attr("aria-label");
-                    var found = false;
-                    for (var i = 0; i < Serverlist.length; i++) {
-                        if (Serverlist[i].Name == Name) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    console.log("CLICK");
-                    //Midddle Mouse 
-                    if (e.which == 2) {
-
-                        e.preventDefault();
-                        e.stopPropogation();
-                        if (found) {
-                            BdApi.showConfirmationModal("Show Server " + Name, [], {
-                                danger: true,
-                                confirmText: "Yes",
-                                cancelText: "No",
-                                onConfirm: () => {
-                                    var index = Serverlist.indexOf({ "Name": Name });
-                                    Serverlist.splice(index, 1);
-                                    BdApi.saveData("CleanUp", "Servers", Serverlist);
-                                }
-                            });
-                        } else {
-                            BdApi.showConfirmationModal("Hide Server " + Name, [], {
-                                danger: true,
-                                confirmText: "Yes",
-                                cancelText: "No",
-                                onConfirm: () => {
-                                    Serverlist.push({ "Name": Name });
-                                    BdApi.saveData("CleanUp", "Servers", Serverlist);
-                                }
-                            });
-                        }
-                        HideServer();
-                    }
-                });
-            }
-        });
-
 
         HideServer();
 
-        var ServerError = $('.anchor-3Z-8Bb.anchorUnderlineOnHover-2ESHQB.guildsError-b7zR5H.da-anchor.da-anchorUnderlineOnHover.da-guildsError');
-        if ($(ServerError).is(":visible")) {
-            $(ServerError).hide();
-            console.log("Hide Server Error")
-        }
     }
 
     stop() {
-
-
-
+        for (var i = 0; i < Serverlist.length; i++) {
+            var target = $("[aria-label*='" + Serverlist[i].Name + "']").parent();
+            if (target.parent().parent('.wrapper-25eVIn.da-wrapper').length) {
+                $("[aria-label*='" + Serverlist[i].Name + "']").parent().parent().parent().show();
+            }
+        }
     }
 
 }
