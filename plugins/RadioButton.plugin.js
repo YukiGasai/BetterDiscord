@@ -12,6 +12,13 @@ var Playing = false;
 var aPlayer;
 module.exports = class RadioButton {
 
+    getSettingsPanel () {
+        const fs = require('fs'); 
+        const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'RadioButton.settings.html'),'utf8');
+        return html;
+    };
+
 	getName() { return "RadioButton"; }
 
 	getDescription() { return "RadioButton"; }
@@ -28,7 +35,7 @@ module.exports = class RadioButton {
 
         RadioSettingsConfig.Radios = BdApi.loadData("RadioButton", "Radios");
         if(RadioSettingsConfig.Radios == undefined)
-            BdApi.saveData("RadioButton", "Radios", [{"Name":"MDR Info","Url":"https://mdr-edge-205e-fra-lg-cdn.cast.addradio.de/mdr/aktuell/live/mp3/128/stream.mp3?_art=dj0yJmlwPTkxLjEzNy42My4xNDgmaWQ9aWNzY3hsLWd5NHQyeGFuYiZ0PTE1OTc1MzY0NzMmcz03ODY2ZjI5YyM4ZjVjNDU4NTFmMTk0ZTIxNjdiOGI2NGYzN2QyM2I4MA"},{"Name":"MDR Thüringen","Url":"https://mdr-edge-2060-fra-lg-cdn.cast.addradio.de/mdr/mdrthueringen/live/mp3/128/stream.mp3?_art=dj0yJmlwPTkxLjEzNy42My4xNDgmaWQ9aWNzY3hsLWdjMjYzcWJuYiZ0PTE1OTc1MzY1OTMmcz03ODY2ZjI5YyM2ZjM1Y2MzMzMzOWU1ZWI4MWM0ODY2NmNkYWJhOTFhZA"},{"Name":"Landeswelle Thüringen","Path":"http://landeswelle-de-hz-fal-stream07-cluster01.radiohost.de/lwdemp3-192","Url":"http://landeswelle-de-hz-fal-stream06-cluster01.radiohost.de/lwtmp3-192"},{"Name":"Landes Oldie Welle","Path":"http://landeswelle-de-hz-fal-stream05-cluster01.radiohost.de/lwro_mp3-192","Url":"http://landeswelle-de-hz-fal-stream01-cluster01.radiohost.de/lwol_mp3-192"},{"Name":"Landes Rock Welle","Path":"http://landeswelle-de-hz-fal-stream05-cluster01.radiohost.de/lwro_mp3-192","Url":"http://landeswelle-de-hz-fal-stream05-cluster01.radiohost.de/lwro_mp3-192"},{"Name":"Deutsche Welle","Url":"http://landeswelle-de-hz-fal-stream09-cluster01.radiohost.de/lwdemp3-192"},{"Name":"Grill Welle","Url":"http://landeswelle-de-hz-fal-stream06-cluster01.radiohost.de/lwgrmp3-128"}]);
+            BdApi.saveData("RadioButton", "Radios", {"Radios":[{"Id":1,"Name":"MDR Info","Url":"https:\/\/mdr-edge-205e-fra-lg-cdn.cast.addradio.de\/mdr\/aktuell\/live\/mp3\/128\/stream.mp3?_art=dj0yJmlwPTkxLjEzNy42My4xNDgmaWQ9aWNzY3hsLWd5NHQyeGFuYiZ0PTE1OTc1MzY0NzMmcz03ODY2ZjI5YyM4ZjVjNDU4NTFmMTk0ZTIxNjdiOGI2NGYzN2QyM2I4MA"},{"Id":2,"Name":"MDR Th\u00fcringen","Url":"https:\/\/mdr-edge-2060-fra-lg-cdn.cast.addradio.de\/mdr\/mdrthueringen\/live\/mp3\/128\/stream.mp3?_art=dj0yJmlwPTkxLjEzNy42My4xNDgmaWQ9aWNzY3hsLWdjMjYzcWJuYiZ0PTE1OTc1MzY1OTMmcz03ODY2ZjI5YyM2ZjM1Y2MzMzMzOWU1ZWI4MWM0ODY2NmNkYWJhOTFhZA"},{"Id":3,"Name":"Landeswelle Th\u00fcringen","Url":"http:\/\/landeswelle-de-hz-fal-stream06-cluster01.radiohost.de\/lwtmp3-192"},{"Id":4,"Name":"Landes Oldie Welle","Url":"http:\/\/landeswelle-de-hz-fal-stream01-cluster01.radiohost.de\/lwol_mp3-192"},{"Id":5,"Name":"Landes Rock Welle","Url":"http:\/\/landeswelle-de-hz-fal-stream05-cluster01.radiohost.de\/lwro_mp3-192"},{"Id":6,"Name":"Deutsche Welle","Url":"http:\/\/landeswelle-de-hz-fal-stream09-cluster01.radiohost.de\/lwdemp3-192"},{"Id":7,"Name":"Grill Welle","Url":"http:\/\/landeswelle-de-hz-fal-stream06-cluster01.radiohost.de\/lwgrmp3-128"}],"Volume":0.5});
         RadioSettingsConfig.Radios = BdApi.loadData("RadioButton", "Radios");
          
             RadioSettingsConfig.Volume = BdApi.loadData("RadioButton", "Volume");
@@ -60,6 +67,9 @@ module.exports = class RadioButton {
             "playing":Playing ,
             "role":"button",
             "aria-label":RadioSettingsConfig.Radios[index].Name,
+            css:{
+                "display": "flex"
+            }
      
         }).insertBefore($(".toolbar-1t6TWx.da-toolbar"));
         
@@ -76,7 +86,8 @@ module.exports = class RadioButton {
             css:{
                 "opcity":"0.2",
                 "font-size":"24px",
-                "color":"#dcddde"
+                "color":"#dcddde",
+                "margin-right":"10px"
             }
         }).appendTo(wrapper);
 
@@ -85,7 +96,7 @@ module.exports = class RadioButton {
             css:{
                 "color":"#fff"
             }
-        }).insertBefore($('#Radio'));
+        }).appendTo(wrapper);
 
         $(wrapper).mousedown(function(event){
             if(event.which==1){
@@ -314,5 +325,9 @@ module.exports = class RadioButton {
 		}
     }    
     }
-    stop(){}
+    stop(){
+        $("#Radio").remove();
+
+
+    }
 }

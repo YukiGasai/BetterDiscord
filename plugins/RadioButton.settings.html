@@ -1,0 +1,213 @@
+<style>
+    #DinoGirlPic {
+        width: 10px;
+        height: 10px;
+        float: right;
+        opacity: 0.1;
+    }
+    
+    #SettingsTitle {
+        width: 100%;
+        text-align: center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+    
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .YSettingsInput,
+    .YSettingsButton {
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color: white;
+    }
+    
+    .YSettingsInput {
+        margin: 10px 20px 0px 0px;
+    }
+    
+    .YSettingsInput:focus {
+        border-bottom: 2px solid #00b0f4;
+    }
+    
+    .YSettingsButton {
+        transition: 0.7s;
+    }
+    
+    .YSettingsButton:active {
+        height: 17px
+    }
+    
+    .YSettingsButton:hover {
+        background: rgb(220, 220, 220, 0.5)
+    }
+
+    #RaidioButtonRadioList{
+        display:flex;
+        flex-direction: column;
+    }
+
+    .RadioListItem{
+        display: flex;
+        flex-direction: row;
+    }
+
+</style>
+
+<h3 id="SettingsTitle"><span>Radiolist</span></h3>
+
+<div id="RadioButtonRadioList">
+    <div id="RadioListItem">
+
+    <input  
+        class="YSettingsInput" 
+        style="width:20%" 
+        placeholder="Radio Name" 
+        id="InputRadioName">
+    </input>
+
+    <input  
+        class="YSettingsInput" 
+        style="width:60%" 
+        placeholder="Radio Url" 
+        id="InputRadioUrl">
+    </input>
+
+    <button 
+        class="YSettingsButton"  
+        onclick='
+            var newName = document.getElementById("InputRadioName").value;
+            var newUrl = document.getElementById("InputRadioUrl").value;
+
+            if(newName !== "" &&  newUrl !== ""){
+                var RadioList = BdApi.loadData("RadioButton", "Radios");
+ 
+                var Id = Date.now();
+                var Radio = {"Id":Id, "Name":newName, "Url":newUrl};
+                RadioList.unshift(Radio);
+
+                BdApi.saveData("RadioButton", "Radios", RadioList); 
+
+                addRadio(Radio);
+
+                BdApi.Plugins.toggle("RadioButton");
+                BdApi.Plugins.toggle("RadioButton");
+            }
+        '> ADD 
+    </button>
+    </div>
+</div>
+
+<img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
+        function show02(AAAA){
+            BdApi.showConfirmationModal("D"+AAAA+"rling?",
+            [
+                BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+            ],
+            {
+                danger: true,
+                confirmText: "Love the 02",
+                cancelText: "Die in hell",
+                onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+            })
+        }
+        show02("a");
+    '
+    onload='
+        var RadioListOuter = BdApi.loadData("RadioButton", "Radios"); 
+
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        var code = ` 
+        function addRadio(Radio)
+        {
+
+            var RadioListDiv = document.getElementById("RadioButtonRadioList");
+
+            var RadioListItem = document.createElement("div");
+            RadioListItem.id = Radio.Id;
+            RadioListItem.className = "RadioListItem";
+            RadioListDiv.appendChild(RadioListItem);
+
+            var inputNameTag = document.createElement("input");
+            inputNameTag.value = Radio.Name;
+            inputNameTag.className = "YSettingsInput";
+            inputNameTag.id = "InputName"+ Radio.Id;
+            inputNameTag.style.width = "20%";
+            RadioListItem.appendChild(inputNameTag);
+
+            var inputUrlTag = document.createElement("input");
+            inputUrlTag.value = Radio.Url;
+            inputUrlTag.className = "YSettingsInput";
+            inputUrlTag.id = "InputUrl"+Radio.Id;
+            inputUrlTag.style.width = "60%";
+            RadioListItem.appendChild(inputUrlTag);
+
+            var buttonChange = document.createElement("button");
+            buttonChange.innerText = "Update";
+            buttonChange.className = "YSettingsButton";
+            buttonChange.id = "Update"+Radio.Id;
+            RadioListItem.appendChild(buttonChange);
+
+            var buttonRemove = document.createElement("button");
+            buttonRemove.innerText = "X";
+            buttonRemove.className = "YSettingsButton";
+            buttonRemove.id = "Remove"+Radio.Id;
+            RadioListItem.appendChild(buttonRemove);
+
+            buttonRemove.addEventListener("click", RadioButtonEvent=>{ 
+                var RadioList = BdApi.loadData("RadioButton", "Radios");
+
+                RadioList = RadioList.filter( Radio => {
+                    return Radio.Id !=  RadioButtonEvent.target.parentElement.id;
+                });
+
+                BdApi.saveData("RadioButton","Radios",RadioList); 
+                BdApi.Plugins.toggle("RadioButton");
+                BdApi.Plugins.toggle("RadioButton");
+
+                RadioButtonEvent.target.parentElement.remove();
+                return false;
+            });
+
+            
+            buttonChange.addEventListener("click", RadioButtonEvent=>{
+                var RadioList = BdApi.loadData("RadioButton", "Radios");
+
+                var Radio = RadioList.filter(indexRadio => {
+                    return indexRadio.Id == RadioButtonEvent.target.parentElement.id;
+                })[0];
+
+                var newName = document.getElementById("InputName"+Radio.Id).value;
+                var newUrl  = document.getElementById("InputUrl" +Radio.Id).value;
+    
+                if(newName == "" || newUrl == "" || (newName == Radio.Name && newUrl == Radio.Url))return;
+                    
+                Radio.Name = newName;
+                Radio.Url = newUrl;
+
+                BdApi.saveData("RadioButton","Radios",RadioList); 
+                BdApi.Plugins.toggle("RadioButton");
+                BdApi.Plugins.toggle("RadioButton");
+                return false;
+            });
+        
+        }`;
+
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          s.text = code;
+          document.body.appendChild(s);
+        }   
+            
+            
+        RadioListOuter.forEach(Radio => addRadio(Radio));
+    '>
+</img>

@@ -29,6 +29,15 @@ function HideServer() {
     }
 }
 
+function myListerner(e) {
+    if (e.key == '.') {
+        secbool = !secbool;
+        console.log(secbool);
+        HideServer();
+    }
+}
+
+
 class CleanUp {
     constructor() {}
 
@@ -64,24 +73,15 @@ class CleanUp {
             BdApi.clearCSS('CleanUpCSS');
         }
 
-
         function checkFlag() {
             if ($('.listItem-2P_4kh.da-listItem').length) {
-                $(document).off('mousedown').on("keydown", function(e) {
-                    keys[e.keyCode] = true;
-                    // . KEY
-                    if (keys[190]) {
+                
+                document.addEventListener("keypress",myListerner, true);
 
-                        secbool = !secbool;
-                        console.log(secbool);
-                        HideServer();
-                    }
-                });
-                $(document).off('mousedown').on("keyup", function(e) { keys[e.keyCode] = false; });
                 HideServer();
             }
         }
-        window.setTimeout(checkFlag, 1000);
+       checkFlag();
 
     }
 
@@ -104,6 +104,9 @@ class CleanUp {
                 $("[aria-label*='" + Serverlist[i].Name + "']").parent().parent().parent().show();
             }
         }
+
+        document.removeEventListener("keypress",myListerner);
+
     }
 
 }

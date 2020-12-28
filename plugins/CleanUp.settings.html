@@ -45,6 +45,18 @@
     .YSettingsButton:hover {
         background: rgb(220, 220, 220, 0.5)
     }
+
+    #CleanUpServerList{
+        display:flex;
+        flex-direction: column;
+    }
+
+    .ServerListItem{
+        display: flex;
+        gap:2px;
+        flex-direction: row;
+    }
+
 </style>
 
 <h3 id="SettingsTitle"><span>Set Hidden Server</span></h3>
@@ -54,7 +66,7 @@
 
     <input  
         class="YSettingsInput" 
-        style="width:70%" 
+        style="width:45%" 
         placeholder="Server Name" 
         id="InputName">
     </input>
@@ -63,6 +75,7 @@
         class="YSettingsButton" 
         onclick=' 
             var newName = document.getElementById("InputName").value;
+
             if(newName != ""){
                 var ServerList = BdApi.loadData("CleanUp", "Servers");
  
@@ -111,28 +124,85 @@
         function addServer(serverName)
         {
             var ServerListDiv = document.getElementById("CleanUpServerList");
-            var pTag = document.createElement("p");
-            pTag.innerText = serverName;
-            pTag.addEventListener("click", function(e){
-            
-                function checkName(serverName)
-                {
-                    return e.target.innerText === serverName;
-                }
 
+            var ServerListItem = document.createElement("div");
+            ServerListItem.id = serverName;
+            ServerListItem.className = "ServerListItem";
+            ServerListDiv.appendChild(ServerListItem);
+
+            var inputTag = document.createElement("input");
+            inputTag.value = serverName;
+            inputTag.className = "YSettingsInput";
+            inputTag.id = "Input"+serverName;
+            inputTag.style.width = "45%";
+            ServerListItem.appendChild(inputTag);
+
+            var buttonChange = document.createElement("button");
+            buttonChange.innerText = "Update";
+            buttonChange.className = "YSettingsButton";
+            buttonChange.id = "Update"+serverName;
+            ServerListItem.appendChild(buttonChange);
+
+            var buttonRemove = document.createElement("button");
+            buttonRemove.innerText = "X";
+            buttonRemove.className = "YSettingsButton";
+            buttonRemove.id = "Remove"+serverName;
+            ServerListItem.appendChild(buttonRemove);
+
+
+            buttonRemove.addEventListener("click", function(CleanUpEvent){
+                CleanUpEvent.preventDefault();
+                CleanUpEvent.stopPropagation();
+                var ParentDiv = CleanUpEvent.target.parentElement;
+    
                 var ServerList = BdApi.loadData("CleanUp", "Servers");
 
-                ServerList = ServerList.filter(function(value, index, arr){ 
-                    return value.Name !== serverName;
+                ServerList = ServerList.filter( function(server){
+                    return server.Name !== ParentDiv.id ;
                 });
-    
+
                 BdApi.saveData("CleanUp","Servers",ServerList);
                 BdApi.Plugins.toggle("CleanUp");
                 BdApi.Plugins.toggle("CleanUp");
 
-                e.target.style= "display:none";
+                ParentDiv.remove();
             });
-            ServerListDiv.appendChild(pTag);
+
+            
+            buttonChange.addEventListener("click", function(CleanUpEvent){
+
+                var ParentDiv = CleanUpEvent.target.parentElement;
+                console.log("ID: " + ParentDiv.id);
+                var ServerList = BdApi.loadData("CleanUp", "Servers");
+
+                var newName = document.getElementById("Input"+ParentDiv.id).value;
+
+                if(newName == "" || newName == ParentDiv.id )return;
+                    
+                ServerList = ServerList.filter( function(server){
+                    console.log(ParentDiv.id + " : " + newName);
+                    return server.Name !== ParentDiv.id ;
+                });
+
+    
+
+                ServerList.push({"Name":newName})
+
+                BdApi.saveData("CleanUp","Servers",ServerList);
+
+         
+                document.getElementById("Input" +ParentDiv.id).id = "Input" +newName; 
+                document.getElementById("Update"+ParentDiv.id).id = "Update"+newName; 
+                document.getElementById("Remove"+ParentDiv.id).id = "Remove"+newName; 
+
+
+                document.getElementById(ParentDiv.id).id = newName;     
+
+                BdApi.Plugins.toggle("CleanUp");
+                BdApi.Plugins.toggle("CleanUp");
+                return false;
+            });
+        
         }`;
 
         try {
@@ -147,8 +217,5 @@
         ServerListOuter.forEach(server => {
             addServer(server.Name);           
         });
-
-     
-
     '>
 </img>
