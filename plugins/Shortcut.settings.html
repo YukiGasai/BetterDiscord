@@ -1,0 +1,294 @@
+<style>
+    #DinoGirlPic {
+        width: 10px;
+        height: 10px;
+        float: right;
+        opacity: 0.1;
+    }
+    
+    #SettingsTitle {
+        width: 100%;
+        text-align: center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+    
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .YSettingsInput,
+    .YSettingsButton {
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color: white;
+    }
+    
+    .YSettingsInput {
+        margin: 10px 20px 0px 0px;
+    }
+    
+    .YSettingsInput:focus {
+        border-bottom: 2px solid #00b0f4;
+    }
+    
+    .YSettingsButton {
+        transition: 0.7s;
+    }
+    
+    .YSettingsButton:active {
+        height: 17px
+    }
+    
+    .YSettingsButton:hover {
+        background: rgb(220, 220, 220, 0.5)
+    }
+
+    #SettingsList{
+        display:flex;
+        flex-direction: column;
+    }
+
+    .SettingsListItem{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+</style>
+
+<h3 id="SettingsTitle"><span>Shortcutlist</span></h3>
+
+    <div id="SettingsListItem">        
+    <input  
+        class="YSettingsInput" 
+        style="width:20%" 
+        placeholder="Shortcut Name" 
+        id="InputShortcutName">
+    </input>
+
+    <input  
+        class="YSettingsInput" 
+        style="width:20%" 
+        placeholder="Shortcut Path" 
+        id="InputShortcutPath">
+    </input>
+
+    <input  
+        class="YSettingsInput" 
+        style="width:20%" 
+        placeholder="Shortcut Icon Url" 
+        id="InputShortcutImg">
+    </input>    
+
+    <button 
+        class="YSettingsButton"  
+        onclick='
+            var newName = document.getElementById("InputShortcutName").value;
+            var newPath = document.getElementById("InputShortcutPath").value;
+            var newImg  = document.getElementById("InputShortcutImg").value;
+
+
+            if(newName !== "" &&  newPath !== "" && newImg !== ""){
+                var ShortcutList = BdApi.loadData("Shortcut", "Programs");
+ 
+                    if (!newPath.includes("http")) {
+                        newPath = newPath.replace("\\","\\\\");
+                    }
+
+                var Id = Date.now();
+                var Shortcut = {"Id":Id, "Name":newName, "Path":newPath, "Icon":newImg};
+                ShortcutList.unshift(Shortcut);
+
+                BdApi.saveData("Shortcut", "Programs", ShortcutList); 
+
+                addItem(Shortcut);
+
+                BdApi.Plugins.toggle("Shortcut");
+                BdApi.Plugins.toggle("Shortcut");
+            }
+        '> ADD 
+    </button>
+
+    </div>
+</div>
+<div id="SettingsList">
+</div>
+
+<img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
+        function show02(AAAA){
+            BdApi.showConfirmationModal("D"+AAAA+"rling?",
+            [
+                BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+            ],
+            {
+                danger: true,
+                confirmText: "Love the 02",
+                cancelText: "Die in hell",
+                onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+            })
+        }
+        show02("a");
+    '
+    onload='
+        var ShortcutListOuter = BdApi.loadData("Shortcut", "Programs"); 
+
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        var code = ` 
+        function addItem(Shortcut)
+        {
+            var SettingsListDiv = document.getElementById("SettingsList");
+
+            var SettingsListItem = document.createElement("div");
+            SettingsListItem.id = Shortcut.Id;
+            SettingsListItem.className = "SettingsListItem";
+            SettingsListDiv.appendChild(SettingsListItem);
+
+            var inputNameTag = document.createElement("input");
+            inputNameTag.value = Shortcut.Name;
+            inputNameTag.className = "YSettingsInput";
+            inputNameTag.id = "InputName"+ Shortcut.Id;
+            inputNameTag.style.width = "20%";
+            SettingsListItem.appendChild(inputNameTag);
+
+            var inputPathTag = document.createElement("input");
+            inputPathTag.value =  Shortcut.Path;
+            inputPathTag.className = "YSettingsInput";
+            inputPathTag.id = "InputPath"+Shortcut.Id;
+            inputPathTag.style.width = "20%";
+            SettingsListItem.appendChild(inputPathTag);
+
+            var inputIconTag = document.createElement("input");
+            inputIconTag.value = Shortcut.Icon;
+            inputIconTag.className = "YSettingsInput";
+            inputIconTag.id = "InputIcon"+Shortcut.Id;
+            inputIconTag.style.width = "20%";
+            SettingsListItem.appendChild(inputIconTag);
+
+            var buttonChange = document.createElement("button");
+            buttonChange.innerText = "Update";
+            buttonChange.className = "YSettingsButton";
+            buttonChange.id = "Update"+Shortcut.Id;
+            SettingsListItem.appendChild(buttonChange);
+
+            var buttonRemove = document.createElement("button");
+            buttonRemove.innerText = "X";
+            buttonRemove.className = "YSettingsButton";
+            buttonRemove.id = "Remove"+Shortcut.Id;
+            SettingsListItem.appendChild(buttonRemove);
+
+            var buttonUp = document.createElement("button");
+            buttonUp.innerText = "↑";
+            buttonUp.className = "YSettingsButton";
+            buttonUp.id = "Up"+Shortcut.Id;
+            SettingsListItem.appendChild(buttonUp);
+
+            var buttonDown = document.createElement("button");
+            buttonDown.innerText = "↓";
+            buttonDown.className = "YSettingsButton";
+            buttonDown.id = "Down"+Shortcut.Id;
+            SettingsListItem.appendChild(buttonDown);
+
+            buttonRemove.addEventListener("click", ShortcutButtonEvent=>{ 
+                var ShortcutList = BdApi.loadData("Shortcut", "Programs");
+
+                ShortcutList = ShortcutList.filter( Shortcut => {
+                    return Shortcut.Id !=  ShortcutButtonEvent.target.parentElement.id;
+                });
+
+                BdApi.saveData("Shortcut","Programs",ShortcutList); 
+                BdApi.Plugins.toggle("Shortcut");
+                BdApi.Plugins.toggle("Shortcut");
+
+                ShortcutButtonEvent.target.parentElement.remove();
+                return false;
+            });
+
+            
+            buttonChange.addEventListener("click", ShortcutButtonEvent=>{
+                var ShortcutList = BdApi.loadData("Shortcut", "Programs");
+
+                var Shortcut = ShortcutList.filter(indexShortcut => {
+                    return indexShortcut.Id == ShortcutButtonEvent.target.parentElement.id;
+                })[0];
+
+                var newName = document.getElementById("InputName"+Shortcut.Id).value;
+                var newPath = document.getElementById("InputPath"+Shortcut.Id).value;
+                var newIcon = document.getElementById("InputIcon"+Shortcut.Id).value;
+    
+                if(newName == "" || newPath == "" || newIcon == "" || (newName == Shortcut.Name && newPath == Shortcut.Path && newIcon == Shortcut.Icon))return;
+                    
+                Shortcut.Name = newName;
+                Shortcut.Path = newPath;
+                Shortcut.Icon = newIcon;
+
+
+                BdApi.saveData("Shortcut","Programs",ShortcutList); 
+                BdApi.Plugins.toggle("Shortcut");
+                BdApi.Plugins.toggle("Shortcut");
+                return false;
+            });
+
+            buttonUp.addEventListener("click", ShortcutButtonEvent=>{
+
+                var ShortcutList = BdApi.loadData("Shortcut", "Programs");
+
+                var index = ShortcutList.findIndex((indexShortcut)=>{
+                    return indexShortcut.Id == ShortcutButtonEvent.target.parentElement.id
+                });
+
+                if(index == 0)return;
+
+                var copy = ShortcutList[index];
+                ShortcutList[index] = ShortcutList[index-1];
+                ShortcutList[index-1] = copy;
+
+                ShortcutButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                ShortcutList.forEach(Shortcut => addItem(Shortcut));
+                BdApi.saveData("Shortcut","Programs",ShortcutList); 
+                BdApi.Plugins.toggle("Shortcut");
+                BdApi.Plugins.toggle("Shortcut");
+
+            });
+
+            buttonDown.addEventListener("click", ShortcutButtonEvent=>{
+                var ShortcutList = BdApi.loadData("Shortcut", "Programs");
+
+                var index = ShortcutList.findIndex((indexShortcut)=>{
+                    return indexShortcut.Id == ShortcutButtonEvent.target.parentElement.id
+                });
+
+                if(index == ShortcutList.length-1)return;
+
+                var copy = ShortcutList[index];
+                ShortcutList[index] = ShortcutList[index+1];
+                ShortcutList[index+1] = copy;
+                
+                ShortcutButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                ShortcutList.forEach(Shortcut => addItem(Shortcut));
+                BdApi.saveData("Shortcut","Programs",ShortcutList); 
+                BdApi.Plugins.toggle("Shortcut");
+                BdApi.Plugins.toggle("Shortcut");
+            });
+
+        
+        }`;
+
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          s.text = code;
+          document.body.appendChild(s);
+        }   
+            
+            
+        ShortcutListOuter.forEach(Shortcut => addItem(Shortcut));
+    '>
+</img>

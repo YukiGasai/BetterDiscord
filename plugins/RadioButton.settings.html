@@ -46,12 +46,12 @@
         background: rgb(220, 220, 220, 0.5)
     }
 
-    #RaidioButtonRadioList{
+    #SettingsList{
         display:flex;
         flex-direction: column;
     }
 
-    .RadioListItem{
+    .SettingsListItem{
         display: flex;
         flex-direction: row;
     }
@@ -60,9 +60,8 @@
 
 <h3 id="SettingsTitle"><span>Radiolist</span></h3>
 
-<div id="RadioButtonRadioList">
-    <div id="RadioListItem">
-
+<div id="SettingsList">
+    <div id="SettingsListItem">        
     <input  
         class="YSettingsInput" 
         style="width:20%" 
@@ -127,7 +126,7 @@
         function addRadio(Radio)
         {
 
-            var RadioListDiv = document.getElementById("RadioButtonRadioList");
+            var RadioListDiv = document.getElementById("SettingsList");
 
             var RadioListItem = document.createElement("div");
             RadioListItem.id = Radio.Id;
