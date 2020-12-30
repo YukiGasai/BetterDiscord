@@ -1,58 +1,195 @@
 <style>
-    #DinoGirlPic{
-        width:10px;
-        height:10px;
-        float:right;
-        opacity:0.1;
+    #DinoGirlPic {
+        width: 10px;
+        height: 10px;
+        float: right;
+        opacity: 0.1;
     }
-
-    #SettingsTitle{
-        width:100%;
-        text-align:center;
+    
+    #SettingsTitle {
+        width: 100%;
+        text-align: center;
         color: #3E82E5;
         padding: 10px;
     }
+    
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .YSettingsInput,
+    .YSettingsButton {
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color: white;
+    }
+    
+    .YSettingsInput {
+        margin: 10px 3% 0px 0px;
+    }
+    
+    .YSettingsInput:focus {
+        border-bottom: 2px solid #00b0f4;
+    }
+    
+    .YSettingsButton {
+        transition: 0.7s;
+    }
+    
+    .YSettingsButton:active {
+        height: 17px
+    }
+    
+    .YSettingsButton:hover {
+        background: rgb(220, 220, 220, 0.5)
+    }
+
+    #BlackListSettingsList{
+        display:flex;
+        flex-direction: column;
+    }
+
+    .BlackListSettingsListItem{
+        display: flex;
+        flex-direction: row;
+    }
 
 </style>
-<h3 id="SettingsTitle"><span>Hide blocked Messages</span></h3>
-    <div id="SettingsSwitch">
-        <span>
-        Hide Blocked Messages
-        <input id="HideBlock" type="checkbox" onchange='
-       
-            var check = document.querySelector("#HideBlock").checked;
-            if(check){
-                BdApi.saveData("BlackList","HideM",true);
-            }else{
-                BdApi.saveData("BlackList","HideM",false);
-            }
-            BdApi.Plugins.toggle("BlackList");
-            BdApi.Plugins.toggle("BlackList");
 
-        '>
-        </span>
-    </div>
-<img 
-id="DinoGirlPic" 
-onload='
-   document.querySelector("#HideBlock").checked =  BdApi.loadData("BlackList","HideM");
-' 
-src='https://i.imgur.com/9IBSiro.jpg' 
-alt='Best waifu' 
-onclick='
-    function show02(AAAA){
-        BdApi.showConfirmationModal("D"+AAAA+"rling?",
-        [
-            BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
-        ],
+<h3 id="SettingsTitle"><span>Block List</span></h3>
+
+    <div id="BlackListSettingsListItem">        
+    <input  
+        class="YSettingsInput" 
+        style="width:60%" 
+        placeholder="Username" 
+        id="InputBlackListName">
+    </input>
+
+    <button 
+        class="YSettingsButton"  
+        onclick='
+            var newName = document.getElementById("InputBlackListName").value;
+
+            if(newName !== ""){
+                var BlackListList = BdApi.loadData("BlackList", "People");
+
+                var Id = Date.now();
+                var User = {"Id":Id, "Name":newName};
+                BlackListList.unshift(User);
+
+                BdApi.saveData("BlackList", "People", BlackListList); 
+
+                addUser(User);
+
+                BdApi.Plugins.toggle("BlackList");
+                BdApi.Plugins.toggle("BlackList");
+            }
+        '> ADD 
+    </button>
+</div>
+
+<div id="BlackListSettingsList"></div>
+
+<img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
+        function show02(AAAA){
+            BdApi.showConfirmationModal("D"+AAAA+"rling?",
+            [
+                BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+            ],
+            {
+                danger: true,
+                confirmText: "Love the 02",
+                cancelText: "Die in hell",
+                onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+            })
+        }
+        show02("a");
+    '
+    onload='
+        var BlackListListOuter = BdApi.loadData("BlackList", "People"); 
+
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        var code = ` 
+        function addUser(User)
         {
-            danger: true,
-            confirmText: "Love the 02",
-            cancelText: "Die in hell",
-            onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
-            onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
-        })
-    }
-    show02("a");
-'> 
+
+            var BlackListListDiv = document.getElementById("BlackListSettingsList");
+
+            var BlackListListItem = document.createElement("div");
+            BlackListListItem.id = User.Id;
+            BlackListListItem.className = "BlackListSettingsListItem";
+            BlackListListDiv.appendChild(BlackListListItem);
+
+            var inputNameTag = document.createElement("input");
+            inputNameTag.value = User.Name;
+            inputNameTag.className = "YSettingsInput";
+            inputNameTag.id = "InputName"+ User.Id;
+            inputNameTag.style.width = "60%";
+            BlackListListItem.appendChild(inputNameTag);
+
+            var buttonChange = document.createElement("button");
+            buttonChange.innerText = "Update";
+            buttonChange.className = "YSettingsButton";
+            buttonChange.id = "Update"+User.Id;
+            BlackListListItem.appendChild(buttonChange);
+
+            var buttonRemove = document.createElement("button");
+            buttonRemove.innerText = "X";
+            buttonRemove.className = "YSettingsButton";
+            buttonRemove.id = "Remove"+User.Id;
+            BlackListListItem.appendChild(buttonRemove);
+
+            buttonRemove.addEventListener("click", UserButtonEvent=>{ 
+                var BlackListList = BdApi.loadData("BlackList", "People");
+
+                BlackListList = BlackListList.filter( User => {
+                    return User.Id !=  UserButtonEvent.target.parentElement.id;
+                });
+
+                BdApi.saveData("BlackList","People",BlackListList); 
+                BdApi.Plugins.toggle("BlackList");
+                BdApi.Plugins.toggle("BlackList");
+
+                UserButtonEvent.target.parentElement.remove();
+                return false;
+            });
+
+            
+            buttonChange.addEventListener("click", UserButtonEvent=>{
+                var BlackListList = BdApi.loadData("BlackList", "People");
+                    console.log( UserButtonEvent.target.parentElement.id);
+                var User = BlackListList.filter(indexUser => {
+                    return indexUser.Id == UserButtonEvent.target.parentElement.id;
+                })[0];
+
+                var newName = document.getElementById("InputName"+User.Id).value;
+
+                if(newName == "" || newName == User.Name )return;
+                    
+                User.Name = newName;
+
+                BdApi.saveData("BlackList","People",BlackListList); 
+                BdApi.Plugins.toggle("BlackList");
+                BdApi.Plugins.toggle("BlackList");
+                return false;
+            });
+        
+        }`;
+
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          s.text = code;
+          document.body.appendChild(s);
+        }   
+            
+            
+        BlackListListOuter.forEach(People => addUser(People));
+    '>
 </img>

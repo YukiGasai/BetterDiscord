@@ -35,18 +35,10 @@ module.exports = class BlackList {
 
         if(HideM)
         {
-            $('head').append(`
-            <style id="HideM" type="text/css">
-            .blockedSystemMessage-2Rk1ek {display:none;}
-            </style>
-            `);
+            BdApi.injectCSS("BlackListHideBlockedMessage",".blockedSystemMessage-2Rk1ek {display:none;}")
         }else{
-            try{
-                $("#HideM").remove();
-            }catch(e){};
+            BdApi.clearCSS("BlackListHideBlockedMessage");
         }
-
-
     }
     
 
@@ -74,7 +66,7 @@ module.exports = class BlackList {
                                     return;
                                 }
                             }
-                            People.push({"Name": Name});
+                            People.push({"Id": Date.now(), "Name": Name});
                             BdApi.saveData("BlackList","People",People);
                         }
                     }
@@ -131,9 +123,7 @@ module.exports = class BlackList {
     initialize(){}
         
     stop(){
-        try{
-            $("#HideM").remove();
-        }catch(e){};
+        BdApi.clearCSS("BlackListHideBlockedMessage");
     }
-    observer(changes) {}
+    observer() {}
 }
