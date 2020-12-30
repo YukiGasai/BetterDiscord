@@ -27,7 +27,7 @@
     }
     
     .YSettingsInput {
-        margin: 10px 20px 0px 0px;
+        margin: 10px 3% 0px 0px;
     }
     
     .YSettingsInput:focus {
@@ -60,7 +60,6 @@
 
 <h3 id="SettingsTitle"><span>Radiolist</span></h3>
 
-<div id="SettingsList">
     <div id="SettingsListItem">        
     <input  
         class="YSettingsInput" 
@@ -98,8 +97,9 @@
             }
         '> ADD 
     </button>
-    </div>
 </div>
+
+<div id="RadioSettingsList"></div>
 
 <img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
         function show02(AAAA){
@@ -126,7 +126,7 @@
         function addRadio(Radio)
         {
 
-            var RadioListDiv = document.getElementById("SettingsList");
+            var RadioListDiv = document.getElementById("RadioSettingsList");
 
             var RadioListItem = document.createElement("div");
             RadioListItem.id = Radio.Id;
@@ -144,7 +144,7 @@
             inputUrlTag.value = Radio.Url;
             inputUrlTag.className = "YSettingsInput";
             inputUrlTag.id = "InputUrl"+Radio.Id;
-            inputUrlTag.style.width = "60%";
+            inputUrlTag.style.width = "50%";
             RadioListItem.appendChild(inputUrlTag);
 
             var buttonChange = document.createElement("button");
@@ -158,6 +158,18 @@
             buttonRemove.className = "YSettingsButton";
             buttonRemove.id = "Remove"+Radio.Id;
             RadioListItem.appendChild(buttonRemove);
+
+            var buttonUp = document.createElement("button");
+            buttonUp.innerText = "↑";
+            buttonUp.className = "YSettingsButton";
+            buttonUp.id = "Up"+Radio.Id;
+            RadioListItem.appendChild(buttonUp);
+
+            var buttonDown = document.createElement("button");
+            buttonDown.innerText = "↓";
+            buttonDown.className = "YSettingsButton";
+            buttonDown.id = "Down"+Radio.Id;
+            RadioListItem.appendChild(buttonDown);
 
             buttonRemove.addEventListener("click", RadioButtonEvent=>{ 
                 var RadioList = BdApi.loadData("RadioButton", "Radios");
@@ -194,6 +206,51 @@
                 BdApi.Plugins.toggle("RadioButton");
                 BdApi.Plugins.toggle("RadioButton");
                 return false;
+            });
+
+
+            buttonUp.addEventListener("click", RadioButtonEvent=>{
+
+                var RadioList = BdApi.loadData("RadioButton", "Radios");
+
+                var index = RadioList.findIndex((indexRadio)=>{
+                    return indexRadio.Id == RadioButtonEvent.target.parentElement.id
+                });
+
+                if(index <= 0)return;
+
+                var copy = RadioList[index];
+                RadioList[index] = RadioList[index-1];
+                RadioList[index-1] = copy;
+
+                RadioButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                RadioList.forEach(Radio => addRadio(Radio));
+                BdApi.saveData("RadioButton","Radios",RadioList); 
+                BdApi.Plugins.toggle("RadioButton");
+                BdApi.Plugins.toggle("RadioButton");
+
+            });
+
+            buttonDown.addEventListener("click", RadioButtonEvent=>{
+                var RadioList = BdApi.loadData("RadioButton", "Radios");
+
+                var index = RadioList.findIndex((indexRadio)=>{
+                    return indexRadio.Id == RadioButtonEvent.target.parentElement.id
+                });
+
+                if(index >= RadioList.length-1 )return;
+
+                var copy = RadioList[index];
+                RadioList[index] = RadioList[index+1];
+                RadioList[index+1] = copy;
+
+                RadioButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                RadioList.forEach(Radio => addRadio(Radio));
+                BdApi.saveData("RadioButton","Radios",RadioList); 
+                BdApi.Plugins.toggle("RadioButton");
+                BdApi.Plugins.toggle("RadioButton");
             });
         
         }`;
