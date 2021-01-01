@@ -10,18 +10,26 @@ var ThemeSettings = {
     Dim: 50,
     Transparancy: false,
     Rotation: true,
-    ThemeStatus: true
+    ThemeStatus: true,
+    LastIndex: 0
 }
+
+
 
 module.exports = class Background {
 
-    getSettingsPanel() {
-        return `
-		<div>
-		<h2 style="color:white">Click on the button \"set Img\" to open the settingspage </h2>
-		</div>
-		`;
+    getSettingsPanel () {
+        const fs = require('fs'); 
+        const path = require('path');
+		let html = fs.readFileSync( path.join(BdApi.Plugins.folder,'Background.settings.html'),'utf8');
+        return html;
     };
+
+    inter;
+
+    getSettingsVar(){return ThemeSettings;}
+
+    setSettingsVar(settings){ThemeSettings = settings;}
 
     getName() { return "Background"; }
 
@@ -34,9 +42,9 @@ module.exports = class Background {
     //legacy
     load() {}
     start() {
-        console.log(BdApi.loadData("ImageDownloader", "Images"));
+        var FirstStart = true;
+        this.inter = setInterval(update, ThemeSettings.Time * 100000000000000000)
         //Check if Theme exists else download and use it
-
         if (BdApi.Themes.get("BackgroundChanger Theme") == null) {
             fetch("https://raw.githubusercontent.com/YukiGasai/BetterDiscord/master/themes/BackgroundChanger.theme.css")
                 .then(response => response.text())
@@ -64,7 +72,6 @@ module.exports = class Background {
                         console.log("WAIT");
                     }
                 }, 100);
-
             })
         }
 
@@ -86,13 +93,14 @@ module.exports = class Background {
         }
 
 
-        UpdateSettingsSmart("Images", '[{"name":"Akali Big","link":"https://i.imgur.com/Wqtx1pJ.jpg"},{"name":"Your Name Small","link":"https://i.imgur.com/PblkDJk.jpg"},{"name":"Your Name Sky","link":"https://i.imgur.com/PblkDJk.jpg"},{"name":"Kat","link":"https://images.alphacoders.com/876/thumb-1920-876868.jpg"},{"name":"totoro","link":"https://images6.alphacoders.com/896/thumb-1920-896802.jpg"},{"name":"Thresh","link":"https://i.imgur.com/TMKVrls.jpg"},{"name":"Zero Two Sky","link":"https://i.imgur.com/AA0Ld8g.jpg"},{"name":"Akali AMOLED","link":"https://i.imgur.com/656WElf.jpg"},{"name":"02 Dark","link":"https://i.redd.it/cuutei59ixi11.jpg"},{"name":"02 Outside","link":"https://i.imgur.com/lvpEwPA.jpg"}]');
+        UpdateSettingsSmart("Images", '[{"Name":"Akali Big","Link":"https://i.imgur.com/Wqtx1pJ.jpg"},{"Name":"Your Name Small","Link":"https://i.imgur.com/PblkDJk.jpg"},{"Name":"Your Name Sky","Link":"https://i.imgur.com/PblkDJk.jpg"},{"Name":"Kat","Link":"https://images.alphacoders.com/876/thumb-1920-876868.jpg"},{"Name":"totoro","Link":"https://images6.alphacoders.com/896/thumb-1920-896802.jpg"},{"Name":"Thresh","Link":"https://i.imgur.com/TMKVrls.jpg"},{"Name":"Zero Two Sky","Link":"https://i.imgur.com/AA0Ld8g.jpg"},{"Name":"Akali AMOLED","Link":"https://i.imgur.com/656WElf.jpg"},{"Name":"02 Dark","Link":"https://i.redd.it/cuutei59ixi11.jpg"},{"Name":"02 Outside","Link":"https://i.imgur.com/lvpEwPA.jpg"}]');
         UpdateSettingsSmart("Time", "1000");
         UpdateSettingsSmart("Dim", "50");
         UpdateSettingsSmart("Transparancy", "false");
         UpdateSettingsSmart("Rotation", "true");
         UpdateSettingsSmart("ThemeStatus", "true");
-
+        UpdateSettingsSmart("LastIndex", "0");
+        console.log("EEEEEEEEEEE" + ThemeSettings.LastIndex);
 
         function SaveAllSettings() {
             for (var key in ThemeSettings) {
@@ -114,10 +122,7 @@ module.exports = class Background {
 
         var delay = ThemeSettings.Time * 1000;
         var keys = [];
-        var x = 0;
-        var inter;
         var opa = ThemeSettings.Dim / 100;
-        var inde = 0;
 
         function GetRotationstring() {
             if (ThemeSettings.Rotation) {
@@ -149,8 +154,18 @@ module.exports = class Background {
 
         function update() {
             if (!ThemeSettings.Transparancy) {
-                x = Math.floor(Math.random() * 10);
-                UpdateBackgroundImage(ThemeSettings.Images[x].link);
+                var index;
+                if(FirstStart)
+                {
+                    FirstStart = false; 
+                    index = ThemeSettings.LastIndex;
+
+                }else{
+                    index = Math.floor(Math.random() * ThemeSettings.Images.length);
+                    BdApi.saveData("Background", "LastIndex", index);
+                }
+                
+                UpdateBackgroundImage(ThemeSettings.Images[index].Link);
             }
         }
         update();
@@ -158,10 +173,10 @@ module.exports = class Background {
         function Pause() {
             if (ThemeSettings.Rotation == false) {
                 ThemeSettings.Rotation = true;
-                inter = setInterval(update, ThemeSettings.Time * 1000);
+                this.inter = setInterval(update, ThemeSettings.Time * 1000);
             } else {
                 ThemeSettings.Rotation = false;
-                clearInterval(inter);
+                clearInterval(this.inter);
             }
             BdApi.saveData("Background", "Rotation", ThemeSettings.Rotation);
         }
@@ -181,8 +196,8 @@ module.exports = class Background {
                 let sec = ThemeSettings.Time - min * 60;
                 $(".name-3YKhmS").html('' + min + " : " + sec + '');
                 $(".BackgroundDelayInput").val(ThemeSettings.Time);
-                clearInterval(inter);
-                inter = setInterval(update, ThemeSettings.Time * 1000);
+                clearInterval(this.inter);
+                this.inter = setInterval(update, ThemeSettings.Time * 1000);
             }
         });
 
@@ -190,37 +205,18 @@ module.exports = class Background {
 
         function keysPressed(e) {
             keys[e.keyCode] = true;
-            //CTRL + SHIFT + ^-9 = set das Bild des richtigen Index
-            if (keys[17] && keys[16] && keys[220]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[0].link);
-                x = 0;
-                inde = 0 }
-            if (keys[17] && keys[16] && keys[49]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[1].link);
-                x = 1;
-                inde = 1 }
-            if (keys[17] && keys[16] && keys[50]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[2].link);
-                x = 2;
-                inde = 2 }
-            if (keys[17] && keys[16] && keys[51]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[3].link);
-                x = 3;
-                inde = 3 }
-            if (keys[17] && keys[16] && keys[52]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[4].link);
-                x = 4;
-                inde = 4 }
-            if (keys[17] && keys[16] && keys[53]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[5].link);
-                x = 5;
-                inde = 5 }
-            if (keys[17] && keys[16] && keys[54]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[6].link);
-                x = 6;
-                inde = 6 }
-            if (keys[17] && keys[16] && keys[55]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[7].link);
-                x = 7;
-                inde = 7 }
-            if (keys[17] && keys[16] && keys[56]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[8].link);
-                x = 8;
-                inde = 8 }
-            if (keys[17] && keys[16] && keys[57]) { document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[9].link);
-                x = 9;
-                inde = 9 }
+
+            //CTRL + SHIFT + 1-9 = set das Bild des richtigen Index
+            for(var index = 0;  index < 9; index++)
+            {
+                if (keys[17] && keys[16] && keys[index+49]) { 
+                    if( index < ThemeSettings.Images.length)
+                    {
+                        document.body.style.background = UpdateBackgroundImage(ThemeSettings.Images[index].Link);
+                    }
+                }
+            }
+
             //CTRL + SHIFT + R = Neues Random Bild
             if (keys[17] && keys[16] && keys[82]) update();
             //CTRL + SHIFT + Space = Increase Background Opacity
@@ -239,7 +235,7 @@ module.exports = class Background {
             if (keys[17] && keys[16] && keys[32]) Pause();
         }
         //HERE STARTS THE SETTINGS PAGE A LOT OF HTML CSS SHIT----------------------------------------------------------------------------------
-        function WallpaperIO() {
+        /*function WallpaperIO() {
 
             if ($('#Set-Img-Button').length < 1) {
                 var cssstyle = {
@@ -318,7 +314,7 @@ module.exports = class Background {
 
                         var BackgroundNameInput = $("<input>", {
                             'class': "BackgroundNameInput",
-                            'val': ThemeSettings.Images[x].name,
+                            'val': ThemeSettings.Images[x].Name,
                             css: cssstyle
                         }).appendTo($(BackgroundSettings));
 
@@ -330,7 +326,7 @@ module.exports = class Background {
 
                         var BackgroundUrlInput = $("<input>", {
                             'class': "BackgroundUrlInput",
-                            'val': ThemeSettings.Images[x].link,
+                            'val': ThemeSettings.Images[x].Link,
                             css: cssstyle
                         }).appendTo($(BackgroundSettings));
 
@@ -415,10 +411,10 @@ module.exports = class Background {
                                 inde = $(".BackgroundIndexInput").val();
                                 $(BackgroundChnageButton).html("Test Wallpaper");
                                 $(BackgroundOkButton).html("Save Settings");
-                                $(".BackgroundNameInput").val(ThemeSettings.Images[inde].name);
-                                $(".BackgroundUrlInput").val(ThemeSettings.Images[inde].link);
+                                $(".BackgroundNameInput").val(ThemeSettings.Images[inde].Name);
+                                $(".BackgroundUrlInput").val(ThemeSettings.Images[inde].Link);
                                 x = inde;
-                                UpdateBackgroundImage(ThemeSettingsurl.Images[inde].link);
+                                UpdateBackgroundImage(ThemeSettingsurl.Images[inde].Link);
                             }
                         });
                         $(BackgroundDelayInput).bind('input', function() {
@@ -438,7 +434,7 @@ module.exports = class Background {
                             if (ThemeSettings.Transparancy) {
                                 ThemeSettings.Transparancy = false;
                                 inde = $(".BackgroundIndexInput").val();
-                                UpdateBackgroundImage(ThemeSettings.Images[inde].link);
+                                UpdateBackgroundImage(ThemeSettings.Images[inde].Link);
 
                             } else {
                                 ThemeSettings.Transparancy = true;
@@ -472,8 +468,8 @@ module.exports = class Background {
                         BackgroundOkButton.click(function() {
                             $(this).html("Save Settings ✓");
                             let realindex = $(BackgroundIndexInput).val();
-                            ThemeSettings.Images[realindex].name = $(".BackgroundNameInput").val();
-                            ThemeSettings.Images[realindex].link = $(".BackgroundUrlInput").val();
+                            ThemeSettings.Images[realindex].Name = $(".BackgroundNameInput").val();
+                            ThemeSettings.Images[realindex].Link = $(".BackgroundUrlInput").val();
                             if (!isNaN($(".BackgroundDelayInput").val())) {
                                 ThemeSettings.Time = $(".BackgroundDelayInput").val();
                             }
@@ -481,8 +477,8 @@ module.exports = class Background {
 
                             $(".BackgroundOkButton").css("background", "springgreen");
                             if (ThemeSettings.Rotation) {
-                                clearInterval(inter);
-                                inter = setInterval(update, ThemeSettings.Time * 1000);
+                                clearInterval(this.inter);
+                                this.inter = setInterval(update, ThemeSettings.Time * 1000);
                             }
                             console.log(ThemeSettings);
                             SaveAllSettings();
@@ -561,10 +557,16 @@ module.exports = class Background {
                 });
             }
         }
+        
         WallpaperIO();
-        if (ThemeSettings.Rotation) inter = setInterval(update, ThemeSettings.Time * 1000);
+        */
+        if (ThemeSettings.Rotation) this.inter = setInterval(update, ThemeSettings.Time * 1000);
 
     }
     initialize() {}
-    stop() {}
+    stop() {
+
+        clearInterval(this.inter);    
+
+    }
 }

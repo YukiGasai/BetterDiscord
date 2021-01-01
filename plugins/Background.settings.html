@@ -1,0 +1,437 @@
+<style>
+    #DinoGirlPic {
+        width: 10px;
+        height: 10px;
+        float: right;
+        opacity: 0.1;
+    }
+    
+    #SettingsTitle {
+        width: 100%;
+        text-align: center;
+        color: #3E82E5;
+        padding: 10px;
+    }
+    
+    .YSettingsInput::placeholder {
+        color: red;
+        font-weight: bold;
+    }
+    
+    .YSettingsInput,
+    .YSettingsButton {
+        border: none;
+        border-bottom: 2px solid #3E82E5;
+        background: transparent;
+        color: white;
+    }
+    
+    .YSettingsInput {
+        margin: 10px 3% 0px 0px;
+    }
+    
+    .YSettingsInput:focus {
+        border-bottom: 2px solid #00b0f4;
+    }
+    
+    .YSettingsButton {
+        transition: 0.7s;
+        user-select: none;
+    }
+    
+    .YSettingsButton:active {
+        height: 30px
+    }
+    
+    .YSettingsButton:hover {
+        background: rgb(220, 220, 220, 0.5)
+    }
+
+    #BackgroundSettingsList{
+        display:flex;
+        flex-direction: column;
+    }
+
+    .BackgroundSettingsListItem{
+        display: flex;
+        flex-direction: row;
+    }
+
+</style>
+
+<h3 id="SettingsTitle"><span>Background Settings</span></h3>
+
+
+<!-- Input for new Image -->
+<div class="BackgroundSettingsListItem">        
+    <input  
+        class="YSettingsInput" 
+        style="width:40%" 
+        placeholder="Name" 
+        id="InputBackgroundName">
+    </input>
+    <input  
+        class="YSettingsInput" 
+        style="width:40%" 
+        placeholder="Link to Img" 
+        id="InputBackgroundLink">
+    </input>
+
+    <button 
+        class="YSettingsButton"  
+        onclick='
+            var newName = document.getElementById("InputBackgroundName").value;
+            var newLink = document.getElementById("InputBackgroundLink").value;
+
+            if(newName !== "" && newLink !== ""){
+                var BackgroundList = BdApi.loadData("Background", "Images");
+
+                var Id = Date.now();
+                var Background = {"Id":Id, "Name":newName, "Link":newLink};
+                BackgroundList.unshift(Background);
+
+                BdApi.saveData("Background", "Images", BackgroundList);
+                BdApi.saveData("Background","LastIndex",0);  
+
+
+                addBackground(Background);
+               
+                BdApi.Plugins.toggle("Background");
+                BdApi.Plugins.toggle("Background");
+            }
+        '> ADD 
+    </button>
+</div>
+
+<!-- Input for Delay between Images -->
+<div class="BackgroundSettingsListItem">    
+
+    <input  
+        min="1"
+        type="number"
+        class="YSettingsInput" 
+        style="width:40%" 
+        placeholder="Time between WallpaperChange" 
+        id="InputBackgroundTime">
+    </input>
+
+    <button 
+    class="YSettingsButton"  
+    onclick='
+        var newTime = Math.floor(document.getElementById("InputBackgroundTime").value);
+
+        if(newTime !== "" && newTime > 0){
+
+            BdApi.saveData("Background","Time",newTime);  
+           
+            BdApi.Plugins.toggle("Background");
+            BdApi.Plugins.toggle("Background");
+        }
+    '> Update 
+    </button>
+
+</div>
+
+<!-- Input for Background Dim -->
+<div class="BackgroundSettingsListItem"
+    style="margin: 20px">
+    <input 
+    class="YSettingsRange"
+    id="InputBackgroundDim"
+    type="range" 
+    value="0" 
+    min="0" 
+    max="100"
+    style="width:70%" 
+    onchange='
+        document.getElementById("InputBackgroundText").innerHTML =  document.getElementById("InputBackgroundDim").value + "%";
+        BdApi.saveData("Background", "Dim", "" + document.getElementById("InputBackgroundDim").value);
+             
+        BdApi.Plugins.toggle("Background");
+        BdApi.Plugins.toggle("Background");
+    '/>
+
+    <span class="YSettingsPara" id="InputBackgroundText">
+</div>
+
+<!-- Button if Window Transpareny should be on -->
+<div class="BackgroundSettingsListItem">
+    <button 
+    id="InputBackgroundTrans"
+    class="YSettingsButton"  
+
+    onclick='
+            var Trans = BdApi.loadData("Background", "Transparancy"); 
+            Trans = !Trans;
+            if(Trans)
+            {
+                document.getElementById("InputBackgroundTrans").innerText = "Turn Transparancy Off";
+            }else{
+                document.getElementById("InputBackgroundTrans").innerText = "Turn Transparancy On";
+            }
+  
+            BdApi.saveData("Background","Transparancy",Trans);  
+           
+            BdApi.Plugins.toggle("Background");
+            BdApi.Plugins.toggle("Background");
+    '> 
+    </button>
+</div>
+
+<!-- Button if Wallpaper Rotation should be on -->
+<div class="BackgroundSettingsListItem">
+    <button 
+    id="InputBackgroundRotation"
+    class="YSettingsButton"  
+
+    onclick='
+            var Rotation = BdApi.loadData("Background", "Rotation"); 
+            Rotation = !Rotation;
+            if(Rotation)
+            {
+                document.getElementById("InputBackgroundRotation").innerText = "Turn Rotation Off";
+            }else{
+                document.getElementById("InputBackgroundRotation").innerText = "Turn Rotation On";
+            }
+  
+            BdApi.saveData("Background","Rotation",Rotation);  
+           
+            BdApi.Plugins.toggle("Background");
+            BdApi.Plugins.toggle("Background");
+    '> 
+    </button>
+</div>
+
+<!-- Button if Wallpapertheme  should be on -->
+<div class="BackgroundSettingsListItem">
+    <button 
+    id="InputBackgroundTheme"
+    class="YSettingsButton"  
+
+    onclick='
+            var Theme = BdApi.loadData("Background", "ThemeStatus"); 
+            Theme = !Theme;
+            if(Theme)
+            {
+                document.getElementById("InputBackgroundTheme").innerText = "Turn Theme Off";
+            }else{
+                document.getElementById("InputBackgroundTheme").innerText = "Turn Theme On";
+            }
+  
+            BdApi.saveData("Background","ThemeStatus",Theme);  
+           
+            BdApi.Plugins.toggle("Background");
+            BdApi.Plugins.toggle("Background");
+    '> 
+    </button>
+</div>
+
+<!-- List of stored Images -->
+<div id="BackgroundSettingsList"></div>
+
+<img id="DinoGirlPic" src='https://i.imgur.com/9IBSiro.jpg' alt='Best waifu' onclick='
+        function show02(AAAA){
+            BdApi.showConfirmationModal("D"+AAAA+"rling?",
+            [
+                BdApi.React.createElement("img", {src: "https://i.imgur.com/9IBSiro.jpg", onClick: () => show02(AAAA+"a")}), 
+            ],
+            {
+                danger: true,
+                confirmText: "Love the 02",
+                cancelText: "Die in hell",
+                onConfirm: ()=>{window.open("https://www.reddit.com/r/ZeroTwo/", "_blank");},
+                onCancel: ()=>{window.open("https://www.reddit.com/r/OneTrueIchigo/", "_blank");}
+            })
+        }
+        show02("a");
+    '
+    onload='
+        var BackgroundListOuter = BdApi.loadData("Background", "Images"); 
+        document.getElementById("InputBackgroundTime").value = BdApi.loadData("Background", "Time"); 
+        let Dim = BdApi.loadData("Background", "Dim");
+        document.getElementById("InputBackgroundDim").value = Dim;
+        document.getElementById("InputBackgroundText").innerText = Dim + "%";
+
+    
+        var Trans = BdApi.loadData("Background", "Transparancy"); 
+        if(Trans)
+        {
+            document.getElementById("InputBackgroundTrans").innerText = "Turn Transparancy Off";
+        }else{
+            document.getElementById("InputBackgroundTrans").innerText = "Turn Transparancy On";
+        }
+
+        var Roataion = BdApi.loadData("Background", "Roataion"); 
+        if(Roataion)
+        {
+            document.getElementById("InputBackgroundRotation").innerText = "Turn Roataion Off";
+        }else{
+            document.getElementById("InputBackgroundRotation").innerText = "Turn Roataion On";
+        }
+
+        var Theme = BdApi.loadData("Background", "ThemeStatus"); 
+        if(Theme)
+        {
+            document.getElementById("InputBackgroundTheme").innerText = "Turn Theme Off";
+        }else{
+            document.getElementById("InputBackgroundTheme").innerText = "Turn Theme On";
+        }
+
+
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        var code = ` 
+        function addBackground(Background)
+        {
+
+            var BackgroundListDiv = document.getElementById("BackgroundSettingsList");
+
+            var BackgroundListItem = document.createElement("div");
+            BackgroundListItem.id = Background.Id;
+            BackgroundListItem.className = "BackgroundSettingsListItem";
+            BackgroundListDiv.appendChild(BackgroundListItem);
+
+            var inputNameTag = document.createElement("input");
+            inputNameTag.value = Background.Name;
+            inputNameTag.className = "YSettingsInput";
+            inputNameTag.id = "InputName"+ Background.Id;
+            inputNameTag.style.width = "20%";
+            BackgroundListItem.appendChild(inputNameTag);
+
+            var inputLinkTag = document.createElement("input");
+            inputLinkTag.value = Background.Link;
+            inputLinkTag.className = "YSettingsInput";
+            inputLinkTag.id = "InputLink"+ Background.Id;
+            inputLinkTag.style.width = "40%";
+            BackgroundListItem.appendChild(inputLinkTag);
+
+            var buttonChange = document.createElement("button");
+            buttonChange.innerText = "Update";
+            buttonChange.className = "YSettingsButton";
+            buttonChange.id = "Update"+Background.Id;
+            BackgroundListItem.appendChild(buttonChange);
+
+            var buttonRemove = document.createElement("button");
+            buttonRemove.innerText = "X";
+            buttonRemove.className = "YSettingsButton";
+            buttonRemove.id = "Remove"+Background.Id;
+            BackgroundListItem.appendChild(buttonRemove);
+            
+            var buttonUp = document.createElement("button");
+            buttonUp.innerText = "↑";
+            buttonUp.className = "YSettingsButton";
+            buttonUp.id = "Up"+Background.Id;
+            BackgroundListItem.appendChild(buttonUp);
+
+            var buttonDown = document.createElement("button");
+            buttonDown.innerText = "↓";
+            buttonDown.className = "YSettingsButton";
+            buttonDown.id = "Down"+Background.Id;
+            BackgroundListItem.appendChild(buttonDown);
+
+            var buttonTest = document.createElement("button");
+            buttonTest.innerText = "Test";
+            buttonTest.className = "YSettingsButton";
+            buttonTest.id = "Test"+Background.Id;
+            BackgroundListItem.appendChild(buttonTest);
+
+            buttonRemove.addEventListener("click", BackgroundButtonEvent=>{ 
+                var BackgroundList = BdApi.loadData("Background", "Images");
+
+                BackgroundList = BackgroundList.filter( Background => {
+                    return Background.Id !=  BackgroundButtonEvent.target.parentElement.id;
+                });
+
+                BdApi.saveData("Background","Images",BackgroundList); 
+                BdApi.Plugins.toggle("Background");
+                BdApi.Plugins.toggle("Background");
+
+                BackgroundButtonEvent.target.parentElement.remove();
+                return false;
+            });
+
+            
+            buttonChange.addEventListener("click", BackgroundButtonEvent=>{
+                var BackgroundList = BdApi.loadData("Background", "Images");
+     
+                var Background = BackgroundList.filter(indexBackground => {
+                    return indexBackground.Id == BackgroundButtonEvent.target.parentElement.id;
+                })[0];
+
+                var pos = BackgroundList.indexOf(Background);
+
+                var newName = document.getElementById("InputName"+Background.Id).value;
+                var newLink = document.getElementById("InputLink"+Background.Id).value;
+
+                if(newName == "" || newLink == "" || (newName == Background.Name && newLink == Background.Link))return;
+                    
+                Background.Name = newName;
+                Background.Link = newLink;
+
+                BdApi.saveData("Background","Images",BackgroundList); 
+                BdApi.saveData("Background","LastIndex",pos); 
+                BdApi.Plugins.toggle("Background");
+                BdApi.Plugins.toggle("Background");
+                return false;
+            });
+        
+            
+            buttonUp.addEventListener("click", BackgroundButtonEvent=>{
+
+                var BackgroundList = BdApi.loadData("Background", "Images");
+
+                var index = BackgroundList.findIndex((indexBackground)=>{
+                    return indexBackground.Id == BackgroundButtonEvent.target.parentElement.id
+                });
+
+                if(index <= 0)return;
+
+                var copy = BackgroundList[index];
+                BackgroundList[index] = BackgroundList[index-1];
+                BackgroundList[index-1] = copy;
+
+                BackgroundButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                BackgroundList.forEach(Background => addBackground(Background));
+                BdApi.saveData("Background","Images",BackgroundList); 
+                BdApi.Plugins.toggle("Background");
+                BdApi.Plugins.toggle("Background");
+
+            });
+
+            buttonDown.addEventListener("click", BackgroundButtonEvent=>{
+                var BackgroundList = BdApi.loadData("Background", "Images");
+                
+                var index = BackgroundList.findIndex((indexBackground)=>{
+                    return indexBackground.Id == BackgroundButtonEvent.target.parentElement.id
+                });
+
+                if(index >= BackgroundList.length-1)return;
+
+                var copy = BackgroundList[index];
+                BackgroundList[index] = BackgroundList[index+1];
+                BackgroundList[index+1] = copy;
+
+                BackgroundButtonEvent.target.parentElement.parentElement.innerHTML = "";
+
+                BackgroundList.forEach(Background => addBackground(Background));
+                BdApi.saveData("Background","Images",BackgroundList); 
+                BdApi.Plugins.toggle("Background");
+                BdApi.Plugins.toggle("Background");
+
+            });
+        }
+        `;
+
+        try {
+          s.appendChild(document.createTextNode(code));
+          document.body.appendChild(s);
+        } catch (e) {
+          s.text = code;
+          document.body.appendChild(s);
+        }   
+            
+            
+        BackgroundListOuter.forEach(Background => addBackground(Background));
+    '>
+</img>
